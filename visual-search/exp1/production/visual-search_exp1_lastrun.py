@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Thu 24 Jun 2021 12:08:34 PM EDT
+    on Fri 25 Jun 2021 03:57:03 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -28,6 +28,40 @@ import sys  # to get file system encoding
 
 from psychopy.hardware import keyboard
 
+point_dictionary = {
+'top_left': '[line_start[0], line_start[1] - self.edge_length]',
+'bottom_left': '[line_start[0] + self.edge_length * cos(120), line_start[1] - self.edge_length * sin(120)]',
+'bottom': '[line_start[0] + self.edge_length * cos(120), line_start[1] + self.edge_length * sin(120)]',
+'bottom_right': '[line_start[0], line_start[1] + self.edge_length]',
+'top_right': '[line_start[0] - self.edge_length * cos(120), line_start[1] + self.edge_length * sin(120)]',
+'top': '[line_start[0] - self.edge_length * cos(120), line_start[1] - self.edge_length * sin(120)]'
+}
+
+
+class DrawHexGrid:
+    
+    def __init__(self, top_left_origin, edge_length = 25, x_count = 6, y_count = 6):
+        self.top_left_origin = top_left_origin
+        self.edge_length = edge_length
+        self. x_count = x_count
+        self.y_count = y_count
+        
+    def draw_top_left(self):
+        line_start = self.top_left_origin
+        for position in point_dictionary:
+            line = self.define_line_type()
+            line.start = line_start
+            line.end = eval(point_dictionary[position])
+            line_start = line.end
+            line.draw()
+
+    def define_line_type(self):
+        return psychopy.visual.Line(
+            win = win,
+            units='pix',
+            lineColor=[-1, -1, -1]
+            )
+
 
 
 # Ensure that relative paths start from the same directory as this script
@@ -51,7 +85,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='/home/dave/Dropbox (Lehigh University)/Spring_2021/NHI/summer_2021/nhi-experiments/visual-search/exp1/production/visual-search_exp1_lastrun.py',
+    originPath='visual-search_exp1_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -91,12 +125,7 @@ routineTimer = core.CountdownTimer()  # to track time remaining of each (non-sli
 # ------Prepare to start Routine "trial1"-------
 continueRoutine = True
 # update component parameters for each repeat
-## INSERT MY OWN CODE
 import psychopy
-
-
-
-
 key_resp_2.keys = []
 key_resp_2.rt = []
 _key_resp_2_allKeys = []
@@ -123,16 +152,18 @@ while continueRoutine:
     tThisFlipGlobal = win.getFutureFlipTime(clock=None)
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
-    line = psychopy.visual.Line(
-    win = win,
-    units='pix',
-    lineColor=[-1, -1, -1]
-    )
+    ## xx = x + (d * cos(alpha))
+    ## yy = y + (d * sin(alpha))
     
-    line.start = [-200, -200]
-    line.end = [200, 200]
+    dhg = DrawHexGrid([-200, 200])
     
-    line.draw()
+    dhg.draw_top_left()
+    
+    
+    
+    
+    
+    
     
     
     # *key_resp_2* updates

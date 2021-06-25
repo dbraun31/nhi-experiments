@@ -34,22 +34,22 @@
   </Settings>
   <Routines>
     <Routine name="trial1">
-      <CodeComponent name="code">
-        <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
+      <CodeComponent name="FrameCode">
+        <Param name="Before Experiment" updates="constant" val="point_dictionary = {&amp;#10;'top_left': '[line_start[0], line_start[1] - self.edge_length]',&amp;#10;'bottom_left': '[line_start[0] + self.edge_length * cos(120), line_start[1] - self.edge_length * sin(120)]',&amp;#10;'bottom': '[line_start[0] + self.edge_length * cos(120), line_start[1] + self.edge_length * sin(120)]',&amp;#10;'bottom_right': '[line_start[0], line_start[1] + self.edge_length]',&amp;#10;'top_right': '[line_start[0] - self.edge_length * cos(120), line_start[1] + self.edge_length * sin(120)]',&amp;#10;'top': '[line_start[0] - self.edge_length * cos(120), line_start[1] - self.edge_length * sin(120)]'&amp;#10;}&amp;#10;&amp;#10;&amp;#10;class DrawHexGrid:&amp;#10;    &amp;#10;    def __init__(self, top_left_origin, edge_length = 25, x_count = 6, y_count = 6):&amp;#10;        self.top_left_origin = top_left_origin&amp;#10;        self.edge_length = edge_length&amp;#10;        self. x_count = x_count&amp;#10;        self.y_count = y_count&amp;#10;        &amp;#10;    def draw_top_left(self):&amp;#10;        line_start = self.top_left_origin&amp;#10;        for position in point_dictionary:&amp;#10;            line = self.define_line_type()&amp;#10;            line.start = line_start&amp;#10;            line.end = eval(point_dictionary[position])&amp;#10;            line_start = line.end&amp;#10;            line.draw()&amp;#10;&amp;#10;    def define_line_type(self):&amp;#10;        return psychopy.visual.Line(&amp;#10;            win = win,&amp;#10;            units='pix',&amp;#10;            lineColor=[-1, -1, -1]&amp;#10;            )&amp;#10;" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="## INSERT MY OWN CODE&amp;#10;import psychopy&amp;#10;&amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="import psychopy" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="line = psychopy.visual.Line(&amp;#10;win = win,&amp;#10;units='pix',&amp;#10;lineColor=[-1, -1, -1]&amp;#10;)&amp;#10;&amp;#10;line.start = [-200, -200]&amp;#10;line.end = [200, 200]&amp;#10;&amp;#10;line.draw()&amp;#10;" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="## xx = x + (d * cos(alpha))&amp;#10;## yy = y + (d * sin(alpha))&amp;#10;&amp;#10;dhg = DrawHexGrid([-200, 200])&amp;#10;&amp;#10;dhg.draw_top_left()&amp;#10;&amp;#10;&amp;#10;&amp;#10;&amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="name" updates="None" val="code" valType="code"/>
+        <Param name="name" updates="None" val="FrameCode" valType="code"/>
       </CodeComponent>
       <KeyboardComponent name="key_resp_2">
         <Param name="allowedKeys" updates="constant" val="'y','n','left','right','space'" valType="list"/>
@@ -69,6 +69,23 @@
         <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
         <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
       </KeyboardComponent>
+      <CodeComponent name="GlobalDefinitions">
+        <Param name="Before Experiment" updates="constant" val="point_dictionary = {&amp;#10;'top_left': '[line_start[0], line_start[1] - self.edge_length]',&amp;#10;'bottom_left': '[line_start[0] + self.edge_length * cos(120), line_start[1] - self.edge_length * sin(120)]',&amp;#10;'bottom': '[line_start[0] + self.edge_length * cos(120), line_start[1] + self.edge_length * sin(120)]',&amp;#10;'bottom_right': '[line_start[0], line_start[1] + self.edge_length]',&amp;#10;'top_right': '[line_start[0] - self.edge_length * cos(120), line_start[1] + self.edge_length * sin(120)]',&amp;#10;'top': '[line_start[0] - self.edge_length * cos(120), line_start[1] - self.edge_length * sin(120)]'&amp;#10;}&amp;#10;&amp;#10;&amp;#10;class DrawHexGrid:&amp;#10;    &amp;#10;    def __init__(self, top_left_origin, edge_length = 25, x_count = 6, y_count = 6):&amp;#10;        self.top_left_origin = top_left_origin&amp;#10;        self.edge_length = edge_length&amp;#10;        self. x_count = x_count&amp;#10;        self.y_count = y_count&amp;#10;        &amp;#10;    ## make this a general line drawer&amp;#10;    def draw_top_left(self):&amp;#10;        line_start = self.top_left_origin&amp;#10;&amp;#10;        ## modify the iterable to make it general across all cases&amp;#10;        for position in point_dictionary:&amp;#10;            line = self.define_line_type()&amp;#10;            line.start = line_start&amp;#10;            line.end = eval(point_dictionary[position])&amp;#10;            line_start = line.end&amp;#10;            line.draw()&amp;#10;&amp;#10;    def define_line_type(self):&amp;#10;        return psychopy.visual.Line(&amp;#10;            win = win,&amp;#10;            units='pix',&amp;#10;            lineColor=[-1, -1, -1]&amp;#10;            )&amp;#10;" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="GlobalDefinitions" valType="code"/>
+      </CodeComponent>
     </Routine>
     <Routine name="trial2">
       <KeyboardComponent name="key_resp">
