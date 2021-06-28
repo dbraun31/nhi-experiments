@@ -1,0 +1,12 @@
+do a true 6x6 display
+	or 5x5
+some type of hover system to show labels
+
+one letter per hex
+	number for each side
+
+explore shading of background etc
+
+moving window tied to mouse
+	or tied to arrow keys
+	surrounding area has noise mask of varying intensity
