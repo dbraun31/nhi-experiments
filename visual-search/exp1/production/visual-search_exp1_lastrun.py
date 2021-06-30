@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Mon 28 Jun 2021 04:00:25 PM EDT
+    on Wed 30 Jun 2021 01:11:06 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -30,13 +30,14 @@ from psychopy.hardware import keyboard
 
 import psychopy
 
+
 class DrawHexGrid:
     '''
     Formula for calculating coordinates:
     xx = x + (d * cos(alpha))
     yy = y + (d * sin(alpha))
     '''
-    def __init__(self, top_left_origin, edge_length = 100, x_count = 6, y_count = 6):
+    def __init__(self, top_left_origin, edge_length = 100, x_count = 5, y_count = 5):
         self.top_left_origin = top_left_origin
         self.edge_length = edge_length
         self. x_count = x_count

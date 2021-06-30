@@ -1,0 +1,10 @@
+6-30-2021
+
+	trying to get a handle on the thickness of lines and what distribution spread would be appropriate
+	the perceived difference in thickness between 1 px vs. >= 1.15 px is obvious
+		that same perception between anything even 0.5 px apart is really challenging when they're presented right next to each other
+
+		suggests the function between perceived and actual thickness is not linear
+
+	we discovered that width is perceived different depending on angle of line rotation
+		unclear whether the difference is perceptual, mechanical or both
