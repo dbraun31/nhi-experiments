@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" ?>
+<PsychoPy2experiment encoding="utf-8" version="2021.1.4">
+  <Settings>
+    <Param name="Audio latency priority" updates="None" val="use prefs" valType="str"/>
+    <Param name="Audio lib" updates="None" val="use prefs" valType="str"/>
+    <Param name="Completed URL" updates="None" val="" valType="str"/>
+    <Param name="Data file delimiter" updates="None" val="auto" valType="str"/>
+    <Param name="Data filename" updates="None" val="u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])" valType="code"/>
+    <Param name="Enable Escape" updates="None" val="True" valType="bool"/>
+    <Param name="Experiment info" updates="None" val="{'participant':'', 'session':'001'}" valType="code"/>
+    <Param name="Force stereo" updates="None" val="True" valType="bool"/>
+    <Param name="Full-screen window" updates="None" val="True" valType="bool"/>
+    <Param name="HTML path" updates="None" val="" valType="str"/>
+    <Param name="Incomplete URL" updates="None" val="" valType="str"/>
+    <Param name="Monitor" updates="None" val="testMonitor" valType="str"/>
+    <Param name="Resources" updates="None" val="[]" valType="list"/>
+    <Param name="Save csv file" updates="None" val="False" valType="bool"/>
+    <Param name="Save excel file" updates="None" val="False" valType="bool"/>
+    <Param name="Save log file" updates="None" val="True" valType="bool"/>
+    <Param name="Save psydat file" updates="None" val="True" valType="bool"/>
+    <Param name="Save wide csv file" updates="None" val="True" valType="bool"/>
+    <Param name="Screen" updates="None" val="1" valType="num"/>
+    <Param name="Show info dlg" updates="None" val="True" valType="bool"/>
+    <Param name="Show mouse" updates="None" val="False" valType="bool"/>
+    <Param name="Units" updates="None" val="height" valType="str"/>
+    <Param name="Use version" updates="None" val="" valType="str"/>
+    <Param name="Window size (pixels)" updates="None" val="(1024, 768)" valType="list"/>
+    <Param name="blendMode" updates="None" val="avg" valType="str"/>
+    <Param name="color" updates="None" val="$[0,0,0]" valType="color"/>
+    <Param name="colorSpace" updates="None" val="rgb" valType="str"/>
+    <Param name="expName" updates="None" val="compare_lines" valType="str"/>
+    <Param name="exportHTML" updates="None" val="on Sync" valType="str"/>
+    <Param name="logging level" updates="None" val="exp" valType="code"/>
+  </Settings>
+  <Routines>
+    <Routine name="trial">
+      <KeyboardComponent name="key_resp">
+        <Param name="allowedKeys" updates="constant" val="'y','n','left','right','space'" valType="list"/>
+        <Param name="correctAns" updates="constant" val="" valType="str"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="num"/>
+        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="name" updates="None" val="key_resp" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="num"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="num"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="num"/>
+        <Param name="store" updates="constant" val="last key" valType="str"/>
+        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
+        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
+      </KeyboardComponent>
+      <CodeComponent name="EachFrame">
+        <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="condition = 'horizontal'&amp;#10;&amp;#10;start_left_line = RotationCondition[condition][0][0]&amp;#10;end_left_line = RotationCondition[condition][0][1]&amp;#10;start_right_line = RotationCondition[condition][1][0]&amp;#10;end_right_line = RotationCondition[condition][1][1]&amp;#10;&amp;#10;&amp;#10;&amp;#10;draw_line(start_left_line, end_left_line)&amp;#10;draw_line(start_right_line, end_right_line)" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="EachFrame" valType="code"/>
+      </CodeComponent>
+      <CodeComponent name="BeforeExperimentFunctions">
+        <Param name="Before Experiment" updates="constant" val="import psychopy&amp;#10;&amp;#10;def determine_diagonal(start_coord_left_line, length, direction = 1):&amp;#10;    start_x = start_coord_left_line[0]&amp;#10;    start_y = start_coord_left_line[1]&amp;#10;    end_coord_left_line_x = start_x + direction * (length * cos(1.0472))&amp;#10;    end_coord_left_line_y = start_y - (length * sin(1.0472))&amp;#10;    &amp;#10;    return (end_coord_left_line_x, end_coord_left_line_y)&amp;#10;&amp;#10;&amp;#10;def draw_line(start_coord, end_coord):&amp;#10;&amp;#10;    line = psychopy.visual.Line(&amp;#10;    win = win,&amp;#10;    units='pix',&amp;#10;    lineColor=[-1, -1, -1]&amp;#10;    )&amp;#10;&amp;#10;    line.start = start_coord&amp;#10;    line.end = end_coord&amp;#10;    line.draw()" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="import * as psychopy from 'psychopy';&amp;#10;function draw_line(start_coord, end_coord) {&amp;#10;    var line;&amp;#10;    line = new psychopy.visual.Line({&quot;win&quot;: win, &quot;units&quot;: &quot;pix&quot;, &quot;lineColor&quot;: [(- 1), (- 1), (- 1)]});&amp;#10;    line.start = start_coord;&amp;#10;    line.end = end_coord;&amp;#10;    line.draw();&amp;#10;}&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="BeforeExperimentFunctions" valType="code"/>
+      </CodeComponent>
+      <CodeComponent name="BeforeExperimentObjects">
+        <Param name="Before Experiment" updates="constant" val="from math import *&amp;#10;&amp;#10;'''&amp;#10;Formula for calculating coordinates:&amp;#10;xx = x + (d * cos(alpha))&amp;#10;yy = y + (d * sin(alpha))&amp;#10;'''&amp;#10;&amp;#10;length = 300&amp;#10;starting_point_left_x = -100&amp;#10;distance_between_lines = 200&amp;#10;## horizontal lines always zero&amp;#10;starting_point_y = length / 2&amp;#10;&amp;#10;&amp;#10;&amp;#10;## VERTICAL LINES&amp;#10;vertical_starting_point_line1 = (starting_point_left_x, starting_point_y)&amp;#10;vertical_ending_point_line1 = (starting_point_left_x, starting_point_y - length)&amp;#10;vertical_starting_point_line2 = (starting_point_left_x + distance_between_lines, starting_point_y)&amp;#10;vertical_ending_point_line2 = (starting_point_left_x + distance_between_lines, starting_point_y - length)&amp;#10;&amp;#10;## HORIZONTAL LINES&amp;#10;horizontal_starting_point_line1 = (starting_point_left_x - (length / 2), 0) &amp;#10;horizontal_ending_point_line1 = (starting_point_left_x + (length / 2), 0)&amp;#10;horizontal_starting_point_line2 = (horizontal_starting_point_line1[0] + distance_between_lines, 0)&amp;#10;horizontal_ending_point_line2  = (horizontal_ending_point_line1[0] + distance_between_lines, 0)&amp;#10;&amp;#10;RotationCondition = {&amp;#10;'vertical': [[vertical_starting_point_line1, vertical_ending_point_line1], &amp;#10;[vertical_starting_point_line2, vertical_ending_point_line2]],&amp;#10;&amp;#10;'horizontal': [[horizontal_starting_point_line1, horizontal_ending_point_line1], &amp;#10;[horizontal_starting_point_line2, horizontal_ending_point_line2]],&amp;#10;&amp;#10;'diagonal1': [[(-200, 50), determine_diagonal((-200, 50), length)], [(200, 50), determine_diagonal((200, 50), length)]],&amp;#10;'diagonal2': [[(-200, 50), determine_diagonal((-200, 50), length, direction = -1)], [(200, 50), determine_diagonal((200, 50), length, direction = -1)]]&amp;#10;}&amp;#10;&amp;#10;&amp;#10;&amp;#10;&amp;#10;    " valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="BeforeExperimentObjects" valType="code"/>
+      </CodeComponent>
+    </Routine>
+  </Routines>
+  <Flow>
+    <LoopInitiator loopType="TrialHandler" name="trials">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="" valType="file"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="random" valType="str"/>
+      <Param name="nReps" updates="None" val="5" valType="num"/>
+      <Param name="name" updates="None" val="trials" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="trial"/>
+    <LoopTerminator name="trials"/>
+  </Flow>
+</PsychoPy2experiment>
