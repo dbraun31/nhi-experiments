@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Tue 13 Jul 2021 11:54:08 AM EDT
+    on Tue 13 Jul 2021 01:43:45 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -83,7 +83,8 @@ defaultKeyboard = keyboard.Keyboard()
 # Initialize components for Routine "GlobalDefs"
 GlobalDefsClock = core.Clock()
 import psychopy
-import time\
+import time
+import random
 
 def determine_diagonal(start_coord_left_line, length, x_direction, y_direction):
     x_shift = 1 if x_direction == 'right' else -1
@@ -97,17 +98,25 @@ def determine_diagonal(start_coord_left_line, length, x_direction, y_direction):
     return (end_coord_left_line_x, end_coord_left_line_y)
 
 
-def draw_line(start_coord, end_coord):
+def draw_line(start_coord, end_coord, width):
 
     line = psychopy.visual.Line(
     win = win,
     units='pix',
-    lineColor=[-1, -1, -1]
+    lineColor='black',
+    lineWidth = width
     )
 
     line.start = start_coord
     line.end = end_coord
     line.draw()
+    
+    
+    
+    
+    
+    
+    
 from math import *
 
 '''
@@ -115,14 +124,16 @@ Formula for calculating coordinates:
 xx = x + (d * cos(alpha))
 yy = y + (d * sin(alpha))
 '''
-
+## GLOBAL LINE PARAMETERS
 length = 300
 starting_point_left_x = -300
 distance_between_lines = 600
 ## horizontal lines always zero
 starting_point_y = length / 2
 
-
+## LINE WIDTH ARRAY PARAMETERS
+max_width = 4
+n_lines = 20
 
 ## VERTICAL LINES
 vertical_starting_point_line1 = (starting_point_left_x, starting_point_y)
@@ -177,17 +188,19 @@ block_count = 0
 
 # Initialize components for Routine "StartBlock"
 StartBlockClock = core.Clock()
-block_count += 1
-
-if block_count == 1:
-    current_block = first_block
-else:
-    current_block = second_block
+text = visual.TextStim(win=win, name='text',
+    text='Block Start. Press space',
+    font='Open Sans',
+    pos=(0, 0), height=0.1, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=-1.0);
+key_resp_2 = keyboard.Keyboard()
 
 # Initialize components for Routine "ISI"
 ISIClock = core.Clock()
 ISITimer = visual.TextStim(win=win, name='ISITimer',
-    text=None,
+    text='',
     font='Open Sans',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
@@ -196,6 +209,16 @@ ISITimer = visual.TextStim(win=win, name='ISITimer',
 
 
 
+
+# Initialize components for Routine "check"
+checkClock = core.Clock()
+text_4 = visual.TextStim(win=win, name='text_4',
+    text='',
+    font='Open Sans',
+    pos=(0, 0), height=0.1, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=0.0);
 
 # Initialize components for Routine "sequential_line1"
 sequential_line1Clock = core.Clock()
@@ -302,8 +325,21 @@ for thisBlock in blocks:
     # ------Prepare to start Routine "StartBlock"-------
     continueRoutine = True
     # update component parameters for each repeat
+    ## update block count
+    block_count += 1
+    
+    if block_count == 1:
+        current_block = first_block
+    else:
+        current_block = second_block
+        
+    ## fill width array
+    line_widths = list(np.linspace(1, max_width, n_lines))
+    key_resp_2.keys = []
+    key_resp_2.rt = []
+    _key_resp_2_allKeys = []
     # keep track of which components have finished
-    StartBlockComponents = []
+    StartBlockComponents = [text, key_resp_2]
     for thisComponent in StartBlockComponents:
         thisComponent.tStart = None
         thisComponent.tStop = None
@@ -326,6 +362,37 @@ for thisBlock in blocks:
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
         
+        # *text* updates
+        if text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            text.frameNStart = frameN  # exact frame index
+            text.tStart = t  # local t and not account for scr refresh
+            text.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
+            text.setAutoDraw(True)
+        
+        # *key_resp_2* updates
+        waitOnFlip = False
+        if key_resp_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            key_resp_2.frameNStart = frameN  # exact frame index
+            key_resp_2.tStart = t  # local t and not account for scr refresh
+            key_resp_2.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(key_resp_2, 'tStartRefresh')  # time at next scr refresh
+            key_resp_2.status = STARTED
+            # keyboard checking is just starting
+            waitOnFlip = True
+            win.callOnFlip(key_resp_2.clock.reset)  # t=0 on next screen flip
+            win.callOnFlip(key_resp_2.clearEvents, eventType='keyboard')  # clear events on next screen flip
+        if key_resp_2.status == STARTED and not waitOnFlip:
+            theseKeys = key_resp_2.getKeys(keyList=['space'], waitRelease=False)
+            _key_resp_2_allKeys.extend(theseKeys)
+            if len(_key_resp_2_allKeys):
+                key_resp_2.keys = _key_resp_2_allKeys[-1].name  # just the last key pressed
+                key_resp_2.rt = _key_resp_2_allKeys[-1].rt
+                # a response ends the routine
+                continueRoutine = False
+        
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
             core.quit()
@@ -347,6 +414,16 @@ for thisBlock in blocks:
     for thisComponent in StartBlockComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
+    blocks.addData('text.started', text.tStartRefresh)
+    blocks.addData('text.stopped', text.tStopRefresh)
+    # check responses
+    if key_resp_2.keys in ['', [], None]:  # No response was made
+        key_resp_2.keys = None
+    blocks.addData('key_resp_2.keys',key_resp_2.keys)
+    if key_resp_2.keys != None:  # we had a response
+        blocks.addData('key_resp_2.rt', key_resp_2.rt)
+    blocks.addData('key_resp_2.started', key_resp_2.tStartRefresh)
+    blocks.addData('key_resp_2.stopped', key_resp_2.tStopRefresh)
     # the Routine "StartBlock" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     
@@ -373,11 +450,40 @@ for thisBlock in blocks:
         continueRoutine = True
         routineTimer.add(0.500000)
         # update component parameters for each repeat
+        ISITimer.setText('\n')
         
         start_left_line = RotationCondition[line_orientation][0][0]
         end_left_line = RotationCondition[line_orientation][0][1]
         start_right_line = RotationCondition[line_orientation][1][0]
         end_right_line = RotationCondition[line_orientation][1][1]
+        
+        if width_position == 'equal':
+            try:
+                left_width = right_width = random.choice(line_widths)
+            except:
+                line_widths = list(np.linspace(1, max_width, n_lines))
+                left_width = right_width = random.choice(line_widths)
+            line_widths.remove(left_width)
+        
+        else: 
+            try:
+                choice1 = random.choice(line_widths)
+                choice2 = random.choice(line_widths)
+            except:
+                line_widths = list(np.linspace(1, max_width, n_lines))
+                choice1 = random.choice(line_widths)
+                choice2 = random.choice(line_widths)
+            if width_position == 'larger_left':
+                left_width = choice1 if choice1 > choice2 else choice2
+                right_width = choice1 if choice1 < choice2 else choice2
+            elif width_position == 'larger_right':
+                left_width = choice1 if choice1 < choice2 else choice2
+                right_width = choice1 if choice1 > choice2 else choice2
+        
+        
+        
+        
+        
         # keep track of which components have finished
         ISIComponents = [ISITimer]
         for thisComponent in ISIComponents:
@@ -443,6 +549,76 @@ for thisBlock in blocks:
         trials.addData('ISITimer.started', ISITimer.tStartRefresh)
         trials.addData('ISITimer.stopped', ISITimer.tStopRefresh)
         
+        # ------Prepare to start Routine "check"-------
+        continueRoutine = True
+        routineTimer.add(1.500000)
+        # update component parameters for each repeat
+        text_4.setText(width_position + '\n' + str(left_width) + '\n' + str(right_width))
+        # keep track of which components have finished
+        checkComponents = [text_4]
+        for thisComponent in checkComponents:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        checkClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+        frameN = -1
+        
+        # -------Run Routine "check"-------
+        while continueRoutine and routineTimer.getTime() > 0:
+            # get current time
+            t = checkClock.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=checkClock)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *text_4* updates
+            if text_4.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                text_4.frameNStart = frameN  # exact frame index
+                text_4.tStart = t  # local t and not account for scr refresh
+                text_4.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(text_4, 'tStartRefresh')  # time at next scr refresh
+                text_4.setAutoDraw(True)
+            if text_4.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal > text_4.tStartRefresh + 1.5-frameTolerance:
+                    # keep track of stop time/frame for later
+                    text_4.tStop = t  # not accounting for scr refresh
+                    text_4.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(text_4, 'tStopRefresh')  # time at next scr refresh
+                    text_4.setAutoDraw(False)
+            
+            # check for quit (typically the Esc key)
+            if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+                core.quit()
+            
+            # check if all components have finished
+            if not continueRoutine:  # a component has requested a forced-end of Routine
+                break
+            continueRoutine = False  # will revert to True if at least one component still running
+            for thisComponent in checkComponents:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # -------Ending Routine "check"-------
+        for thisComponent in checkComponents:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        trials.addData('text_4.started', text_4.tStartRefresh)
+        trials.addData('text_4.stopped', text_4.tStopRefresh)
+        
         # ------Prepare to start Routine "sequential_line1"-------
         continueRoutine = True
         routineTimer.add(1.000000)
@@ -450,10 +626,14 @@ for thisBlock in blocks:
         
         if np.random.uniform() > .5:
             first_line = (start_left_line, end_left_line)
+            first_line_width = left_width
             second_line = (start_right_line, end_right_line)
+            second_line_width = right_width
         else:
             second_line = (start_left_line, end_left_line)
+            second_line_width = left_width
             first_line = (start_right_line, end_right_line)
+            first_line_width = right_width
         
         
         FirstLineTimer.setText('')
@@ -486,7 +666,7 @@ for thisBlock in blocks:
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
             
-            draw_line(first_line[0], first_line[1])
+            draw_line(first_line[0], first_line[1], first_line_width)
             
             
             # *FirstLineTimer* updates
@@ -635,7 +815,7 @@ for thisBlock in blocks:
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
             if t <= 1.0:
-                draw_line(second_line[0], second_line[1])
+                draw_line(second_line[0], second_line[1], second_line_width)
             
                 
             
@@ -728,8 +908,8 @@ for thisBlock in blocks:
             frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
             # update/draw components on each frame
             if t <= 2.0:
-                draw_line(start_left_line, end_left_line)
-                draw_line(start_right_line, end_right_line)
+                draw_line(start_left_line, end_left_line, left_width)
+                draw_line(start_right_line, end_right_line, right_width)
                     
             
             # *ResponseSimul* updates

@@ -55,7 +55,7 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val=".5" valType="num"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="constant" val="" valType="str"/>
+        <Param name="text" updates="set every repeat" val="&amp;#10;" valType="str"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="num"/>
       </TextComponent>
@@ -65,7 +65,7 @@
         <Param name="Begin Experiment" updates="constant" val="&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="&amp;#10;start_left_line = RotationCondition[line_orientation][0][0]&amp;#10;end_left_line = RotationCondition[line_orientation][0][1]&amp;#10;start_right_line = RotationCondition[line_orientation][1][0]&amp;#10;end_right_line = RotationCondition[line_orientation][1][1]" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="&amp;#10;start_left_line = RotationCondition[line_orientation][0][0]&amp;#10;end_left_line = RotationCondition[line_orientation][0][1]&amp;#10;start_right_line = RotationCondition[line_orientation][1][0]&amp;#10;end_right_line = RotationCondition[line_orientation][1][1]&amp;#10;&amp;#10;if width_position == 'equal':&amp;#10;    try:&amp;#10;        left_width = right_width = random.choice(line_widths)&amp;#10;    except:&amp;#10;        line_widths = list(np.linspace(1, max_width, n_lines))&amp;#10;        left_width = right_width = random.choice(line_widths)&amp;#10;    line_widths.remove(left_width)&amp;#10;&amp;#10;else: &amp;#10;    try:&amp;#10;        choice1 = random.choice(line_widths)&amp;#10;        choice2 = random.choice(line_widths)&amp;#10;    except:&amp;#10;        line_widths = list(np.linspace(1, max_width, n_lines))&amp;#10;        choice1 = random.choice(line_widths)&amp;#10;        choice2 = random.choice(line_widths)&amp;#10;    if width_position == 'larger_left':&amp;#10;        left_width = choice1 if choice1 &gt; choice2 else choice2&amp;#10;        right_width = choice1 if choice1 &lt; choice2 else choice2&amp;#10;    elif width_position == 'larger_right':&amp;#10;        left_width = choice1 if choice1 &lt; choice2 else choice2&amp;#10;        right_width = choice1 if choice1 &gt; choice2 else choice2&amp;#10;&amp;#10;&amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -84,7 +84,7 @@
         <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="&amp;#10;if np.random.uniform() &gt; .5:&amp;#10;    first_line = (start_left_line, end_left_line)&amp;#10;    second_line = (start_right_line, end_right_line)&amp;#10;else:&amp;#10;    second_line = (start_left_line, end_left_line)&amp;#10;    first_line = (start_right_line, end_right_line)&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="&amp;#10;if np.random.uniform() &gt; .5:&amp;#10;    first_line = (start_left_line, end_left_line)&amp;#10;    first_line_width = left_width&amp;#10;    second_line = (start_right_line, end_right_line)&amp;#10;    second_line_width = right_width&amp;#10;else:&amp;#10;    second_line = (start_left_line, end_left_line)&amp;#10;    second_line_width = left_width&amp;#10;    first_line = (start_right_line, end_right_line)&amp;#10;    first_line_width = right_width&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -103,7 +103,7 @@
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="&amp;#10;draw_line(first_line[0], first_line[1])&amp;#10;" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="&amp;#10;draw_line(first_line[0], first_line[1], first_line_width)&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
@@ -225,7 +225,7 @@
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="if t &lt;= 1.0:&amp;#10;    draw_line(second_line[0], second_line[1])&amp;#10;&amp;#10;    &amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="if t &lt;= 1.0:&amp;#10;    draw_line(second_line[0], second_line[1], second_line_width)&amp;#10;&amp;#10;    &amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
@@ -279,7 +279,7 @@
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="if t &lt;= 2.0:&amp;#10;    draw_line(start_left_line, end_left_line)&amp;#10;    draw_line(start_right_line, end_right_line)&amp;#10;        " valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="if t &lt;= 2.0:&amp;#10;    draw_line(start_left_line, end_left_line, left_width)&amp;#10;    draw_line(start_right_line, end_right_line, right_width)&amp;#10;        " valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
@@ -345,13 +345,13 @@
       </KeyboardComponent>
     </Routine>
     <Routine name="StartBlock">
-      <CodeComponent name="SetBlockType">
+      <CodeComponent name="BeginBlock">
         <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="block_count += 1&amp;#10;&amp;#10;if block_count == 1:&amp;#10;    current_block = first_block&amp;#10;else:&amp;#10;    current_block = second_block" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="## update block count&amp;#10;block_count += 1&amp;#10;&amp;#10;if block_count == 1:&amp;#10;    current_block = first_block&amp;#10;else:&amp;#10;    current_block = second_block&amp;#10;    &amp;#10;## fill width array&amp;#10;line_widths = list(np.linspace(1, max_width, n_lines))" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -360,14 +360,57 @@
         <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="name" updates="None" val="SetBlockType" valType="code"/>
+        <Param name="name" updates="None" val="BeginBlock" valType="code"/>
       </CodeComponent>
+      <TextComponent name="text">
+        <Param name="color" updates="constant" val="white" valType="color"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="contrast" updates="constant" val="1" valType="num"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="num"/>
+        <Param name="flip" updates="constant" val="None" valType="str"/>
+        <Param name="font" updates="constant" val="Open Sans" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.1" valType="num"/>
+        <Param name="name" updates="None" val="text" valType="code"/>
+        <Param name="opacity" updates="constant" val="" valType="num"/>
+        <Param name="ori" updates="constant" val="0" valType="num"/>
+        <Param name="pos" updates="constant" val="(0, 0)" valType="list"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="num"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="num"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="num"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="text" updates="constant" val="Block Start. Press space" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="num"/>
+      </TextComponent>
+      <KeyboardComponent name="key_resp_2">
+        <Param name="allowedKeys" updates="constant" val="'space'" valType="list"/>
+        <Param name="correctAns" updates="constant" val="" valType="str"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="num"/>
+        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="name" updates="None" val="key_resp_2" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="num"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="num"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="num"/>
+        <Param name="store" updates="constant" val="last key" valType="str"/>
+        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
+        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
+      </KeyboardComponent>
     </Routine>
     <Routine name="GlobalDefs">
       <CodeComponent name="FunctionDefine">
         <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="import psychopy&amp;#10;import time\&amp;#10;&amp;#10;def determine_diagonal(start_coord_left_line, length, x_direction, y_direction):&amp;#10;    x_shift = 1 if x_direction == 'right' else -1&amp;#10;    y_shift = 1 if y_direction == 'up' else -1&amp;#10;    &amp;#10;    start_x = start_coord_left_line[0]&amp;#10;    start_y = start_coord_left_line[1]&amp;#10;    end_coord_left_line_x = start_x + x_shift* (length * cos(1.0472))&amp;#10;    end_coord_left_line_y = start_y + y_shift* (length * sin(1.0472))&amp;#10;    &amp;#10;    return (end_coord_left_line_x, end_coord_left_line_y)&amp;#10;&amp;#10;&amp;#10;def draw_line(start_coord, end_coord):&amp;#10;&amp;#10;    line = psychopy.visual.Line(&amp;#10;    win = win,&amp;#10;    units='pix',&amp;#10;    lineColor=[-1, -1, -1]&amp;#10;    )&amp;#10;&amp;#10;    line.start = start_coord&amp;#10;    line.end = end_coord&amp;#10;    line.draw()" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="import psychopy&amp;#10;import time&amp;#10;import random&amp;#10;&amp;#10;def determine_diagonal(start_coord_left_line, length, x_direction, y_direction):&amp;#10;    x_shift = 1 if x_direction == 'right' else -1&amp;#10;    y_shift = 1 if y_direction == 'up' else -1&amp;#10;    &amp;#10;    start_x = start_coord_left_line[0]&amp;#10;    start_y = start_coord_left_line[1]&amp;#10;    end_coord_left_line_x = start_x + x_shift* (length * cos(1.0472))&amp;#10;    end_coord_left_line_y = start_y + y_shift* (length * sin(1.0472))&amp;#10;    &amp;#10;    return (end_coord_left_line_x, end_coord_left_line_y)&amp;#10;&amp;#10;&amp;#10;def draw_line(start_coord, end_coord, width):&amp;#10;&amp;#10;    line = psychopy.visual.Line(&amp;#10;    win = win,&amp;#10;    units='pix',&amp;#10;    lineColor='black',&amp;#10;    lineWidth = width&amp;#10;    )&amp;#10;&amp;#10;    line.start = start_coord&amp;#10;    line.end = end_coord&amp;#10;    line.draw()&amp;#10;    &amp;#10;    &amp;#10;    &amp;#10;    &amp;#10;    &amp;#10;    &amp;#10;    " valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
@@ -384,7 +427,7 @@
       <CodeComponent name="ObjectDefine">
         <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="from math import *&amp;#10;&amp;#10;'''&amp;#10;Formula for calculating coordinates:&amp;#10;xx = x + (d * cos(alpha))&amp;#10;yy = y + (d * sin(alpha))&amp;#10;'''&amp;#10;&amp;#10;length = 300&amp;#10;starting_point_left_x = -300&amp;#10;distance_between_lines = 600&amp;#10;## horizontal lines always zero&amp;#10;starting_point_y = length / 2&amp;#10;&amp;#10;&amp;#10;&amp;#10;## VERTICAL LINES&amp;#10;vertical_starting_point_line1 = (starting_point_left_x, starting_point_y)&amp;#10;vertical_ending_point_line1 = (starting_point_left_x, starting_point_y - length)&amp;#10;vertical_starting_point_line2 = (starting_point_left_x + distance_between_lines, starting_point_y)&amp;#10;vertical_ending_point_line2 = (starting_point_left_x + distance_between_lines, starting_point_y - length)&amp;#10;&amp;#10;## HORIZONTAL LINES&amp;#10;horizontal_starting_point_line1 = (starting_point_left_x - (length / 2), 0) &amp;#10;horizontal_ending_point_line1 = (starting_point_left_x + (length / 2), 0)&amp;#10;horizontal_starting_point_line2 = (horizontal_starting_point_line1[0] + distance_between_lines, 0)&amp;#10;horizontal_ending_point_line2  = (horizontal_ending_point_line1[0] + distance_between_lines, 0)&amp;#10;&amp;#10;## DIAGONAL LINES&amp;#10;## forward slash (ie starts at top and goes forward)&amp;#10;forward_starting_point_line1 = determine_diagonal((starting_point_left_x, 0), length/2, x_direction = 'left', y_direction = 'up')&amp;#10;forward_ending_point_line1 = determine_diagonal((starting_point_left_x, 0), length/2, x_direction = 'right', y_direction = 'down')&amp;#10;forward_starting_point_line2 = (forward_starting_point_line1[0] + distance_between_lines, forward_starting_point_line1[1])&amp;#10;forward_ending_point_line2 = (forward_ending_point_line1[0] + distance_between_lines, forward_ending_point_line1[1])&amp;#10;&amp;#10;## backward slash (ie starts at top and goes back)&amp;#10;backward_starting_point_line1 = determine_diagonal((starting_point_left_x, 0), length/2, x_direction = 'right', y_direction = 'up')&amp;#10;backward_ending_point_line1 = determine_diagonal((starting_point_left_x, 0), length/2, x_direction = 'left', y_direction = 'down')&amp;#10;backward_starting_point_line2 = (backward_starting_point_line1[0] + distance_between_lines, backward_starting_point_line1[1])&amp;#10;backward_ending_point_line2 = (backward_ending_point_line1[0] + distance_between_lines, backward_ending_point_line1[1])&amp;#10;&amp;#10;&amp;#10;&amp;#10;RotationCondition = {&amp;#10;'vertical': [[vertical_starting_point_line1, vertical_ending_point_line1], &amp;#10;[vertical_starting_point_line2, vertical_ending_point_line2]],&amp;#10;&amp;#10;'horizontal': [[horizontal_starting_point_line1, horizontal_ending_point_line1], &amp;#10;[horizontal_starting_point_line2, horizontal_ending_point_line2]],&amp;#10;&amp;#10;'diagonal1': [[forward_starting_point_line1, forward_ending_point_line1], [forward_starting_point_line2, forward_ending_point_line2]],&amp;#10;'diagonal2': [[backward_starting_point_line1, backward_ending_point_line1], [backward_starting_point_line2, backward_ending_point_line2]]&amp;#10;}&amp;#10;&amp;#10;&amp;#10;&amp;#10;&amp;#10;    " valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="from math import *&amp;#10;&amp;#10;'''&amp;#10;Formula for calculating coordinates:&amp;#10;xx = x + (d * cos(alpha))&amp;#10;yy = y + (d * sin(alpha))&amp;#10;'''&amp;#10;## GLOBAL LINE PARAMETERS&amp;#10;length = 300&amp;#10;starting_point_left_x = -300&amp;#10;distance_between_lines = 600&amp;#10;## horizontal lines always zero&amp;#10;starting_point_y = length / 2&amp;#10;&amp;#10;## LINE WIDTH ARRAY PARAMETERS&amp;#10;max_width = 4&amp;#10;n_lines = 20&amp;#10;&amp;#10;## VERTICAL LINES&amp;#10;vertical_starting_point_line1 = (starting_point_left_x, starting_point_y)&amp;#10;vertical_ending_point_line1 = (starting_point_left_x, starting_point_y - length)&amp;#10;vertical_starting_point_line2 = (starting_point_left_x + distance_between_lines, starting_point_y)&amp;#10;vertical_ending_point_line2 = (starting_point_left_x + distance_between_lines, starting_point_y - length)&amp;#10;&amp;#10;## HORIZONTAL LINES&amp;#10;horizontal_starting_point_line1 = (starting_point_left_x - (length / 2), 0) &amp;#10;horizontal_ending_point_line1 = (starting_point_left_x + (length / 2), 0)&amp;#10;horizontal_starting_point_line2 = (horizontal_starting_point_line1[0] + distance_between_lines, 0)&amp;#10;horizontal_ending_point_line2  = (horizontal_ending_point_line1[0] + distance_between_lines, 0)&amp;#10;&amp;#10;## DIAGONAL LINES&amp;#10;## forward slash (ie starts at top and goes forward)&amp;#10;forward_starting_point_line1 = determine_diagonal((starting_point_left_x, 0), length/2, x_direction = 'left', y_direction = 'up')&amp;#10;forward_ending_point_line1 = determine_diagonal((starting_point_left_x, 0), length/2, x_direction = 'right', y_direction = 'down')&amp;#10;forward_starting_point_line2 = (forward_starting_point_line1[0] + distance_between_lines, forward_starting_point_line1[1])&amp;#10;forward_ending_point_line2 = (forward_ending_point_line1[0] + distance_between_lines, forward_ending_point_line1[1])&amp;#10;&amp;#10;## backward slash (ie starts at top and goes back)&amp;#10;backward_starting_point_line1 = determine_diagonal((starting_point_left_x, 0), length/2, x_direction = 'right', y_direction = 'up')&amp;#10;backward_ending_point_line1 = determine_diagonal((starting_point_left_x, 0), length/2, x_direction = 'left', y_direction = 'down')&amp;#10;backward_starting_point_line2 = (backward_starting_point_line1[0] + distance_between_lines, backward_starting_point_line1[1])&amp;#10;backward_ending_point_line2 = (backward_ending_point_line1[0] + distance_between_lines, backward_ending_point_line1[1])&amp;#10;&amp;#10;&amp;#10;&amp;#10;RotationCondition = {&amp;#10;'vertical': [[vertical_starting_point_line1, vertical_ending_point_line1], &amp;#10;[vertical_starting_point_line2, vertical_ending_point_line2]],&amp;#10;&amp;#10;'horizontal': [[horizontal_starting_point_line1, horizontal_ending_point_line1], &amp;#10;[horizontal_starting_point_line2, horizontal_ending_point_line2]],&amp;#10;&amp;#10;'diagonal1': [[forward_starting_point_line1, forward_ending_point_line1], [forward_starting_point_line2, forward_ending_point_line2]],&amp;#10;'diagonal2': [[backward_starting_point_line1, backward_ending_point_line1], [backward_starting_point_line2, backward_ending_point_line2]]&amp;#10;}&amp;#10;&amp;#10;&amp;#10;&amp;#10;&amp;#10;    " valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
@@ -416,6 +459,33 @@
         <Param name="name" updates="None" val="BlockOrder" valType="code"/>
       </CodeComponent>
     </Routine>
+    <Routine name="check">
+      <TextComponent name="text_4">
+        <Param name="color" updates="constant" val="white" valType="color"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="contrast" updates="constant" val="1" valType="num"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="num"/>
+        <Param name="flip" updates="constant" val="None" valType="str"/>
+        <Param name="font" updates="constant" val="Open Sans" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.1" valType="num"/>
+        <Param name="name" updates="None" val="text_4" valType="code"/>
+        <Param name="opacity" updates="constant" val="" valType="num"/>
+        <Param name="ori" updates="constant" val="0" valType="num"/>
+        <Param name="pos" updates="constant" val="(0, 0)" valType="list"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="num"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="num"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="1.5" valType="num"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="text" updates="set every repeat" val="$width_position + '\n' + str(left_width) + '\n' + str(right_width)" valType="str"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="num"/>
+      </TextComponent>
+    </Routine>
   </Routines>
   <Flow>
     <Routine name="GlobalDefs"/>
@@ -433,7 +503,7 @@
     <Routine name="StartBlock"/>
     <LoopInitiator loopType="TrialHandler" name="trials">
       <Param name="Selected rows" updates="None" val="" valType="str"/>
-      <Param name="conditions" updates="None" val="[OrderedDict([('line_orientation', 'horizontal'), ('stimulus_offset', 0.0)]), OrderedDict([('line_orientation', 'vertical'), ('stimulus_offset', 0.0)]), OrderedDict([('line_orientation', 'diagonal1'), ('stimulus_offset', 0.0)]), OrderedDict([('line_orientation', 'diagonal2'), ('stimulus_offset', 0.0)]), OrderedDict([('line_orientation', 'horizontal'), ('stimulus_offset', 0.25)]), OrderedDict([('line_orientation', 'vertical'), ('stimulus_offset', 0.25)]), OrderedDict([('line_orientation', 'diagonal1'), ('stimulus_offset', 0.25)]), OrderedDict([('line_orientation', 'diagonal2'), ('stimulus_offset', 0.25)]), OrderedDict([('line_orientation', 'horizontal'), ('stimulus_offset', 0.5)]), OrderedDict([('line_orientation', 'vertical'), ('stimulus_offset', 0.5)]), OrderedDict([('line_orientation', 'diagonal1'), ('stimulus_offset', 0.5)]), OrderedDict([('line_orientation', 'diagonal2'), ('stimulus_offset', 0.5)]), OrderedDict([('line_orientation', 'horizontal'), ('stimulus_offset', 0.75)]), OrderedDict([('line_orientation', 'vertical'), ('stimulus_offset', 0.75)]), OrderedDict([('line_orientation', 'diagonal1'), ('stimulus_offset', 0.75)]), OrderedDict([('line_orientation', 'diagonal2'), ('stimulus_offset', 0.75)]), OrderedDict([('line_orientation', 'horizontal'), ('stimulus_offset', 1.0)]), OrderedDict([('line_orientation', 'vertical'), ('stimulus_offset', 1.0)]), OrderedDict([('line_orientation', 'diagonal1'), ('stimulus_offset', 1.0)]), OrderedDict([('line_orientation', 'diagonal2'), ('stimulus_offset', 1.0)])]" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('line_orientation', 'horizontal'), ('width_position', 'larger_left')]), OrderedDict([('line_orientation', 'vertical'), ('width_position', 'larger_left')]), OrderedDict([('line_orientation', 'diagonal1'), ('width_position', 'larger_left')]), OrderedDict([('line_orientation', 'diagonal2'), ('width_position', 'larger_left')]), OrderedDict([('line_orientation', 'horizontal'), ('width_position', 'larger_right')]), OrderedDict([('line_orientation', 'vertical'), ('width_position', 'larger_right')]), OrderedDict([('line_orientation', 'diagonal1'), ('width_position', 'larger_right')]), OrderedDict([('line_orientation', 'diagonal2'), ('width_position', 'larger_right')]), OrderedDict([('line_orientation', 'horizontal'), ('width_position', 'equal')]), OrderedDict([('line_orientation', 'vertical'), ('width_position', 'equal')]), OrderedDict([('line_orientation', 'diagonal1'), ('width_position', 'equal')]), OrderedDict([('line_orientation', 'diagonal2'), ('width_position', 'equal')])]" valType="str"/>
       <Param name="conditionsFile" updates="None" val="conditions.csv" valType="file"/>
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
@@ -443,6 +513,7 @@
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
     <Routine name="ISI"/>
+    <Routine name="check"/>
     <Routine name="sequential_line1"/>
     <Routine name="sequential_gap"/>
     <Routine name="sequential_line2"/>
