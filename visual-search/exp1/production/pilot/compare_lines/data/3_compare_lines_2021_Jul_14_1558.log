@@ -1,0 +1,526 @@
+0.2981 	WARNING 	We strongly recommend you activate the PTB sound engine in PsychoPy prefs as the preferred audio engine. Its timing is vastly superior. Your prefs are currently set to use ['sounddevice', 'PTB', 'pyo', 'pygame'] (in that order).
+6.8917 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1440, 900]. Using actual size
+9.0230 	WARNING 	Couldn't measure a consistent frame rate.
+  - Is your graphics card set to sync to vertical blank?
+  - Are you running other processes on your computer?
+
+9.0232 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, backendConf=UNKNOWN, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x7fd300904ba8>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x7fd300821b38>, multiSample=False, name='window1', numSamples=2, pos=[360.0, 225.0], screen=0, size=array([2880, 1800]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=True, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+9.0234 	EXP 	window1: mouseVisible = True
+9.0234 	EXP 	window1: recordFrameIntervals = False
+9.1896 	EXP 	window1: recordFrameIntervals = True
+9.3429 	WARNING 	t of last frame was 20.20ms (=1/49)
+9.4601 	WARNING 	t of last frame was 20.11ms (=1/49)
+9.5096 	WARNING 	t of last frame was 20.02ms (=1/49)
+9.5595 	WARNING 	t of last frame was 20.03ms (=1/49)
+9.6595 	WARNING 	Multiple dropped frames have occurred - I'll stop bothering you about them!
+10.8565 	WARNING 	Couldn't measure a consistent frame rate.
+  - Is your graphics card set to sync to vertical blank?
+  - Are you running other processes on your computer?
+
+11.4004 	EXP 	Created text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([1, 1, 1]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='text', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='Block Start. Press space', units='height', win=Window(...), wrapWidth=1)
+11.8921 	EXP 	Created ISITimer = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([1, 1, 1]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='ISITimer', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+11.8925 	EXP 	Created text_4 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([1, 1, 1]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='text_4', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+11.8930 	EXP 	Created FirstLineTimer = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([1, 1, 1]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='FirstLineTimer', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+11.8935 	EXP 	Created GapTimer = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoLog=True, bold=False, color=array([1, 1, 1]), colorSpace='rgb', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Open Sans', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='GapTimer', opacity=1, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+12.8768 	EXP 	Created sequence: random, trialTypes=1, nReps=2, seed=None
+12.8770 	EXP 	New trial (rep=0, index=0): None
+12.8874 	EXP 	text: autoDraw = True
+13.8808 	EXP 	Imported conditions.csv as conditions, 12 conditions, 2 params
+13.8812 	EXP 	Created sequence: random, trialTypes=12, nReps=10, seed=None
+13.8814 	EXP 	New trial (rep=0, index=0): OrderedDict([('line_orientation', 'horizontal'), ('width_position', 'equal')])
+13.8871 	DATA 	Keypress: space
+13.8958 	EXP 	text: autoDraw = False
+13.8958 	EXP 	ISITimer: text = '\n'
+13.8958 	EXP 	ISITimer: autoDraw = True
+14.3902 	EXP 	ISITimer: autoDraw = False
+14.3902 	EXP 	text_4: text = 'equal\n4.0\n4.0'
+14.3902 	EXP 	text_4: autoDraw = True
+15.8762 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+15.8899 	EXP 	text_4: autoDraw = False
+15.8899 	EXP 	text_4: autoDraw = False
+15.8899 	EXP 	FirstLineTimer: text = ''
+15.8899 	EXP 	unnamed Line: start = (150.0, 0)
+15.8899 	EXP 	unnamed Line: end = (450.0, 0)
+15.8899 	EXP 	FirstLineTimer: autoDraw = True
+15.8910 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+15.9109 	EXP 	unnamed Line: start = (150.0, 0)
+15.9109 	EXP 	unnamed Line: end = (450.0, 0)
+15.9121 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+15.9226 	EXP 	unnamed Line: start = (150.0, 0)
+15.9226 	EXP 	unnamed Line: end = (450.0, 0)
+15.9237 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+15.9411 	EXP 	unnamed Line: start = (150.0, 0)
+15.9411 	EXP 	unnamed Line: end = (450.0, 0)
+15.9421 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+15.9596 	EXP 	unnamed Line: start = (150.0, 0)
+15.9596 	EXP 	unnamed Line: end = (450.0, 0)
+15.9608 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+15.9723 	EXP 	unnamed Line: start = (150.0, 0)
+15.9723 	EXP 	unnamed Line: end = (450.0, 0)
+15.9733 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+15.9895 	EXP 	unnamed Line: start = (150.0, 0)
+15.9895 	EXP 	unnamed Line: end = (450.0, 0)
+15.9906 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.0099 	EXP 	unnamed Line: start = (150.0, 0)
+16.0099 	EXP 	unnamed Line: end = (450.0, 0)
+16.0111 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.0223 	EXP 	unnamed Line: start = (150.0, 0)
+16.0223 	EXP 	unnamed Line: end = (450.0, 0)
+16.0233 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.0402 	EXP 	unnamed Line: start = (150.0, 0)
+16.0402 	EXP 	unnamed Line: end = (450.0, 0)
+16.0413 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.0590 	EXP 	unnamed Line: start = (150.0, 0)
+16.0590 	EXP 	unnamed Line: end = (450.0, 0)
+16.0601 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.0723 	EXP 	unnamed Line: start = (150.0, 0)
+16.0723 	EXP 	unnamed Line: end = (450.0, 0)
+16.0733 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.0891 	EXP 	unnamed Line: start = (150.0, 0)
+16.0891 	EXP 	unnamed Line: end = (450.0, 0)
+16.0901 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.1108 	EXP 	unnamed Line: start = (150.0, 0)
+16.1108 	EXP 	unnamed Line: end = (450.0, 0)
+16.1121 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.1220 	EXP 	unnamed Line: start = (150.0, 0)
+16.1220 	EXP 	unnamed Line: end = (450.0, 0)
+16.1230 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.1393 	EXP 	unnamed Line: start = (150.0, 0)
+16.1393 	EXP 	unnamed Line: end = (450.0, 0)
+16.1404 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.1563 	EXP 	unnamed Line: start = (150.0, 0)
+16.1563 	EXP 	unnamed Line: end = (450.0, 0)
+16.1575 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.1776 	EXP 	unnamed Line: start = (150.0, 0)
+16.1776 	EXP 	unnamed Line: end = (450.0, 0)
+16.1789 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.1890 	EXP 	unnamed Line: start = (150.0, 0)
+16.1890 	EXP 	unnamed Line: end = (450.0, 0)
+16.1900 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.2071 	EXP 	unnamed Line: start = (150.0, 0)
+16.2071 	EXP 	unnamed Line: end = (450.0, 0)
+16.2082 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.2254 	EXP 	unnamed Line: start = (150.0, 0)
+16.2254 	EXP 	unnamed Line: end = (450.0, 0)
+16.2265 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.2394 	EXP 	unnamed Line: start = (150.0, 0)
+16.2394 	EXP 	unnamed Line: end = (450.0, 0)
+16.2404 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.2565 	EXP 	unnamed Line: start = (150.0, 0)
+16.2565 	EXP 	unnamed Line: end = (450.0, 0)
+16.2576 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.2779 	EXP 	unnamed Line: start = (150.0, 0)
+16.2779 	EXP 	unnamed Line: end = (450.0, 0)
+16.2791 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.2887 	EXP 	unnamed Line: start = (150.0, 0)
+16.2887 	EXP 	unnamed Line: end = (450.0, 0)
+16.2898 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.3060 	EXP 	unnamed Line: start = (150.0, 0)
+16.3060 	EXP 	unnamed Line: end = (450.0, 0)
+16.3071 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.3251 	EXP 	unnamed Line: start = (150.0, 0)
+16.3251 	EXP 	unnamed Line: end = (450.0, 0)
+16.3263 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.3398 	EXP 	unnamed Line: start = (150.0, 0)
+16.3398 	EXP 	unnamed Line: end = (450.0, 0)
+16.3415 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.3562 	EXP 	unnamed Line: start = (150.0, 0)
+16.3562 	EXP 	unnamed Line: end = (450.0, 0)
+16.3573 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.3734 	EXP 	unnamed Line: start = (150.0, 0)
+16.3734 	EXP 	unnamed Line: end = (450.0, 0)
+16.3746 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.3925 	EXP 	unnamed Line: start = (150.0, 0)
+16.3925 	EXP 	unnamed Line: end = (450.0, 0)
+16.3937 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.4058 	EXP 	unnamed Line: start = (150.0, 0)
+16.4058 	EXP 	unnamed Line: end = (450.0, 0)
+16.4068 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.4228 	EXP 	unnamed Line: start = (150.0, 0)
+16.4228 	EXP 	unnamed Line: end = (450.0, 0)
+16.4240 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.4428 	EXP 	unnamed Line: start = (150.0, 0)
+16.4428 	EXP 	unnamed Line: end = (450.0, 0)
+16.4440 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.4558 	EXP 	unnamed Line: start = (150.0, 0)
+16.4558 	EXP 	unnamed Line: end = (450.0, 0)
+16.4570 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.4733 	EXP 	unnamed Line: start = (150.0, 0)
+16.4733 	EXP 	unnamed Line: end = (450.0, 0)
+16.4745 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.4925 	EXP 	unnamed Line: start = (150.0, 0)
+16.4925 	EXP 	unnamed Line: end = (450.0, 0)
+16.4937 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.5056 	EXP 	unnamed Line: start = (150.0, 0)
+16.5056 	EXP 	unnamed Line: end = (450.0, 0)
+16.5067 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.5228 	EXP 	unnamed Line: start = (150.0, 0)
+16.5228 	EXP 	unnamed Line: end = (450.0, 0)
+16.5240 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.5440 	EXP 	unnamed Line: start = (150.0, 0)
+16.5440 	EXP 	unnamed Line: end = (450.0, 0)
+16.5452 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.5554 	EXP 	unnamed Line: start = (150.0, 0)
+16.5554 	EXP 	unnamed Line: end = (450.0, 0)
+16.5566 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.5733 	EXP 	unnamed Line: start = (150.0, 0)
+16.5733 	EXP 	unnamed Line: end = (450.0, 0)
+16.5744 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.5924 	EXP 	unnamed Line: start = (150.0, 0)
+16.5924 	EXP 	unnamed Line: end = (450.0, 0)
+16.5936 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.6063 	EXP 	unnamed Line: start = (150.0, 0)
+16.6063 	EXP 	unnamed Line: end = (450.0, 0)
+16.6074 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.6228 	EXP 	unnamed Line: start = (150.0, 0)
+16.6228 	EXP 	unnamed Line: end = (450.0, 0)
+16.6240 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.6433 	EXP 	unnamed Line: start = (150.0, 0)
+16.6433 	EXP 	unnamed Line: end = (450.0, 0)
+16.6445 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.6558 	EXP 	unnamed Line: start = (150.0, 0)
+16.6558 	EXP 	unnamed Line: end = (450.0, 0)
+16.6571 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.6729 	EXP 	unnamed Line: start = (150.0, 0)
+16.6729 	EXP 	unnamed Line: end = (450.0, 0)
+16.6740 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.6899 	EXP 	unnamed Line: start = (150.0, 0)
+16.6899 	EXP 	unnamed Line: end = (450.0, 0)
+16.6911 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.7092 	EXP 	unnamed Line: start = (150.0, 0)
+16.7092 	EXP 	unnamed Line: end = (450.0, 0)
+16.7105 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.7225 	EXP 	unnamed Line: start = (150.0, 0)
+16.7225 	EXP 	unnamed Line: end = (450.0, 0)
+16.7236 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.7403 	EXP 	unnamed Line: start = (150.0, 0)
+16.7403 	EXP 	unnamed Line: end = (450.0, 0)
+16.7415 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.7586 	EXP 	unnamed Line: start = (150.0, 0)
+16.7586 	EXP 	unnamed Line: end = (450.0, 0)
+16.7597 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.7728 	EXP 	unnamed Line: start = (150.0, 0)
+16.7728 	EXP 	unnamed Line: end = (450.0, 0)
+16.7739 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.7892 	EXP 	unnamed Line: start = (150.0, 0)
+16.7892 	EXP 	unnamed Line: end = (450.0, 0)
+16.7904 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.8101 	EXP 	unnamed Line: start = (150.0, 0)
+16.8101 	EXP 	unnamed Line: end = (450.0, 0)
+16.8114 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.8221 	EXP 	unnamed Line: start = (150.0, 0)
+16.8221 	EXP 	unnamed Line: end = (450.0, 0)
+16.8232 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.8401 	EXP 	unnamed Line: start = (150.0, 0)
+16.8401 	EXP 	unnamed Line: end = (450.0, 0)
+16.8413 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.8647 	EXP 	unnamed Line: start = (150.0, 0)
+16.8647 	EXP 	unnamed Line: end = (450.0, 0)
+16.8660 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+16.8770 	EXP 	unnamed Line: start = (150.0, 0)
+16.8770 	EXP 	unnamed Line: end = (450.0, 0)
+16.8926 	EXP 	FirstLineTimer: autoDraw = False
+16.8926 	EXP 	GapTimer: autoDraw = True
+17.3901 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.4072 	EXP 	GapTimer: autoDraw = False
+17.4072 	EXP 	unnamed Line: start = (-450.0, 0)
+17.4072 	EXP 	unnamed Line: end = (-150.0, 0)
+17.4083 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.4266 	EXP 	unnamed Line: start = (-450.0, 0)
+17.4266 	EXP 	unnamed Line: end = (-150.0, 0)
+17.4277 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.4396 	EXP 	unnamed Line: start = (-450.0, 0)
+17.4396 	EXP 	unnamed Line: end = (-150.0, 0)
+17.4406 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.4570 	EXP 	unnamed Line: start = (-450.0, 0)
+17.4570 	EXP 	unnamed Line: end = (-150.0, 0)
+17.4581 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.4798 	EXP 	unnamed Line: start = (-450.0, 0)
+17.4798 	EXP 	unnamed Line: end = (-150.0, 0)
+17.4809 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.4890 	EXP 	unnamed Line: start = (-450.0, 0)
+17.4890 	EXP 	unnamed Line: end = (-150.0, 0)
+17.4901 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.5065 	EXP 	unnamed Line: start = (-450.0, 0)
+17.5065 	EXP 	unnamed Line: end = (-150.0, 0)
+17.5074 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.5272 	EXP 	unnamed Line: start = (-450.0, 0)
+17.5272 	EXP 	unnamed Line: end = (-150.0, 0)
+17.5284 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.5404 	EXP 	unnamed Line: start = (-450.0, 0)
+17.5404 	EXP 	unnamed Line: end = (-150.0, 0)
+17.5416 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.5565 	EXP 	unnamed Line: start = (-450.0, 0)
+17.5565 	EXP 	unnamed Line: end = (-150.0, 0)
+17.5575 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.5746 	EXP 	unnamed Line: start = (-450.0, 0)
+17.5746 	EXP 	unnamed Line: end = (-150.0, 0)
+17.5758 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.5899 	EXP 	unnamed Line: start = (-450.0, 0)
+17.5899 	EXP 	unnamed Line: end = (-150.0, 0)
+17.5911 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.6063 	EXP 	unnamed Line: start = (-450.0, 0)
+17.6063 	EXP 	unnamed Line: end = (-150.0, 0)
+17.6073 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.6232 	EXP 	unnamed Line: start = (-450.0, 0)
+17.6232 	EXP 	unnamed Line: end = (-150.0, 0)
+17.6242 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.6425 	EXP 	unnamed Line: start = (-450.0, 0)
+17.6425 	EXP 	unnamed Line: end = (-150.0, 0)
+17.6436 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.6561 	EXP 	unnamed Line: start = (-450.0, 0)
+17.6561 	EXP 	unnamed Line: end = (-150.0, 0)
+17.6572 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.6732 	EXP 	unnamed Line: start = (-450.0, 0)
+17.6732 	EXP 	unnamed Line: end = (-150.0, 0)
+17.6742 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.6942 	EXP 	unnamed Line: start = (-450.0, 0)
+17.6942 	EXP 	unnamed Line: end = (-150.0, 0)
+17.6954 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.7052 	EXP 	unnamed Line: start = (-450.0, 0)
+17.7052 	EXP 	unnamed Line: end = (-150.0, 0)
+17.7062 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.7225 	EXP 	unnamed Line: start = (-450.0, 0)
+17.7225 	EXP 	unnamed Line: end = (-150.0, 0)
+17.7235 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.7411 	EXP 	unnamed Line: start = (-450.0, 0)
+17.7411 	EXP 	unnamed Line: end = (-150.0, 0)
+17.7422 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.7593 	EXP 	unnamed Line: start = (-450.0, 0)
+17.7593 	EXP 	unnamed Line: end = (-150.0, 0)
+17.7605 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.7723 	EXP 	unnamed Line: start = (-450.0, 0)
+17.7723 	EXP 	unnamed Line: end = (-150.0, 0)
+17.7734 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.7895 	EXP 	unnamed Line: start = (-450.0, 0)
+17.7895 	EXP 	unnamed Line: end = (-150.0, 0)
+17.7906 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.8102 	EXP 	unnamed Line: start = (-450.0, 0)
+17.8102 	EXP 	unnamed Line: end = (-150.0, 0)
+17.8114 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.8222 	EXP 	unnamed Line: start = (-450.0, 0)
+17.8222 	EXP 	unnamed Line: end = (-150.0, 0)
+17.8232 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.8406 	EXP 	unnamed Line: start = (-450.0, 0)
+17.8406 	EXP 	unnamed Line: end = (-150.0, 0)
+17.8418 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.8595 	EXP 	unnamed Line: start = (-450.0, 0)
+17.8595 	EXP 	unnamed Line: end = (-150.0, 0)
+17.8607 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.8728 	EXP 	unnamed Line: start = (-450.0, 0)
+17.8728 	EXP 	unnamed Line: end = (-150.0, 0)
+17.8739 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.8888 	EXP 	unnamed Line: start = (-450.0, 0)
+17.8888 	EXP 	unnamed Line: end = (-150.0, 0)
+17.8899 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.9106 	EXP 	unnamed Line: start = (-450.0, 0)
+17.9106 	EXP 	unnamed Line: end = (-150.0, 0)
+17.9118 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.9221 	EXP 	unnamed Line: start = (-450.0, 0)
+17.9221 	EXP 	unnamed Line: end = (-150.0, 0)
+17.9230 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.9416 	EXP 	unnamed Line: start = (-450.0, 0)
+17.9416 	EXP 	unnamed Line: end = (-150.0, 0)
+17.9426 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.9586 	EXP 	unnamed Line: start = (-450.0, 0)
+17.9586 	EXP 	unnamed Line: end = (-150.0, 0)
+17.9598 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.9723 	EXP 	unnamed Line: start = (-450.0, 0)
+17.9723 	EXP 	unnamed Line: end = (-150.0, 0)
+17.9734 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+17.9896 	EXP 	unnamed Line: start = (-450.0, 0)
+17.9896 	EXP 	unnamed Line: end = (-150.0, 0)
+17.9907 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.0089 	EXP 	unnamed Line: start = (-450.0, 0)
+18.0089 	EXP 	unnamed Line: end = (-150.0, 0)
+18.0101 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.0227 	EXP 	unnamed Line: start = (-450.0, 0)
+18.0227 	EXP 	unnamed Line: end = (-150.0, 0)
+18.0238 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.0402 	EXP 	unnamed Line: start = (-450.0, 0)
+18.0402 	EXP 	unnamed Line: end = (-150.0, 0)
+18.0412 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.0596 	EXP 	unnamed Line: start = (-450.0, 0)
+18.0596 	EXP 	unnamed Line: end = (-150.0, 0)
+18.0608 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.0727 	EXP 	unnamed Line: start = (-450.0, 0)
+18.0727 	EXP 	unnamed Line: end = (-150.0, 0)
+18.0737 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.0894 	EXP 	unnamed Line: start = (-450.0, 0)
+18.0894 	EXP 	unnamed Line: end = (-150.0, 0)
+18.0906 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.1106 	EXP 	unnamed Line: start = (-450.0, 0)
+18.1106 	EXP 	unnamed Line: end = (-150.0, 0)
+18.1117 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.1224 	EXP 	unnamed Line: start = (-450.0, 0)
+18.1224 	EXP 	unnamed Line: end = (-150.0, 0)
+18.1236 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.1405 	EXP 	unnamed Line: start = (-450.0, 0)
+18.1405 	EXP 	unnamed Line: end = (-150.0, 0)
+18.1416 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.1587 	EXP 	unnamed Line: start = (-450.0, 0)
+18.1587 	EXP 	unnamed Line: end = (-150.0, 0)
+18.1598 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.1730 	EXP 	unnamed Line: start = (-450.0, 0)
+18.1730 	EXP 	unnamed Line: end = (-150.0, 0)
+18.1740 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.1898 	EXP 	unnamed Line: start = (-450.0, 0)
+18.1898 	EXP 	unnamed Line: end = (-150.0, 0)
+18.1908 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.2119 	EXP 	unnamed Line: start = (-450.0, 0)
+18.2119 	EXP 	unnamed Line: end = (-150.0, 0)
+18.2130 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.2227 	EXP 	unnamed Line: start = (-450.0, 0)
+18.2227 	EXP 	unnamed Line: end = (-150.0, 0)
+18.2237 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.2397 	EXP 	unnamed Line: start = (-450.0, 0)
+18.2397 	EXP 	unnamed Line: end = (-150.0, 0)
+18.2407 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.2587 	EXP 	unnamed Line: start = (-450.0, 0)
+18.2587 	EXP 	unnamed Line: end = (-150.0, 0)
+18.2598 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.2727 	EXP 	unnamed Line: start = (-450.0, 0)
+18.2727 	EXP 	unnamed Line: end = (-150.0, 0)
+18.2739 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.2897 	EXP 	unnamed Line: start = (-450.0, 0)
+18.2897 	EXP 	unnamed Line: end = (-150.0, 0)
+18.2907 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.3071 	EXP 	unnamed Line: start = (-450.0, 0)
+18.3071 	EXP 	unnamed Line: end = (-150.0, 0)
+18.3082 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.3290 	EXP 	unnamed Line: start = (-450.0, 0)
+18.3290 	EXP 	unnamed Line: end = (-150.0, 0)
+18.3302 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.3409 	EXP 	unnamed Line: start = (-450.0, 0)
+18.3409 	EXP 	unnamed Line: end = (-150.0, 0)
+18.3423 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.3599 	EXP 	unnamed Line: start = (-450.0, 0)
+18.3599 	EXP 	unnamed Line: end = (-150.0, 0)
+18.3611 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.3722 	EXP 	unnamed Line: start = (-450.0, 0)
+18.3722 	EXP 	unnamed Line: end = (-150.0, 0)
+18.3732 	EXP 	Created unnamed Line = Line(__class__=<class 'psychopy.visual.line.Line'>, autoDraw=False, autoLog=True, closeShape=False, color=array([-1, -1, -1]), colorSpace='rgb', contrast=None, depth=0, fillColor=array([0, 0, 0]), fillColorSpace='rgb', fillRGB=UNKNOWN, interpolate=True, lineColor=array([-1, -1, -1]), lineColorSpace='rgb', lineRGB=UNKNOWN, lineWidth=4.0, name='unnamed Line', opacity=0.5, ori=0.0, pos=array([0., 0.]), size=array([1., 1.]), units='pix', vertices=array([[-0.5, -0.5],
+       [ 0.5,  0.5]]), win=Window(...), windingRule=None)
+18.3890 	EXP 	unnamed Line: start = (-450.0, 0)
+18.3890 	EXP 	unnamed Line: end = (-150.0, 0)
+18.7743 	DATA 	Keypress: escape
+18.9946 	EXP 	window1: mouseVisible = True
