@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Mon 19 Jul 2021 12:56:21 PM EDT
+    on Mon 19 Jul 2021 01:42:58 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -116,7 +116,10 @@ def draw_line(start_coord, end_coord, width):
 def refresh_width_combinations(n_lines, max_width):
     total_widths = np.linspace(1, max_width, n_lines)
     combinations = list(itertools.combinations(total_widths, 2))
-    combinations += [(x, x) for x in total_widths]
+    identical_pairs = [(x, x) for x in total_widths] 
+    target_identical_pairs = (len(combinations) / .65) - len(combinations)
+    
+    combinations += [(x, x) for x in total_widths] * round(target_identical_pairs / len(identical_pairs))
     
     return combinations
     
@@ -225,6 +228,16 @@ ISITimer = visual.TextStim(win=win, name='ISITimer',
     text='',
     font='Arial',
     pos=(0, 0), height=0.025, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=-1.0);
+
+# Initialize components for Routine "check_2"
+check_2Clock = core.Clock()
+text = visual.TextStim(win=win, name='text',
+    text='',
+    font='Open Sans',
+    pos=(0, 0), height=0.1, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
@@ -444,7 +457,7 @@ for thisBlock in blocks:
         
     ## fill width array
     line_widths = refresh_width_combinations(n_lines, max_width)
-    BlockText.setText('You are about to start block ' + str(block_count) + ' of 2.\nEach block has 280 trials. Youll see a trial update after every 50 trials to help keep you sane.\nPress the space bar to continue.')
+    BlockText.setText('You are about to start block ' + str(block_count) + ' of 2.\nEach block has 328 trials. Youll see a trial update after every 50 trials to help keep you sane.\nPress the space bar to continue.')
     key_resp_2.keys = []
     key_resp_2.rt = []
     _key_resp_2_allKeys = []
@@ -538,7 +551,7 @@ for thisBlock in blocks:
     routineTimer.reset()
     
     # set up handler to look after randomisation of conditions etc
-    trials = data.TrialHandler(nReps=70.0, method='random', 
+    trials = data.TrialHandler(nReps=82.0, method='random', 
         extraInfo=expInfo, originPath=-1,
         trialList=data.importConditions('conditions.csv'),
         seed=None, name='trials')
@@ -650,6 +663,71 @@ for thisBlock in blocks:
                 thisComponent.setAutoDraw(False)
         trials.addData('ISITimer.started', ISITimer.tStartRefresh)
         trials.addData('ISITimer.stopped', ISITimer.tStopRefresh)
+        
+        # ------Prepare to start Routine "check_2"-------
+        continueRoutine = True
+        # update component parameters for each repeat
+        identical_pairs = len([x for x in line_widths if x[0] == x[1]]) / len(line_widths)
+        non_identical_pairs = len([x for x in line_widths if x[0] != x[1]]) / len(line_widths)
+        text.setText('%identical: {}\n\n%not identical {}'.format(identical_pairs, non_identical_pairs))
+        # keep track of which components have finished
+        check_2Components = [text]
+        for thisComponent in check_2Components:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        check_2Clock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+        frameN = -1
+        
+        # -------Run Routine "check_2"-------
+        while continueRoutine:
+            # get current time
+            t = check_2Clock.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=check_2Clock)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *text* updates
+            if text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                text.frameNStart = frameN  # exact frame index
+                text.tStart = t  # local t and not account for scr refresh
+                text.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
+                text.setAutoDraw(True)
+            
+            # check for quit (typically the Esc key)
+            if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+                core.quit()
+            
+            # check if all components have finished
+            if not continueRoutine:  # a component has requested a forced-end of Routine
+                break
+            continueRoutine = False  # will revert to True if at least one component still running
+            for thisComponent in check_2Components:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # -------Ending Routine "check_2"-------
+        for thisComponent in check_2Components:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        trials.addData('text.started', text.tStartRefresh)
+        trials.addData('text.stopped', text.tStopRefresh)
+        # the Routine "check_2" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
         
         # ------Prepare to start Routine "sequential_line1"-------
         continueRoutine = True
@@ -1067,7 +1145,7 @@ for thisBlock in blocks:
         routineTimer.reset()
         thisExp.nextEntry()
         
-    # completed 70.0 repeats of 'trials'
+    # completed 82.0 repeats of 'trials'
     
     thisExp.nextEntry()
     
