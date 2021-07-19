@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Wed 30 Jun 2021 02:40:05 PM EDT
+    on Thu 15 Jul 2021 10:39:33 AM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -29,6 +29,8 @@ import sys  # to get file system encoding
 from psychopy.hardware import keyboard
 
 import psychopy
+import math
+
 
 
 # Ensure that relative paths start from the same directory as this script
@@ -52,7 +54,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='/home/dave/Dropbox (Lehigh University)/Spring_2021/NHI/summer_2021/nhi-experiments/visual-search/exp1/production/line_test_lastrun.py',
+    originPath='draw_lines_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -157,9 +159,10 @@ while continueRoutine:
             key_resp.rt = _key_resp_allKeys[-1].rt
             # a response ends the routine
             continueRoutine = False
+    # xx = x + (d * cos(alpha))
     
-    line_drawer(width_max = 4, width_min = 1)
-    line_drawer(width_max = 4, width_min = 1, starting_point_y = -20, x_shift = 60)
+    line_drawer(width_max = 4, width_min = 1, n_lines = 20)
+    line_drawer(width_max = 4, width_min = 1, starting_point_y = -20, x_shift = 200, n_lines = 20)
     
     
     

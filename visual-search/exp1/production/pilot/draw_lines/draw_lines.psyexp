@@ -53,14 +53,14 @@
         <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
       </KeyboardComponent>
       <CodeComponent name="line_drawer">
-        <Param name="Before Experiment" updates="constant" val="import psychopy" valType="extendedCode"/>
+        <Param name="Before Experiment" updates="constant" val="import psychopy&amp;#10;import math&amp;#10;" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Experiment" updates="constant" val="def line_drawer(width_min, width_max, space_between = 50, starting_point_x = -500, starting_point_y = 200, n_lines = 12, x_shift = 0):&amp;#10;&amp;#10;    width_vector = np.linspace(width_min, width_max, num = n_lines)&amp;#10;&amp;#10;    for line_width, _ in zip(width_vector, range(n_lines)):&amp;#10;        line = psychopy.visual.Line(&amp;#10;        win = win,&amp;#10;        units='pix',&amp;#10;        lineColor=[-1, -1, -1],&amp;#10;        lineWidth = line_width&amp;#10;        )&amp;#10;&amp;#10;        line.start = [starting_point_x, starting_point_y]&amp;#10;        line.end = [starting_point_x + x_shift, starting_point_y - 200] &amp;#10;        line.draw()&amp;#10;        &amp;#10;        starting_point_x += 50" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="&amp;#10;line_drawer(width_max = 4, width_min = 1)&amp;#10;line_drawer(width_max = 4, width_min = 1, starting_point_y = -20, x_shift = 60)&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="# xx = x + (d * cos(alpha))&amp;#10;&amp;#10;line_drawer(width_max = 4, width_min = 1, n_lines = 20)&amp;#10;line_drawer(width_max = 4, width_min = 1, starting_point_y = -20, x_shift = 200, n_lines = 20)&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Tue 13 Jul 2021 01:12:55 PM EDT
+    on Mon 19 Jul 2021 12:10:21 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -85,6 +85,7 @@ GlobalDefsClock = core.Clock()
 import psychopy
 import time
 import random
+import itertools
 
 def determine_diagonal(start_coord_left_line, length, x_direction, y_direction):
     x_shift = 1 if x_direction == 'right' else -1
@@ -111,6 +112,13 @@ def draw_line(start_coord, end_coord, width):
     line.end = end_coord
     line.draw()
     
+    
+def refresh_width_combinations(n_lines, max_width):
+    total_widths = np.linspace(1, max_width, n_lines)
+    combinations = list(itertools.combinations(total_widths, 2))
+    combinations += [(x, x) for x in total_widths]
+    
+    return combinations
     
     
     
@@ -210,6 +218,16 @@ ISITimer = visual.TextStim(win=win, name='ISITimer',
 
 
 
+# Initialize components for Routine "check"
+checkClock = core.Clock()
+text_4 = visual.TextStim(win=win, name='text_4',
+    text='',
+    font='Open Sans',
+    pos=(0, 0), height=0.1, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=0.0);
+
 # Initialize components for Routine "sequential_line1"
 sequential_line1Clock = core.Clock()
 FirstLineTimer = visual.TextStim(win=win, name='FirstLineTimer',
@@ -237,6 +255,9 @@ SeqResponse = keyboard.Keyboard()
 # Initialize components for Routine "simultaneous"
 simultaneousClock = core.Clock()
 ResponseSimul = keyboard.Keyboard()
+
+# Initialize components for Routine "save_data"
+save_dataClock = core.Clock()
 
 # Create some handy timers
 globalClock = core.Clock()  # to track the time since experiment started
@@ -324,7 +345,7 @@ for thisBlock in blocks:
         current_block = second_block
         
     ## fill width array
-    line_widths = np.linspace(1, max_width, n_lines)
+    line_widths = refresh_width_combinations(n_lines, max_width)
     key_resp_2.keys = []
     key_resp_2.rt = []
     _key_resp_2_allKeys = []
@@ -420,7 +441,7 @@ for thisBlock in blocks:
     # set up handler to look after randomisation of conditions etc
     trials = data.TrialHandler(nReps=10.0, method='random', 
         extraInfo=expInfo, originPath=-1,
-        trialList=data.importConditions('conditions.xlsx'),
+        trialList=data.importConditions('conditions.csv'),
         seed=None, name='trials')
     thisExp.addLoop(trials)  # add the loop to the experiment
     thisTrial = trials.trialList[0]  # so we can initialise stimuli with some values
@@ -440,39 +461,29 @@ for thisBlock in blocks:
         continueRoutine = True
         routineTimer.add(0.500000)
         # update component parameters for each repeat
-        ISITimer.setText(line_orientation)
+        ISITimer.setText('\n')
         
         start_left_line = RotationCondition[line_orientation][0][0]
         end_left_line = RotationCondition[line_orientation][0][1]
         start_right_line = RotationCondition[line_orientation][1][0]
         end_right_line = RotationCondition[line_orientation][1][1]
         
-        if width_position == 'equal':
-            try:
-                left_width = right_width = random.choice(line_widths)
-            except:
-                line_widths = np.linspace(1, max_width, n_lines)
-                left_width = right_width = random.choice(line_widths)
-            line_widths.remove(left_width)
+        ## choose combination
+        try:
+            choice = random.choice(line_widths)
+        except:
+            line_widths = refresh_width_combinations(n_lines, max_width)
+            choice = random.choice(line_widths)
+        line_widths.remove(choice)
         
-        else: 
-            try:
-                choice1 = random.choice(line_widths)
-                choice2 = random.choice(line_widths)
-            except:
-                line_widths = np.linspace(1, max_width, n_lines)
-                choice1 = random.choice(line_widths)
-                choice2 = random.choice(line_widths)
-            if width_position == 'left_thicker':
-                left_width = choice1 if choice1 > choice2 else choice2
-                right_width = choice1 if choice1 < choice2 else choice2
-            else:
-                left_width = choice1 if choice1 > choice2 else choice2
-                right_width = choice1 if choice1 < choice2 else choice2
-        
-        
-        
-        
+        flip = np.random.uniform() > .5
+        if flip:
+            left_width = choice[0]
+            right_width = choice[1]
+        else:
+            left_width = choice[1]
+            right_width = choice[0]
+            
         
         # keep track of which components have finished
         ISIComponents = [ISITimer]
@@ -539,21 +550,95 @@ for thisBlock in blocks:
         trials.addData('ISITimer.started', ISITimer.tStartRefresh)
         trials.addData('ISITimer.stopped', ISITimer.tStopRefresh)
         
+        # ------Prepare to start Routine "check"-------
+        continueRoutine = True
+        routineTimer.add(1.500000)
+        # update component parameters for each repeat
+        text_4.setText(width_position + '\n' + str(left_width) + '\n' + str(right_width))
+        # keep track of which components have finished
+        checkComponents = [text_4]
+        for thisComponent in checkComponents:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        checkClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+        frameN = -1
+        
+        # -------Run Routine "check"-------
+        while continueRoutine and routineTimer.getTime() > 0:
+            # get current time
+            t = checkClock.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=checkClock)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # *text_4* updates
+            if text_4.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                # keep track of start time/frame for later
+                text_4.frameNStart = frameN  # exact frame index
+                text_4.tStart = t  # local t and not account for scr refresh
+                text_4.tStartRefresh = tThisFlipGlobal  # on global time
+                win.timeOnFlip(text_4, 'tStartRefresh')  # time at next scr refresh
+                text_4.setAutoDraw(True)
+            if text_4.status == STARTED:
+                # is it time to stop? (based on global clock, using actual start)
+                if tThisFlipGlobal > text_4.tStartRefresh + 1.5-frameTolerance:
+                    # keep track of stop time/frame for later
+                    text_4.tStop = t  # not accounting for scr refresh
+                    text_4.frameNStop = frameN  # exact frame index
+                    win.timeOnFlip(text_4, 'tStopRefresh')  # time at next scr refresh
+                    text_4.setAutoDraw(False)
+            
+            # check for quit (typically the Esc key)
+            if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+                core.quit()
+            
+            # check if all components have finished
+            if not continueRoutine:  # a component has requested a forced-end of Routine
+                break
+            continueRoutine = False  # will revert to True if at least one component still running
+            for thisComponent in checkComponents:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # -------Ending Routine "check"-------
+        for thisComponent in checkComponents:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        trials.addData('text_4.started', text_4.tStartRefresh)
+        trials.addData('text_4.stopped', text_4.tStopRefresh)
+        
         # ------Prepare to start Routine "sequential_line1"-------
         continueRoutine = True
         routineTimer.add(1.000000)
         # update component parameters for each repeat
         
         if np.random.uniform() > .5:
+            first_line_label = 'left'
             first_line = (start_left_line, end_left_line)
             first_line_width = left_width
+            second_line_label = 'right'
             second_line = (start_right_line, end_right_line)
             second_line_width = right_width
         else:
             second_line = (start_left_line, end_left_line)
             second_line_width = left_width
+            second_line_label = 'left'
             first_line = (start_right_line, end_right_line)
             first_line_width = right_width
+            first_line_label = 'right'
         
         
         FirstLineTimer.setText('')
@@ -884,6 +969,69 @@ for thisBlock in blocks:
         trials.addData('ResponseSimul.started', ResponseSimul.tStartRefresh)
         trials.addData('ResponseSimul.stopped', ResponseSimul.tStopRefresh)
         # the Routine "simultaneous" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        
+        # ------Prepare to start Routine "save_data"-------
+        continueRoutine = True
+        # update component parameters for each repeat
+        # keep track of which components have finished
+        save_dataComponents = []
+        for thisComponent in save_dataComponents:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        save_dataClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+        frameN = -1
+        
+        # -------Run Routine "save_data"-------
+        while continueRoutine:
+            # get current time
+            t = save_dataClock.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=save_dataClock)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            
+            # check for quit (typically the Esc key)
+            if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+                core.quit()
+            
+            # check if all components have finished
+            if not continueRoutine:  # a component has requested a forced-end of Routine
+                break
+            continueRoutine = False  # will revert to True if at least one component still running
+            for thisComponent in save_dataComponents:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # -------Ending Routine "save_data"-------
+        for thisComponent in save_dataComponents:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        trials.addData('left_width', left_width)
+        trials.addData('right_width', right_width)
+        trials.addData('global_line_length', length)
+        trials.addData('global_starting_point_left_x', starting_point_left_x)
+        trials.addData('global_distance_between_lines', distance_between_lines)
+        
+        if current_block == 'sequential':
+            trials.addData('first_line_label', first_line_label)
+            trials.addData('second_line_label', second_line_label)
+        else:
+            trials.addData('first_line_label', np.nan)
+            trials.addData('second_line_label', np.nan)
+        # the Routine "save_data" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         thisExp.nextEntry()
         
