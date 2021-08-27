@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Wed 30 Jun 2021 01:11:06 PM EDT
+    on Fri 27 Aug 2021 11:55:02 AM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -33,6 +33,10 @@ import psychopy
 
 class DrawHexGrid:
     '''
+    The general idea here is to think, for any given hexagon I want to draw, what position (eg, top left) in the hex am i starting at, what position do i want to finish at, and what's the starting coordinate
+    Given this information, we rely on the formulas below to draw however many lines are needed to connect the starting position to the ending position
+    In the process, I save out starting coordinates that will be used for the next hexagon and for the first hexagon in a new row, as well as handling some other edge case things
+    
     Formula for calculating coordinates:
     xx = x + (d * cos(alpha))
     yy = y + (d * sin(alpha))
@@ -139,6 +143,7 @@ class DrawHexGrid:
 
     def _define_line_type(self):
         return psychopy.visual.Line(
+            lineWidth = choose_line_width(range_to_width),
             win = win,
             units='pix',
             lineColor=[-1, -1, -1]
@@ -199,6 +204,35 @@ defaultKeyboard = keyboard.Keyboard()
 # Initialize components for Routine "trial1"
 trial1Clock = core.Clock()
 key_resp_2 = keyboard.Keyboard()
+line_width_container = np.linspace(1, 4, 10)
+
+range_to_width = {}
+
+
+'''
+range_to_width = {[0, .02]: line_width_container[0],
+[0.021, .09]: line_width_container[1],
+[0.091, .16]: line_width_container[2],
+
+
+}
+'''
+percentages = [.02, .07, .07] + [.17]*4 + [.07, .07, .02]
+
+base_percentage = 0
+for percentage, line_width in zip(percentages, line_width_container):
+    range_to_width[base_percentage, base_percentage+percentage] = line_width
+    base_percentage += percentage +.001
+    
+
+def choose_line_width(range_to_width):
+    ## draw random from uniform distribution, choose line width
+    
+    random_number  = np.random.uniform()
+    for key in range_to_width:
+        if random_number > key[0]  and random_number < key[1]:
+            return range_to_width[key]
+
 
 # Create some handy timers
 globalClock = core.Clock()  # to track the time since experiment started
@@ -207,6 +241,7 @@ routineTimer = core.CountdownTimer()  # to track time remaining of each (non-sli
 # ------Prepare to start Routine "trial1"-------
 continueRoutine = True
 # update component parameters for each repeat
+lineWidth = 4
 key_resp_2.keys = []
 key_resp_2.rt = []
 _key_resp_2_allKeys = []

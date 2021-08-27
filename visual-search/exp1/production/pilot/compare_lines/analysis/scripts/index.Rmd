@@ -1,3 +1,15 @@
+---
+title: "Pilot heatmap"
+author: 'Dave Braun'
+date: '7-27-2021'
+output: 
+  html_document:
+    code_folding: hide
+    theme: flatly
+    df_print: paged
+---
+
+```{r include = FALSE}
 library(tidyverse)
 library(plotly)
 
@@ -41,27 +53,6 @@ d$right_width <- round(d$right_width, 2)
 d$small_width <- ifelse(d$left_width > d$right_width, d$right_width, d$left_width)
 d$large_width <- ifelse(d$left_width > d$right_width, d$left_width, d$right_width)
 
-
-## visualize
-
-d %>% 
-  unite('combinations', c('small_width', 'large_width'), sep = '-') %>% 
-  group_by(id, combinations) %>% 
-  summarize(accuracy = mean(accuracy)) %>% 
-  group_by(combinations) %>% 
-  summarize(accuracy = mean(accuracy)) %>% 
-  separate(combinations, c('small_width', 'large_width'), sep = '-') %>% 
-  ggplot(aes(x = small_width, y = large_width, fill = accuracy)) + 
-  geom_tile() +
-  labs(
-    x = 'Line 1',
-    y = 'Line 2',
-    fill = 'Accuracy'
-  ) + 
-  theme_bw() 
-  
-
-
 p1 <- d %>% 
   unite('combinations', c('small_width', 'large_width'), sep = '-') %>% 
   group_by(id, combinations, block) %>% 
@@ -79,40 +70,13 @@ p1 <- d %>%
     fill = 'Accuracy'
   ) + 
   theme_bw() +
-  theme(strip.background = element_rect(fill = NA, color = 'black'),
-        text = element_text(size = 20),
-        axis.text.x = element_text(angle = 90))
-
-
-
-gp <- ggplotly(p1, tooltip = 'text')
-
-htmlwidgets::saveWidget(as_widget(gp), 'index.html')
-
-
-## accuracy and rt across blocks and orientations
-
-d %>% 
-  group_by(id, block, line_orientation) %>% 
-  summarize(acc = mean(accuracy)) %>% 
-  group_by(block, line_orientation) %>% 
-  summarize(accuracy = mean(acc), se = sd(acc) / sqrt(N)) %>% 
-  ggplot(aes(x = block, y = accuracy, group = line_orientation)) + 
-  geom_bar(stat = 'identity', aes(fill = line_orientation), position = position_dodge(width = .9)) +
-  geom_errorbar(aes(ymin = accuracy - se, ymax = accuracy + se), width = .5, position = position_dodge(width = .9)) +
-  ylim(0,1) +
-  theme_bw()
+  theme(strip.background = element_rect(fill = NA, color = 'black'))
 
 
 
 
-
-
-
-
-
-
-
-
-
+```
+```{r}
+ggplotly(p1, tooltip = 'text')
+```
 
