@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Fri 27 Aug 2021 11:55:02 AM EDT
+    on Mon 30 Aug 2021 03:18:29 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -30,6 +30,8 @@ from psychopy.hardware import keyboard
 
 import psychopy
 
+## print_line_widths
+## ^ flag for troubleshooting
 
 class DrawHexGrid:
     '''
@@ -41,7 +43,13 @@ class DrawHexGrid:
     xx = x + (d * cos(alpha))
     yy = y + (d * sin(alpha))
     '''
-    def __init__(self, top_left_origin, edge_length = 100, x_count = 5, y_count = 5):
+    def __init__(self, top_left_origin, edge_length = 120, x_count = 4, y_count = 4):
+        ## print_line_widths
+        self.build_diagnostic_container = True
+        self.build_diagnostic_count = 0
+        self.diagnostic_container = []
+        self.diagnostic_widths = []
+        
         self.top_left_origin = top_left_origin
         self.edge_length = edge_length
         self. x_count = x_count
@@ -59,8 +67,21 @@ class DrawHexGrid:
     def make_grid(self):
         for row in range(self.y_count):
             for col in range(self.x_count):
+                ## print_line_widths
+                self.row = row
+                self.col = col
+                
                 ## if it's the first hex
                 if not row and not col:
+                    ## print_line_widths
+                    if self.build_diagnostic_count:
+                        self.build_diagnostic_container = False
+                    else:
+                        self.build_diagnostic_count += 1
+                    
+                    ## reset the line width drawer
+                    self.line_width_container_draw = copy.deepcopy(line_width_container_original)
+                    
                     self._draw_hex('top_left', 'top_left', self.top_left_origin)
                     self.first_row_start_coord = self._coord_calculator(self.top_left_origin, 'top_left', 2)
                     self.new_hex_start_coord = self._coord_calculator(self.top_left_origin, 'top_left', 3)
@@ -119,13 +140,18 @@ class DrawHexGrid:
             
     
     def _draw_hex(self, start_pos, end_pos, start_coord):
-        ## draws a line from start_pos to end_pos
+        ## print_line_widths
 
+        
+        ## draws a line from start_pos to end_pos
         new_point_list = self._rearrange_point_list(start_pos)
 
         for position in new_point_list:
             if start_pos != end_pos and position == end_pos:
                 break
+                
+            if self.build_diagnostic_container:
+                self.diagnostic_container.append(['{}-{}-{}'.format(self.col, self.row, start_pos)])
             
             line = self._define_line_type()
             line.start = start_coord
@@ -142,13 +168,28 @@ class DrawHexGrid:
         return self.point_list[self.point_list.index(start_pos):] + self.point_list[:self.point_list.index(start_pos)-1]
 
     def _define_line_type(self):
+        if not self.line_width_container_draw:
+            self.line_width_container_draw = copy.deepcopy(line_width_container_original)
+        #lineWidth = self.line_width_container_draw.pop(0)
+        ## print_line_widths
+        lineWidth = self.line_width_container_draw[0]
+        if lineWidth is None:
+            self.diagnostic_widths = self.line_width_container_draw
+        else:
+            del self.line_width_container_draw[0]
+        
+        ## print_line_widths
+        if self.build_diagnostic_container:
+            self.diagnostic_container[-1].append(lineWidth)
+            
         return psychopy.visual.Line(
-            lineWidth = choose_line_width(range_to_width),
+            lineWidth = lineWidth,
             win = win,
             units='pix',
             lineColor=[-1, -1, -1]
             )
 
+import copy
 
 
 # Ensure that relative paths start from the same directory as this script
@@ -186,9 +227,9 @@ frameTolerance = 0.001  # how close to onset before 'same' frame
 
 # Setup the Window
 win = visual.Window(
-    size=(1024, 768), fullscr=True, screen=0, 
+    size=[1920, 1080], fullscr=True, screen=0, 
     winType='pyglet', allowGUI=False, allowStencil=False,
-    monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
+    monitor='testMonitor', color=[0.75,0.75,0.75], colorSpace='rgb',
     blendMode='avg', useFBO=True, 
     units='height')
 # store frame rate of monitor if we can measure it
@@ -205,33 +246,34 @@ defaultKeyboard = keyboard.Keyboard()
 trial1Clock = core.Clock()
 key_resp_2 = keyboard.Keyboard()
 line_width_container = np.linspace(1, 4, 10)
+#line_width_container = [round(x, 4) for x in line_width_container]
+
 
 range_to_width = {}
 
-
-'''
-range_to_width = {[0, .02]: line_width_container[0],
-[0.021, .09]: line_width_container[1],
-[0.091, .16]: line_width_container[2],
-
-
-}
-'''
 percentages = [.02, .07, .07] + [.17]*4 + [.07, .07, .02]
 
 base_percentage = 0
 for percentage, line_width in zip(percentages, line_width_container):
     range_to_width[base_percentage, base_percentage+percentage] = line_width
-    base_percentage += percentage +.001
+    base_percentage += percentage +.000001
     
 
-def choose_line_width(range_to_width):
+def choose_line_width():
     ## draw random from uniform distribution, choose line width
-    
-    random_number  = np.random.uniform()
+    random_number  = round(np.random.uniform(), 3)
     for key in range_to_width:
-        if random_number > key[0]  and random_number < key[1]:
+        if random_number >= key[0]  and random_number < key[1]:
             return range_to_width[key]
+
+
+## initialize full container
+line_width_container_original = []
+
+for i in range(400):
+    line_width_container_original.append(choose_line_width())
+    
+
 
 
 # Create some handy timers
@@ -245,6 +287,13 @@ lineWidth = 4
 key_resp_2.keys = []
 key_resp_2.rt = []
 _key_resp_2_allKeys = []
+line_width_container_original = []
+
+for i in range(400):
+    line_width_container_original.append(choose_line_width())
+    
+
+
 # keep track of which components have finished
 trial1Components = [key_resp_2]
 for thisComponent in trial1Components:

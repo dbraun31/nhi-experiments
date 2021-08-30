@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Wed 30 Jun 2021 01:16:04 PM EDT
+    on Mon 30 Aug 2021 12:03:24 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -33,6 +33,10 @@ import psychopy
 
 class DrawHexGrid:
     '''
+    The general idea here is to think, for any given hexagon I want to draw, what position (eg, top left) in the hex am i starting at, what position do i want to finish at, and what's the starting coordinate
+    Given this information, we rely on the formulas below to draw however many lines are needed to connect the starting position to the ending position
+    In the process, I save out starting coordinates that will be used for the next hexagon and for the first hexagon in a new row, as well as handling some other edge case things
+    
     Formula for calculating coordinates:
     xx = x + (d * cos(alpha))
     yy = y + (d * sin(alpha))
@@ -57,6 +61,9 @@ class DrawHexGrid:
             for col in range(self.x_count):
                 ## if it's the first hex
                 if not row and not col:
+                    ## reset the line width drawer
+                    self.line_width_container_draw = copy.deepcopy(line_width_container_original)
+                    
                     self._draw_hex('top_left', 'top_left', self.top_left_origin)
                     self.first_row_start_coord = self._coord_calculator(self.top_left_origin, 'top_left', 2)
                     self.new_hex_start_coord = self._coord_calculator(self.top_left_origin, 'top_left', 3)
@@ -138,12 +145,17 @@ class DrawHexGrid:
         return self.point_list[self.point_list.index(start_pos):] + self.point_list[:self.point_list.index(start_pos)-1]
 
     def _define_line_type(self):
+        if not self.line_width_container_draw:
+            self.line_width_container_draw = copy.deepcopy(line_width_container_original)
+        lineWidth = self.line_width_container_draw.pop(0)
         return psychopy.visual.Line(
+            lineWidth = lineWidth,
             win = win,
             units='pix',
             lineColor=[-1, -1, -1]
             )
 
+import copy
 
 
 # Ensure that relative paths start from the same directory as this script
@@ -199,6 +211,32 @@ defaultKeyboard = keyboard.Keyboard()
 # Initialize components for Routine "trial1"
 trial1Clock = core.Clock()
 key_resp_2 = keyboard.Keyboard()
+line_width_container = np.linspace(1.5, 4, 10)
+
+range_to_width = {}
+
+percentages = [.02, .07, .07] + [.17]*4 + [.07, .07, .02]
+
+base_percentage = 0
+for percentage, line_width in zip(percentages, line_width_container):
+    range_to_width[base_percentage, base_percentage+percentage] = line_width
+    base_percentage += percentage +.001
+    
+
+def choose_line_width():
+    ## draw random from uniform distribution, choose line width
+    random_number  = np.random.uniform()
+    for key in range_to_width:
+        if random_number > key[0]  and random_number < key[1]:
+            return range_to_width[key]
+
+text = visual.TextStim(win=win, name='text',
+    text=[print(str(x) + '\n') for x in line_width_container_original[:94]],
+    font='Open Sans',
+    pos=(-2,0), height=0.1, wrapWidth=None, ori=0.0, 
+    color='white', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=-4.0);
 
 # Create some handy timers
 globalClock = core.Clock()  # to track the time since experiment started
@@ -207,11 +245,19 @@ routineTimer = core.CountdownTimer()  # to track time remaining of each (non-sli
 # ------Prepare to start Routine "trial1"-------
 continueRoutine = True
 # update component parameters for each repeat
+lineWidth = 4
 key_resp_2.keys = []
 key_resp_2.rt = []
 _key_resp_2_allKeys = []
+line_width_container_original = []
+
+for i in range(400):
+    line_width_container_original.append(choose_line_width())
+    
+
+
 # keep track of which components have finished
-trial1Components = [key_resp_2]
+trial1Components = [key_resp_2, text]
 for thisComponent in trial1Components:
     thisComponent.tStart = None
     thisComponent.tStop = None
@@ -268,6 +314,15 @@ while continueRoutine:
             # a response ends the routine
             continueRoutine = False
     
+    # *text* updates
+    if text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        text.frameNStart = frameN  # exact frame index
+        text.tStart = t  # local t and not account for scr refresh
+        text.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
+        text.setAutoDraw(True)
+    
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
         core.quit()
@@ -298,6 +353,8 @@ if key_resp_2.keys != None:  # we had a response
 thisExp.addData('key_resp_2.started', key_resp_2.tStartRefresh)
 thisExp.addData('key_resp_2.stopped', key_resp_2.tStopRefresh)
 thisExp.nextEntry()
+thisExp.addData('text.started', text.tStartRefresh)
+thisExp.addData('text.stopped', text.tStopRefresh)
 # the Routine "trial1" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
