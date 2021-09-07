@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Wed 01 Sep 2021 10:53:01 AM EDT
+    on Tue 07 Sep 2021 11:41:21 AM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -85,7 +85,7 @@ trialClock = core.Clock()
 import psychopy
 key_resp = keyboard.Keyboard()
 text = visual.TextStim(win=win, name='text',
-    text='',
+    text=None,
     font='Open Sans',
     pos=(0, 0), height=0.1, wrapWidth=None, ori=0.0, 
     color='white', colorSpace='rgb', opacity=None, 
@@ -100,8 +100,8 @@ routineTimer = core.CountdownTimer()  # to track time remaining of each (non-sli
 continueRoutine = True
 # update component parameters for each repeat
 mouse = psychopy.event.Mouse(win = win)
-sample_text = ''
-
+dummy_var = 0
+'''
 line = psychopy.visual.Line(
 win = win,
 units = 'pix',
@@ -109,21 +109,42 @@ lineWidth = 4,
 lineColor = [-1, -1, -1],
 autoDraw = True
 )
+'''
+
+line2 = psychopy.visual.Line(
+win = win,
+units = 'pix',
+lineWidth = 1.5,
+autoDraw = True,
+opacity = 1,
+lineColor = [-1, -1, -1]
+)
+
+
 
 rect = psychopy.visual.Rect(
 win = win,
 units = 'pix',
-width = 200,
+width = 30,
 height = 200,
 lineColor = [-1,-1,1],
-autoDraw = True
+autoDraw = True,
+ori = 45
 )
 rect.draw()
 
-line.start = [100, 100]
-line.end= [-100, -100]
 
-line.draw()
+#line.start = [100, 100]
+#line.end= [-100, -100]
+
+line2.start = [100, 100]
+line2.end= [-100, -100]
+
+#line.draw()
+line2.draw()
+
+my_text = line2.vertices
+
 #win.flip()
 #psychopy.event.waitKeys()
 #win.flip()
@@ -153,8 +174,18 @@ while continueRoutine:
     tThisFlipGlobal = win.getFutureFlipTime(clock=None)
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
-    if mouse.isPressedIn(rect):
-        rect.lineColor = [1,-1,-1],
+    
+    
+    if mouse.getPressed()[0]:
+        if rect.contains(mouse.getPos()):
+            line2.lineColor = [1, -1, -1]
+            dummy_var = 1
+    
+    if not dummy_var:
+        if rect.contains(mouse):
+            line2.lineColor = [-1,1,-1]
+        else:
+            line2.lineColor = [-1,-1,-1]
     
     # *key_resp* updates
     waitOnFlip = False
@@ -187,7 +218,7 @@ while continueRoutine:
         win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
         text.setAutoDraw(True)
     if text.status == STARTED:  # only update if drawing
-        text.setText(sample_text)
+        text.setText('')
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):

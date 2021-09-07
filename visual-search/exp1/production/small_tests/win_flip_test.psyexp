@@ -40,9 +40,9 @@
         <Param name="Begin Experiment" updates="constant" val="import psychopy" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="mouse = psychopy.event.Mouse(win = win)&amp;#10;sample_text = ''&amp;#10;&amp;#10;line = psychopy.visual.Line(&amp;#10;win = win,&amp;#10;units = 'pix',&amp;#10;lineWidth = 4,&amp;#10;lineColor = [-1, -1, -1],&amp;#10;autoDraw = True&amp;#10;)&amp;#10;&amp;#10;rect = psychopy.visual.Rect(&amp;#10;win = win,&amp;#10;units = 'pix',&amp;#10;width = 200,&amp;#10;height = 200,&amp;#10;lineColor = [-1,-1,1],&amp;#10;autoDraw = True&amp;#10;)&amp;#10;rect.draw()&amp;#10;&amp;#10;line.start = [100, 100]&amp;#10;line.end= [-100, -100]&amp;#10;&amp;#10;line.draw()&amp;#10;#win.flip()&amp;#10;#psychopy.event.waitKeys()&amp;#10;#win.flip()" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="mouse = psychopy.event.Mouse(win = win)&amp;#10;dummy_var = 0&amp;#10;'''&amp;#10;line = psychopy.visual.Line(&amp;#10;win = win,&amp;#10;units = 'pix',&amp;#10;lineWidth = 4,&amp;#10;lineColor = [-1, -1, -1],&amp;#10;autoDraw = True&amp;#10;)&amp;#10;'''&amp;#10;&amp;#10;line2 = psychopy.visual.Line(&amp;#10;win = win,&amp;#10;units = 'pix',&amp;#10;lineWidth = 1.5,&amp;#10;autoDraw = True,&amp;#10;opacity = 1,&amp;#10;lineColor = [-1, -1, -1]&amp;#10;)&amp;#10;&amp;#10;&amp;#10;&amp;#10;rect = psychopy.visual.Rect(&amp;#10;win = win,&amp;#10;units = 'pix',&amp;#10;width = 30,&amp;#10;height = 200,&amp;#10;lineColor = [-1,-1,1],&amp;#10;autoDraw = True,&amp;#10;ori = 45&amp;#10;)&amp;#10;rect.draw()&amp;#10;&amp;#10;&amp;#10;#line.start = [100, 100]&amp;#10;#line.end= [-100, -100]&amp;#10;&amp;#10;line2.start = [100, 100]&amp;#10;line2.end= [-100, -100]&amp;#10;&amp;#10;#line.draw()&amp;#10;line2.draw()&amp;#10;&amp;#10;my_text = line2.vertices&amp;#10;&amp;#10;#win.flip()&amp;#10;#psychopy.event.waitKeys()&amp;#10;#win.flip()" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="if mouse.isPressedIn(rect):&amp;#10;    rect.lineColor = [1,-1,-1]," valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="&amp;#10;&amp;#10;if mouse.getPressed()[0]:&amp;#10;    if rect.contains(mouse.getPos()):&amp;#10;        line2.lineColor = [1, -1, -1]&amp;#10;        dummy_var = 1&amp;#10;&amp;#10;if not dummy_var:&amp;#10;    if rect.contains(mouse):&amp;#10;        line2.lineColor = [-1,1,-1]&amp;#10;    else:&amp;#10;        line2.lineColor = [-1,-1,-1]" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
@@ -90,7 +90,7 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val="" valType="num"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="set every frame" val="$sample_text" valType="str"/>
+        <Param name="text" updates="set every frame" val="" valType="str"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="num"/>
       </TextComponent>

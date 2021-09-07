@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Mon 30 Aug 2021 12:03:24 PM EDT
+    on Tue 07 Sep 2021 12:32:04 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -28,7 +28,68 @@ import sys  # to get file system encoding
 
 from psychopy.hardware import keyboard
 
+lines_rectangles_counter = 0
+lines_rectangles_container = []
+import copy
+
+
+# Ensure that relative paths start from the same directory as this script
+_thisDir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(_thisDir)
+
+# Store info about the experiment session
+psychopyVersion = '2021.1.4'
+expName = 'visual-search_exp1'  # from the Builder filename that created this script
+expInfo = {'participant': '', 'session': '001'}
+dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
+if dlg.OK == False:
+    core.quit()  # user pressed cancel
+expInfo['date'] = data.getDateStr()  # add a simple timestamp
+expInfo['expName'] = expName
+expInfo['psychopyVersion'] = psychopyVersion
+
+# Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
+filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])
+
+# An ExperimentHandler isn't essential but helps with data saving
+thisExp = data.ExperimentHandler(name=expName, version='',
+    extraInfo=expInfo, runtimeInfo=None,
+    originPath='visual-search_exp1.py',
+    savePickle=True, saveWideText=True,
+    dataFileName=filename)
+# save a log file for detail verbose info
+logFile = logging.LogFile(filename+'.log', level=logging.EXP)
+logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
+
+endExpNow = False  # flag for 'escape' or other condition => quit the exp
+frameTolerance = 0.001  # how close to onset before 'same' frame
+
+# Start Code - component code to be run after the window creation
+
+# Setup the Window
+win = visual.Window(
+    size=[1920, 1080], fullscr=True, screen=1, 
+    winType='pyglet', allowGUI=False, allowStencil=False,
+    monitor='testMonitor', color=[0.75,0.75,0.75], colorSpace='rgb',
+    blendMode='avg', useFBO=True, 
+    units='height')
+# store frame rate of monitor if we can measure it
+expInfo['frameRate'] = win.getActualFrameRate()
+if expInfo['frameRate'] != None:
+    frameDur = 1.0 / round(expInfo['frameRate'])
+else:
+    frameDur = 1.0 / 60.0  # could not measure, so guess
+
+# create a default keyboard (e.g. to check for escape)
+defaultKeyboard = keyboard.Keyboard()
+
+# Initialize components for Routine "trial1"
+trial1Clock = core.Clock()
 import psychopy
+
+## print_line_widths
+## ^ flag for troubleshooting
+
 
 
 class DrawHexGrid:
@@ -41,7 +102,13 @@ class DrawHexGrid:
     xx = x + (d * cos(alpha))
     yy = y + (d * sin(alpha))
     '''
-    def __init__(self, top_left_origin, edge_length = 100, x_count = 5, y_count = 5):
+    def __init__(self, top_left_origin, edge_length = 120, x_count = 4, y_count = 4):
+        ## print_line_widths
+        self.build_diagnostic_container = True
+        self.build_diagnostic_count = 0
+        self.diagnostic_container = []
+        self.diagnostic_widths = []
+
         self.top_left_origin = top_left_origin
         self.edge_length = edge_length
         self. x_count = x_count
@@ -55,12 +122,25 @@ class DrawHexGrid:
 'top_right': '[start_coord[0] - self.edge_length * cos(120), start_coord[1] + self.edge_length * sin(120)]',
 'top': '[start_coord[0] - self.edge_length * cos(120), start_coord[1] - self.edge_length * sin(120)]'
 }
+        self.angle_dictionary = {
+        'top_left': 0,
+        'bottom_left': -55,
+        'bottom': 55,
+        'bottom_right': 0,
+        'top_right': -55,
+        'top': 55
+        }
         
     def make_grid(self):
         for row in range(self.y_count):
             for col in range(self.x_count):
+                ## print_line_widths
+                self.row = row
+                self.col = col
+                
                 ## if it's the first hex
                 if not row and not col:
+              
                     ## reset the line width drawer
                     self.line_width_container_draw = copy.deepcopy(line_width_container_original)
                     
@@ -104,7 +184,6 @@ class DrawHexGrid:
                     self._draw_hex('bottom_left', end_pos, self.new_hex_start_coord)
                     self.new_hex_start_coord = self._coord_calculator(self.new_hex_start_coord, 'bottom_left', 2)
 
-
                     
     def _coord_calculator(self, start_coord, start_pos, n_turns):
         ## takes in a starting coordinate, starting pos, and number of calcs to do
@@ -122,19 +201,79 @@ class DrawHexGrid:
             
     
     def _draw_hex(self, start_pos, end_pos, start_coord):
+        
         ## draws a line from start_pos to end_pos
-
         new_point_list = self._rearrange_point_list(start_pos)
 
         for position in new_point_list:
             if start_pos != end_pos and position == end_pos:
                 break
+                
+            if self.build_diagnostic_container:
+                self.diagnostic_container.append(['{}-{}-{}'.format(self.col, self.row, start_pos)])
             
             line = self._define_line_type()
             line.start = start_coord
             line.end = eval(self.point_dictionary[position])
-            start_coord= line.end
             line.draw()
+            ## draw rect
+            is_exterior = self._determine_exterior(self.row, self.col, self.x_count, self.y_count, position)
+            
+
+            lines_rectangles_container.append([line])
+                
+            self._draw_rect(start_coord, line.end, position, is_exterior)
+            
+            start_coord= line.end
+
+
+    def _draw_rect(self, line_start, line_end, position, is_exterior = False):
+
+        edge_length = self.edge_length
+        center = [(line_end[0] + line_start[0]) / 2, (line_end[1] + line_start[1]) / 2]
+        rotation = self.angle_dictionary[position]
+        if not is_exterior:
+            rect =  psychopy.visual.Rect(
+            win = win,
+            pos = center,
+            units = 'pix',
+            width = 20,
+            height = edge_length - 20,
+            lineColor = [-1,-1,1],
+            ori = rotation
+            )
+            rect.draw()
+            
+            lines_rectangles_container[-1] += [rect, 'not_clicked']
+        else:
+            lines_rectangles_container[-1].append(None)
+
+    def _determine_exterior(self, row, col, x_count, y_count, position):
+        ## i should write good comments here but not now lol
+        ## basically just using position in the array to check relative line position to determine whether to draw rectangles
+        if not row:
+            if position in ['top_right', 'top']:
+                return True
+        if not col:
+            if not row % 2:
+                to_check = ['top_left', 'bottom_left', 'top']
+            else:
+                to_check = ['top_left']
+            if position in to_check:
+                return True
+        if row == y_count - 1:
+            if position in ['bottom_left', 'bottom']:
+                return True
+        if col == x_count - 1:
+            if not row % 2:
+                to_check = ['bottom_right']
+            else:
+                to_check = ['bottom', 'bottom_right', 'top_right']
+            if position in to_check:
+                return True
+
+        return False
+
 
     def _rearrange_point_list(self, start_pos):
         ## outputs a list where the first element is start_pos and the last element is the one before start_pos in point_list
@@ -148,6 +287,14 @@ class DrawHexGrid:
         if not self.line_width_container_draw:
             self.line_width_container_draw = copy.deepcopy(line_width_container_original)
         lineWidth = self.line_width_container_draw.pop(0)
+
+        #lineWidth = self.line_width_container_draw[0]
+        #del self.line_width_container_draw[0]
+        
+        ## print_line_widths
+        if self.build_diagnostic_container:
+            self.diagnostic_container[-1].append(lineWidth)
+            
         return psychopy.visual.Line(
             lineWidth = lineWidth,
             win = win,
@@ -155,63 +302,9 @@ class DrawHexGrid:
             lineColor=[-1, -1, -1]
             )
 
-import copy
+line_width_container = np.linspace(1, 4, 10)
+#line_width_container = [round(x, 4) for x in line_width_container]
 
-
-# Ensure that relative paths start from the same directory as this script
-_thisDir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(_thisDir)
-
-# Store info about the experiment session
-psychopyVersion = '2021.1.4'
-expName = 'visual-search_exp1'  # from the Builder filename that created this script
-expInfo = {'participant': '', 'session': '001'}
-dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
-if dlg.OK == False:
-    core.quit()  # user pressed cancel
-expInfo['date'] = data.getDateStr()  # add a simple timestamp
-expInfo['expName'] = expName
-expInfo['psychopyVersion'] = psychopyVersion
-
-# Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
-filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])
-
-# An ExperimentHandler isn't essential but helps with data saving
-thisExp = data.ExperimentHandler(name=expName, version='',
-    extraInfo=expInfo, runtimeInfo=None,
-    originPath='visual-search_exp1.py',
-    savePickle=True, saveWideText=True,
-    dataFileName=filename)
-# save a log file for detail verbose info
-logFile = logging.LogFile(filename+'.log', level=logging.EXP)
-logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
-
-endExpNow = False  # flag for 'escape' or other condition => quit the exp
-frameTolerance = 0.001  # how close to onset before 'same' frame
-
-# Start Code - component code to be run after the window creation
-
-# Setup the Window
-win = visual.Window(
-    size=(1024, 768), fullscr=True, screen=0, 
-    winType='pyglet', allowGUI=False, allowStencil=False,
-    monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
-    blendMode='avg', useFBO=True, 
-    units='height')
-# store frame rate of monitor if we can measure it
-expInfo['frameRate'] = win.getActualFrameRate()
-if expInfo['frameRate'] != None:
-    frameDur = 1.0 / round(expInfo['frameRate'])
-else:
-    frameDur = 1.0 / 60.0  # could not measure, so guess
-
-# create a default keyboard (e.g. to check for escape)
-defaultKeyboard = keyboard.Keyboard()
-
-# Initialize components for Routine "trial1"
-trial1Clock = core.Clock()
-key_resp_2 = keyboard.Keyboard()
-line_width_container = np.linspace(1.5, 4, 10)
 
 range_to_width = {}
 
@@ -220,23 +313,37 @@ percentages = [.02, .07, .07] + [.17]*4 + [.07, .07, .02]
 base_percentage = 0
 for percentage, line_width in zip(percentages, line_width_container):
     range_to_width[base_percentage, base_percentage+percentage] = line_width
-    base_percentage += percentage +.001
+    base_percentage += percentage +.000001
     
 
 def choose_line_width():
     ## draw random from uniform distribution, choose line width
-    random_number  = np.random.uniform()
+    random_number  = round(np.random.uniform(), 3)
     for key in range_to_width:
-        if random_number > key[0]  and random_number < key[1]:
+        if random_number >= key[0]  and random_number < key[1]:
             return range_to_width[key]
 
+
+## initialize full container
+line_width_container_original = []
+
+for i in range(400):
+    line_width_container_original.append(choose_line_width())
+    
+
+
+key_resp_2 = keyboard.Keyboard()
+
+# Initialize components for Routine "trial2_2"
+trial2_2Clock = core.Clock()
+key_resp_3 = keyboard.Keyboard()
 text = visual.TextStim(win=win, name='text',
-    text=[print(str(x) + '\n') for x in line_width_container_original[:94]],
+    text='',
     font='Open Sans',
-    pos=(-2,0), height=0.1, wrapWidth=None, ori=0.0, 
-    color='white', colorSpace='rgb', opacity=None, 
+    units='pix', pos=(-700, 500), height=35.0, wrapWidth=None, ori=0.0, 
+    color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
-    depth=-4.0);
+    depth=-2.0);
 
 # Create some handy timers
 globalClock = core.Clock()  # to track the time since experiment started
@@ -245,10 +352,11 @@ routineTimer = core.CountdownTimer()  # to track time remaining of each (non-sli
 # ------Prepare to start Routine "trial1"-------
 continueRoutine = True
 # update component parameters for each repeat
-lineWidth = 4
-key_resp_2.keys = []
-key_resp_2.rt = []
-_key_resp_2_allKeys = []
+
+dhg = DrawHexGrid([-400, 400])
+
+dhg.make_grid()
+
 line_width_container_original = []
 
 for i in range(400):
@@ -256,8 +364,11 @@ for i in range(400):
     
 
 
+key_resp_2.keys = []
+key_resp_2.rt = []
+_key_resp_2_allKeys = []
 # keep track of which components have finished
-trial1Components = [key_resp_2, text]
+trial1Components = [key_resp_2]
 for thisComponent in trial1Components:
     thisComponent.tStart = None
     thisComponent.tStop = None
@@ -280,10 +391,10 @@ while continueRoutine:
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
     
-    
-    dhg = DrawHexGrid([-400, 400])
-    
-    dhg.make_grid()
+    for entry in lines_rectangles_container:
+        entry[0].draw()
+        if entry[1] is not None:
+            entry[1].draw()
     
     
     
@@ -313,15 +424,6 @@ while continueRoutine:
             key_resp_2.rt = _key_resp_2_allKeys[-1].rt
             # a response ends the routine
             continueRoutine = False
-    
-    # *text* updates
-    if text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-        # keep track of start time/frame for later
-        text.frameNStart = frameN  # exact frame index
-        text.tStart = t  # local t and not account for scr refresh
-        text.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
-        text.setAutoDraw(True)
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -353,9 +455,150 @@ if key_resp_2.keys != None:  # we had a response
 thisExp.addData('key_resp_2.started', key_resp_2.tStartRefresh)
 thisExp.addData('key_resp_2.stopped', key_resp_2.tStopRefresh)
 thisExp.nextEntry()
+# the Routine "trial1" was not non-slip safe, so reset the non-slip timer
+routineTimer.reset()
+
+# ------Prepare to start Routine "trial2_2"-------
+continueRoutine = True
+# update component parameters for each repeat
+key_resp_3.keys = []
+key_resp_3.rt = []
+_key_resp_3_allKeys = []
+mouse = psychopy.event.Mouse(win = win)
+
+clicked_lines = []
+
+show_text = 'Select three of the thinnest lines'
+# keep track of which components have finished
+trial2_2Components = [key_resp_3, text]
+for thisComponent in trial2_2Components:
+    thisComponent.tStart = None
+    thisComponent.tStop = None
+    thisComponent.tStartRefresh = None
+    thisComponent.tStopRefresh = None
+    if hasattr(thisComponent, 'status'):
+        thisComponent.status = NOT_STARTED
+# reset timers
+t = 0
+_timeToFirstFrame = win.getFutureFlipTime(clock="now")
+trial2_2Clock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+frameN = -1
+
+# -------Run Routine "trial2_2"-------
+while continueRoutine:
+    # get current time
+    t = trial2_2Clock.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=trial2_2Clock)
+    tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+    frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+    # update/draw components on each frame
+    
+    # *key_resp_3* updates
+    waitOnFlip = False
+    if key_resp_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        key_resp_3.frameNStart = frameN  # exact frame index
+        key_resp_3.tStart = t  # local t and not account for scr refresh
+        key_resp_3.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(key_resp_3, 'tStartRefresh')  # time at next scr refresh
+        key_resp_3.status = STARTED
+        # keyboard checking is just starting
+        waitOnFlip = True
+        win.callOnFlip(key_resp_3.clock.reset)  # t=0 on next screen flip
+        win.callOnFlip(key_resp_3.clearEvents, eventType='keyboard')  # clear events on next screen flip
+    if key_resp_3.status == STARTED and not waitOnFlip:
+        theseKeys = key_resp_3.getKeys(keyList=['y', 'n', 'left', 'right', 'space'], waitRelease=False)
+        _key_resp_3_allKeys.extend(theseKeys)
+        if len(_key_resp_3_allKeys):
+            key_resp_3.keys = _key_resp_3_allKeys[-1].name  # just the last key pressed
+            key_resp_3.rt = _key_resp_3_allKeys[-1].rt
+            # a response ends the routine
+            continueRoutine = False
+    import time
+    
+    for entry in lines_rectangles_container:
+        if entry[1] is not None:
+            entry[1].draw()
+            
+            if entry[2] == 'clicked':
+                entry[0].lineColor = [-1, 1, -1]
+            elif entry[1].contains(mouse):
+                entry[0].lineColor = [1, -1, -1]
+            else:
+                entry[0].lineColor = [-1] * 3
+        
+        entry[0].draw()
+        time.sleep(0.001)
+    
+    
+    
+    if mouse.getPressed()[0]:
+        mouse_pos = mouse.getPos()
+        for entry in lines_rectangles_container:
+            if entry[1] is not None and mouse.isPressedIn(entry[1]):
+    
+                if entry[2] == 'clicked':
+                    entry[2] = 'not_clicked'
+                    del clicked_lines[clicked_lines.index(entry)]
+                else:
+                    if len(clicked_lines) < 3:
+                        entry[2] = 'clicked'
+                        clicked_lines.append(entry)
+                    else:
+                        show_text = 'Youve clicked too many lines already!'
+                    
+                #time.sleep(.5)
+    
+                break
+        show_text = show_text + ' \n Number of lines clicked: {}'.format(len(clicked_lines))
+    
+                
+                
+    
+    # *text* updates
+    if text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        text.frameNStart = frameN  # exact frame index
+        text.tStart = t  # local t and not account for scr refresh
+        text.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
+        text.setAutoDraw(True)
+    if text.status == STARTED:  # only update if drawing
+        text.setText(show_text)
+    
+    # check for quit (typically the Esc key)
+    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+        core.quit()
+    
+    # check if all components have finished
+    if not continueRoutine:  # a component has requested a forced-end of Routine
+        break
+    continueRoutine = False  # will revert to True if at least one component still running
+    for thisComponent in trial2_2Components:
+        if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+            continueRoutine = True
+            break  # at least one component has not yet finished
+    
+    # refresh the screen
+    if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+        win.flip()
+
+# -------Ending Routine "trial2_2"-------
+for thisComponent in trial2_2Components:
+    if hasattr(thisComponent, "setAutoDraw"):
+        thisComponent.setAutoDraw(False)
+# check responses
+if key_resp_3.keys in ['', [], None]:  # No response was made
+    key_resp_3.keys = None
+thisExp.addData('key_resp_3.keys',key_resp_3.keys)
+if key_resp_3.keys != None:  # we had a response
+    thisExp.addData('key_resp_3.rt', key_resp_3.rt)
+thisExp.addData('key_resp_3.started', key_resp_3.tStartRefresh)
+thisExp.addData('key_resp_3.stopped', key_resp_3.tStopRefresh)
+thisExp.nextEntry()
 thisExp.addData('text.started', text.tStartRefresh)
 thisExp.addData('text.stopped', text.tStopRefresh)
-# the Routine "trial1" was not non-slip safe, so reset the non-slip timer
+# the Routine "trial2_2" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
 # Flip one final time so any remaining win.callOnFlip() 
