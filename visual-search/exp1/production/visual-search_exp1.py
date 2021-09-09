@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Tue 07 Sep 2021 12:32:04 PM EDT
+    on Thu 09 Sep 2021 01:46:07 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -30,7 +30,9 @@ from psychopy.hardware import keyboard
 
 lines_rectangles_counter = 0
 lines_rectangles_container = []
+
 import copy
+from datetime import datetime
 
 
 # Ensure that relative paths start from the same directory as this script
@@ -83,9 +85,11 @@ else:
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard()
 
-# Initialize components for Routine "trial1"
-trial1Clock = core.Clock()
+# Initialize components for Routine "Prompt"
+PromptClock = core.Clock()
 import psychopy
+## this line is essential for mapping coordinates of mouse clicks to the coordinates of rectangles
+win.units = 'pix'
 
 ## print_line_widths
 ## ^ flag for troubleshooting
@@ -103,11 +107,6 @@ class DrawHexGrid:
     yy = y + (d * sin(alpha))
     '''
     def __init__(self, top_left_origin, edge_length = 120, x_count = 4, y_count = 4):
-        ## print_line_widths
-        self.build_diagnostic_container = True
-        self.build_diagnostic_count = 0
-        self.diagnostic_container = []
-        self.diagnostic_widths = []
 
         self.top_left_origin = top_left_origin
         self.edge_length = edge_length
@@ -122,6 +121,7 @@ class DrawHexGrid:
 'top_right': '[start_coord[0] - self.edge_length * cos(120), start_coord[1] + self.edge_length * sin(120)]',
 'top': '[start_coord[0] - self.edge_length * cos(120), start_coord[1] - self.edge_length * sin(120)]'
 }
+        # for creating rectangles
         self.angle_dictionary = {
         'top_left': 0,
         'bottom_left': -55,
@@ -131,10 +131,19 @@ class DrawHexGrid:
         'top': 55
         }
         
+        # for creating line ids
+        self.point_to_side = {
+        'top_left': 'left',
+        'bottom_left': 'bottom_left',
+        'bottom': 'bottom_right',
+        'bottom_right': 'right',
+        'top_right': 'top_right',
+        'top': 'top_left'
+        }
+        
     def make_grid(self):
         for row in range(self.y_count):
             for col in range(self.x_count):
-                ## print_line_widths
                 self.row = row
                 self.col = col
                 
@@ -208,19 +217,15 @@ class DrawHexGrid:
         for position in new_point_list:
             if start_pos != end_pos and position == end_pos:
                 break
-                
-            if self.build_diagnostic_container:
-                self.diagnostic_container.append(['{}-{}-{}'.format(self.col, self.row, start_pos)])
+            ## are we dealing with an exterior line?
+            is_exterior = self._determine_exterior(self.row, self.col, self.x_count, self.y_count, position)
             
-            line = self._define_line_type()
+            line = self._define_line_type(is_exterior)
             line.start = start_coord
             line.end = eval(self.point_dictionary[position])
             line.draw()
-            ## draw rect
-            is_exterior = self._determine_exterior(self.row, self.col, self.x_count, self.y_count, position)
-            
 
-            lines_rectangles_container.append([line])
+            lines_rectangles_container.append({'line': line, 'line_id': 'r{}c{}_{}'.format(self.row, self.col, self.point_to_side[position])})
                 
             self._draw_rect(start_coord, line.end, position, is_exterior)
             
@@ -239,14 +244,16 @@ class DrawHexGrid:
             units = 'pix',
             width = 20,
             height = edge_length - 20,
-            lineColor = [-1,-1,1],
+            opacity = 0,
             ori = rotation
             )
             rect.draw()
             
-            lines_rectangles_container[-1] += [rect, 'not_clicked']
+            lines_rectangles_container[-1]['rect'] = rect
+            lines_rectangles_container[-1]['is_clicked'] = 'not_clicked'
         else:
-            lines_rectangles_container[-1].append(None)
+            lines_rectangles_container[-1]['rect'] = None
+            lines_rectangles_container[-1]['is_clicked'] = None
 
     def _determine_exterior(self, row, col, x_count, y_count, position):
         ## i should write good comments here but not now lol
@@ -274,27 +281,23 @@ class DrawHexGrid:
 
         return False
 
-
     def _rearrange_point_list(self, start_pos):
         ## outputs a list where the first element is start_pos and the last element is the one before start_pos in point_list
-
         if start_pos == 'top_left':
             return self.point_list
 
         return self.point_list[self.point_list.index(start_pos):] + self.point_list[:self.point_list.index(start_pos)-1]
 
-    def _define_line_type(self):
-        if not self.line_width_container_draw:
-            self.line_width_container_draw = copy.deepcopy(line_width_container_original)
-        lineWidth = self.line_width_container_draw.pop(0)
-
-        #lineWidth = self.line_width_container_draw[0]
-        #del self.line_width_container_draw[0]
+    def _define_line_type(self, is_exterior):
         
-        ## print_line_widths
-        if self.build_diagnostic_container:
-            self.diagnostic_container[-1].append(lineWidth)
-            
+        if is_exterior:
+            lineWidth = 2.3333333
+        else:
+            ## this complexity might not be necessary anymore because this whole script is only running once
+            if not self.line_width_container_draw:
+                self.line_width_container_draw = copy.deepcopy(line_width_container_original)
+            lineWidth = self.line_width_container_draw.pop(0)
+
         return psychopy.visual.Line(
             lineWidth = lineWidth,
             win = win,
@@ -332,15 +335,22 @@ for i in range(400):
     
 
 
-key_resp_2 = keyboard.Keyboard()
+PromptResponse = keyboard.Keyboard()
+PromptToContinue = visual.TextStim(win=win, name='PromptToContinue',
+    text='Press the space bar when you are ready to select the three thinnest lines.',
+    font='Open Sans',
+    units='pix', pos=(-700, 400), height=35.0, wrapWidth=None, ori=0.0, 
+    color='black', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=-4.0);
 
-# Initialize components for Routine "trial2_2"
-trial2_2Clock = core.Clock()
-key_resp_3 = keyboard.Keyboard()
-text = visual.TextStim(win=win, name='text',
+# Initialize components for Routine "Selection"
+SelectionClock = core.Clock()
+SelectionResponse = keyboard.Keyboard()
+PromptToSelect = visual.TextStim(win=win, name='PromptToSelect',
     text='',
     font='Open Sans',
-    units='pix', pos=(-700, 500), height=35.0, wrapWidth=None, ori=0.0, 
+    units='pix', pos=(-700, 400), height=35.0, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-2.0);
@@ -349,7 +359,7 @@ text = visual.TextStim(win=win, name='text',
 globalClock = core.Clock()  # to track the time since experiment started
 routineTimer = core.CountdownTimer()  # to track time remaining of each (non-slip) routine 
 
-# ------Prepare to start Routine "trial1"-------
+# ------Prepare to start Routine "Prompt"-------
 continueRoutine = True
 # update component parameters for each repeat
 
@@ -364,12 +374,13 @@ for i in range(400):
     
 
 
-key_resp_2.keys = []
-key_resp_2.rt = []
-_key_resp_2_allKeys = []
+PromptResponse.keys = []
+PromptResponse.rt = []
+_PromptResponse_allKeys = []
+start_prompt = datetime.now()
 # keep track of which components have finished
-trial1Components = [key_resp_2]
-for thisComponent in trial1Components:
+PromptComponents = [PromptResponse, PromptToContinue]
+for thisComponent in PromptComponents:
     thisComponent.tStart = None
     thisComponent.tStop = None
     thisComponent.tStartRefresh = None
@@ -379,22 +390,21 @@ for thisComponent in trial1Components:
 # reset timers
 t = 0
 _timeToFirstFrame = win.getFutureFlipTime(clock="now")
-trial1Clock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+PromptClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
 frameN = -1
 
-# -------Run Routine "trial1"-------
+# -------Run Routine "Prompt"-------
 while continueRoutine:
     # get current time
-    t = trial1Clock.getTime()
-    tThisFlip = win.getFutureFlipTime(clock=trial1Clock)
+    t = PromptClock.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=PromptClock)
     tThisFlipGlobal = win.getFutureFlipTime(clock=None)
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
     
     for entry in lines_rectangles_container:
-        entry[0].draw()
-        if entry[1] is not None:
-            entry[1].draw()
+        entry['line'].draw()
+        
     
     
     
@@ -403,27 +413,39 @@ while continueRoutine:
     
     
     
-    # *key_resp_2* updates
+    # *PromptResponse* updates
     waitOnFlip = False
-    if key_resp_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+    if PromptResponse.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
-        key_resp_2.frameNStart = frameN  # exact frame index
-        key_resp_2.tStart = t  # local t and not account for scr refresh
-        key_resp_2.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(key_resp_2, 'tStartRefresh')  # time at next scr refresh
-        key_resp_2.status = STARTED
+        PromptResponse.frameNStart = frameN  # exact frame index
+        PromptResponse.tStart = t  # local t and not account for scr refresh
+        PromptResponse.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(PromptResponse, 'tStartRefresh')  # time at next scr refresh
+        PromptResponse.status = STARTED
         # keyboard checking is just starting
         waitOnFlip = True
-        win.callOnFlip(key_resp_2.clock.reset)  # t=0 on next screen flip
-        win.callOnFlip(key_resp_2.clearEvents, eventType='keyboard')  # clear events on next screen flip
-    if key_resp_2.status == STARTED and not waitOnFlip:
-        theseKeys = key_resp_2.getKeys(keyList=['y', 'n', 'left', 'right', 'space'], waitRelease=False)
-        _key_resp_2_allKeys.extend(theseKeys)
-        if len(_key_resp_2_allKeys):
-            key_resp_2.keys = _key_resp_2_allKeys[-1].name  # just the last key pressed
-            key_resp_2.rt = _key_resp_2_allKeys[-1].rt
+        win.callOnFlip(PromptResponse.clock.reset)  # t=0 on next screen flip
+        win.callOnFlip(PromptResponse.clearEvents, eventType='keyboard')  # clear events on next screen flip
+    if PromptResponse.status == STARTED and not waitOnFlip:
+        theseKeys = PromptResponse.getKeys(keyList=['space'], waitRelease=False)
+        _PromptResponse_allKeys.extend(theseKeys)
+        if len(_PromptResponse_allKeys):
+            PromptResponse.keys = _PromptResponse_allKeys[-1].name  # just the last key pressed
+            PromptResponse.rt = _PromptResponse_allKeys[-1].rt
             # a response ends the routine
             continueRoutine = False
+    
+    # *PromptToContinue* updates
+    if PromptToContinue.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        PromptToContinue.frameNStart = frameN  # exact frame index
+        PromptToContinue.tStart = t  # local t and not account for scr refresh
+        PromptToContinue.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(PromptToContinue, 'tStartRefresh')  # time at next scr refresh
+        PromptToContinue.setAutoDraw(True)
+    
+    if PromptResponse.status == 'STARTED':
+        rt = PromptResponse.getKeys(keyList = ['space']).rt
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -433,7 +455,7 @@ while continueRoutine:
     if not continueRoutine:  # a component has requested a forced-end of Routine
         break
     continueRoutine = False  # will revert to True if at least one component still running
-    for thisComponent in trial1Components:
+    for thisComponent in PromptComponents:
         if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
             continueRoutine = True
             break  # at least one component has not yet finished
@@ -442,36 +464,39 @@ while continueRoutine:
     if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
         win.flip()
 
-# -------Ending Routine "trial1"-------
-for thisComponent in trial1Components:
+# -------Ending Routine "Prompt"-------
+for thisComponent in PromptComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
 # check responses
-if key_resp_2.keys in ['', [], None]:  # No response was made
-    key_resp_2.keys = None
-thisExp.addData('key_resp_2.keys',key_resp_2.keys)
-if key_resp_2.keys != None:  # we had a response
-    thisExp.addData('key_resp_2.rt', key_resp_2.rt)
-thisExp.addData('key_resp_2.started', key_resp_2.tStartRefresh)
-thisExp.addData('key_resp_2.stopped', key_resp_2.tStopRefresh)
+if PromptResponse.keys in ['', [], None]:  # No response was made
+    PromptResponse.keys = None
+thisExp.addData('PromptResponse.keys',PromptResponse.keys)
+if PromptResponse.keys != None:  # we had a response
+    thisExp.addData('PromptResponse.rt', PromptResponse.rt)
+thisExp.addData('PromptResponse.started', PromptResponse.tStartRefresh)
+thisExp.addData('PromptResponse.stopped', PromptResponse.tStopRefresh)
 thisExp.nextEntry()
-# the Routine "trial1" was not non-slip safe, so reset the non-slip timer
+thisExp.addData('PromptToContinue.started', PromptToContinue.tStartRefresh)
+thisExp.addData('PromptToContinue.stopped', PromptToContinue.tStopRefresh)
+# the Routine "Prompt" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
-# ------Prepare to start Routine "trial2_2"-------
+# ------Prepare to start Routine "Selection"-------
 continueRoutine = True
 # update component parameters for each repeat
-key_resp_3.keys = []
-key_resp_3.rt = []
-_key_resp_3_allKeys = []
+SelectionResponse.keys = []
+SelectionResponse.rt = []
+_SelectionResponse_allKeys = []
 mouse = psychopy.event.Mouse(win = win)
 
 clicked_lines = []
 
 show_text = 'Select three of the thinnest lines'
+last_clicked = ''
 # keep track of which components have finished
-trial2_2Components = [key_resp_3, text]
-for thisComponent in trial2_2Components:
+SelectionComponents = [SelectionResponse, PromptToSelect]
+for thisComponent in SelectionComponents:
     thisComponent.tStart = None
     thisComponent.tStop = None
     thisComponent.tStartRefresh = None
@@ -481,90 +506,99 @@ for thisComponent in trial2_2Components:
 # reset timers
 t = 0
 _timeToFirstFrame = win.getFutureFlipTime(clock="now")
-trial2_2Clock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+SelectionClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
 frameN = -1
 
-# -------Run Routine "trial2_2"-------
+# -------Run Routine "Selection"-------
 while continueRoutine:
     # get current time
-    t = trial2_2Clock.getTime()
-    tThisFlip = win.getFutureFlipTime(clock=trial2_2Clock)
+    t = SelectionClock.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=SelectionClock)
     tThisFlipGlobal = win.getFutureFlipTime(clock=None)
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
     
-    # *key_resp_3* updates
+    # *SelectionResponse* updates
     waitOnFlip = False
-    if key_resp_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+    if SelectionResponse.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
-        key_resp_3.frameNStart = frameN  # exact frame index
-        key_resp_3.tStart = t  # local t and not account for scr refresh
-        key_resp_3.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(key_resp_3, 'tStartRefresh')  # time at next scr refresh
-        key_resp_3.status = STARTED
+        SelectionResponse.frameNStart = frameN  # exact frame index
+        SelectionResponse.tStart = t  # local t and not account for scr refresh
+        SelectionResponse.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(SelectionResponse, 'tStartRefresh')  # time at next scr refresh
+        SelectionResponse.status = STARTED
         # keyboard checking is just starting
         waitOnFlip = True
-        win.callOnFlip(key_resp_3.clock.reset)  # t=0 on next screen flip
-        win.callOnFlip(key_resp_3.clearEvents, eventType='keyboard')  # clear events on next screen flip
-    if key_resp_3.status == STARTED and not waitOnFlip:
-        theseKeys = key_resp_3.getKeys(keyList=['y', 'n', 'left', 'right', 'space'], waitRelease=False)
-        _key_resp_3_allKeys.extend(theseKeys)
-        if len(_key_resp_3_allKeys):
-            key_resp_3.keys = _key_resp_3_allKeys[-1].name  # just the last key pressed
-            key_resp_3.rt = _key_resp_3_allKeys[-1].rt
+        win.callOnFlip(SelectionResponse.clock.reset)  # t=0 on next screen flip
+        win.callOnFlip(SelectionResponse.clearEvents, eventType='keyboard')  # clear events on next screen flip
+    if SelectionResponse.status == STARTED and not waitOnFlip:
+        theseKeys = SelectionResponse.getKeys(keyList=['y', 'n', 'left', 'right', 'space'], waitRelease=False)
+        _SelectionResponse_allKeys.extend(theseKeys)
+        if len(_SelectionResponse_allKeys):
+            SelectionResponse.keys = _SelectionResponse_allKeys[-1].name  # just the last key pressed
+            SelectionResponse.rt = _SelectionResponse_allKeys[-1].rt
             # a response ends the routine
             continueRoutine = False
     import time
     
     for entry in lines_rectangles_container:
-        if entry[1] is not None:
-            entry[1].draw()
+        if entry['rect'] is not None:
+            entry['rect'].draw()
             
-            if entry[2] == 'clicked':
-                entry[0].lineColor = [-1, 1, -1]
-            elif entry[1].contains(mouse):
-                entry[0].lineColor = [1, -1, -1]
+            if entry['is_clicked'] == 'clicked':
+                if entry['rect'].contains(mouse):
+                    entry['line'].lineColor = [0,  1, 0]
+                else:
+                    entry['line'].lineColor = [-1, 1, -1]
+            elif entry['rect'].contains(mouse):
+                entry['line'].lineColor = [1, -1, -1]
             else:
-                entry[0].lineColor = [-1] * 3
+                entry['line'].lineColor = [-1] * 3
         
-        entry[0].draw()
-        time.sleep(0.001)
-    
+        entry['line'].draw()
+        
+        # people on the forums say you should timeout for 1ms on a loop like this to not hog all the computer's resources
+        # but i find that even 0.5 ms timeout makes the display laggy
+        #time.sleep(0.0005)
     
     
     if mouse.getPressed()[0]:
         mouse_pos = mouse.getPos()
         for entry in lines_rectangles_container:
-            if entry[1] is not None and mouse.isPressedIn(entry[1]):
+            if entry['rect'] is not None and entry['rect'].contains(mouse_pos):
     
-                if entry[2] == 'clicked':
-                    entry[2] = 'not_clicked'
+                if entry['is_clicked'] == 'clicked':
+                    entry['is_clicked'] = 'not_clicked'
                     del clicked_lines[clicked_lines.index(entry)]
+                    show_text = 'Select three of the thinnest lines'
+    
                 else:
                     if len(clicked_lines) < 3:
-                        entry[2] = 'clicked'
+                        show_text = 'Select three of the thinnest lines'
+                        entry['is_clicked'] = 'clicked'
                         clicked_lines.append(entry)
+                        ## TEST
+                        last_clicked = entry['line_id']
                     else:
                         show_text = 'Youve clicked too many lines already!'
                     
-                #time.sleep(.5)
+                time.sleep(.1)
     
                 break
-        show_text = show_text + ' \n Number of lines clicked: {}'.format(len(clicked_lines))
     
                 
                 
     
-    # *text* updates
-    if text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+    # *PromptToSelect* updates
+    if PromptToSelect.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
-        text.frameNStart = frameN  # exact frame index
-        text.tStart = t  # local t and not account for scr refresh
-        text.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
-        text.setAutoDraw(True)
-    if text.status == STARTED:  # only update if drawing
-        text.setText(show_text)
+        PromptToSelect.frameNStart = frameN  # exact frame index
+        PromptToSelect.tStart = t  # local t and not account for scr refresh
+        PromptToSelect.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(PromptToSelect, 'tStartRefresh')  # time at next scr refresh
+        PromptToSelect.setAutoDraw(True)
+    if PromptToSelect.status == STARTED:  # only update if drawing
+        PromptToSelect.setText('{}\n{}'.format(show_text, rt))
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -574,7 +608,7 @@ while continueRoutine:
     if not continueRoutine:  # a component has requested a forced-end of Routine
         break
     continueRoutine = False  # will revert to True if at least one component still running
-    for thisComponent in trial2_2Components:
+    for thisComponent in SelectionComponents:
         if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
             continueRoutine = True
             break  # at least one component has not yet finished
@@ -583,22 +617,22 @@ while continueRoutine:
     if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
         win.flip()
 
-# -------Ending Routine "trial2_2"-------
-for thisComponent in trial2_2Components:
+# -------Ending Routine "Selection"-------
+for thisComponent in SelectionComponents:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
 # check responses
-if key_resp_3.keys in ['', [], None]:  # No response was made
-    key_resp_3.keys = None
-thisExp.addData('key_resp_3.keys',key_resp_3.keys)
-if key_resp_3.keys != None:  # we had a response
-    thisExp.addData('key_resp_3.rt', key_resp_3.rt)
-thisExp.addData('key_resp_3.started', key_resp_3.tStartRefresh)
-thisExp.addData('key_resp_3.stopped', key_resp_3.tStopRefresh)
+if SelectionResponse.keys in ['', [], None]:  # No response was made
+    SelectionResponse.keys = None
+thisExp.addData('SelectionResponse.keys',SelectionResponse.keys)
+if SelectionResponse.keys != None:  # we had a response
+    thisExp.addData('SelectionResponse.rt', SelectionResponse.rt)
+thisExp.addData('SelectionResponse.started', SelectionResponse.tStartRefresh)
+thisExp.addData('SelectionResponse.stopped', SelectionResponse.tStopRefresh)
 thisExp.nextEntry()
-thisExp.addData('text.started', text.tStartRefresh)
-thisExp.addData('text.stopped', text.tStopRefresh)
-# the Routine "trial2_2" was not non-slip safe, so reset the non-slip timer
+thisExp.addData('PromptToSelect.started', PromptToSelect.tStartRefresh)
+thisExp.addData('PromptToSelect.stopped', PromptToSelect.tStopRefresh)
+# the Routine "Selection" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
 # Flip one final time so any remaining win.callOnFlip() 
