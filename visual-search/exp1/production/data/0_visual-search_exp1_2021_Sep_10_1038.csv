@@ -1,0 +1,4 @@
+﻿PromptResponse.keys,PromptResponse.rt,PromptResponse.started,PromptResponse.stopped,PromptToContinue.started,PromptToContinue.stopped,SelectionResponse.keys,SelectionResponse.started,SelectionResponse.stopped,PromptToSelect.started,PromptToSelect.stopped,text.started,text.stopped,participant,session,date,expName,psychopyVersion,frameRate,
+space,28.922794587999988,12.185309056999927,None,,,,,,,,,,0,001,2021_Sep_10_1038,visual-search_exp1,2021.1.4,60.09017805127314,
+,,,,12.185309056999927,None,None,41.15677042799996,None,,,,,0,001,2021_Sep_10_1038,visual-search_exp1,2021.1.4,60.09017805127314,
+,,,,,,,,,41.15677042799996,None,185.263057042,None,,,,,,,
