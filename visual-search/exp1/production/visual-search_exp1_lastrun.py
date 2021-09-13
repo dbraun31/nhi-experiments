@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Fri 10 Sep 2021 12:15:29 PM EDT
+    on Mon 13 Sep 2021 11:54:23 AM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -29,6 +29,7 @@ import sys  # to get file system encoding
 from psychopy.hardware import keyboard
 
 from datetime import datetime
+import pickle
 trial_count = 0
 import copy
 
@@ -91,6 +92,10 @@ win.units = 'pix'
 
 ## print_line_widths
 ## ^ flag for troubleshooting
+
+## initialize data containers
+subject_data = []
+line_data = []
 
 
 
@@ -223,7 +228,7 @@ class DrawHexGrid:
             line.end = eval(self.point_dictionary[position])
             line.draw()
 
-            lines_rectangles_container.append({'line': line, 'line_id': 'r{}c{}_{}'.format(self.row, self.col, self.point_to_side[position])})
+            lines_rectangles_container.append({'line': line, 'line_id': 'r{}c{}_{}'.format(self.row, self.col, self.point_to_side[position]), 'is_exterior': is_exterior})
                 
             self._draw_rect(start_coord, line.end, position, is_exterior)
             
@@ -332,6 +337,63 @@ def get_line_orientation(line):
     return 'vertical'
     
     
+def save_data(pressed_object, line = None, line_id = None, selected_or_released = None):
+    
+    ## compute line top and bottom
+    if line is not None:
+        top = line.start if line.start[1] > line.end[1] else line.end
+        bottom= line.start if line.start[1] < line.end[1] else line.end
+    else:
+        top = bottom = None
+    
+    selection_rt = datetime.now() - selection_start
+    selection_rt_ms = selection_rt.seconds * 1000 + selection_rt.microseconds / 1000
+    to_save = {
+        'participant': expInfo['participant'],
+        'date': expInfo['date'],
+        'trial_count': trial_count,
+        'click_order': click_order,
+        'prompt_rt_sec': PromptResponse.rt,
+        'selection_rt_ms': selection_rt_ms,
+        'pressed_object': pressed_object,
+        'line_width': line.lineWidth if line else None,
+        'top_x': top[0] if top is not None else None,
+        'top_y': top[1] if top is not None else None,
+        'bottom_x': bottom[0] if bottom is not None else None,
+        'bottom_y': bottom[1] if bottom is not None else None,
+        'line_id': line_id,
+        'line_orientation': get_line_orientation(line),
+        'selected_or_released': selected_or_released,
+        'accuracy': compute_accuracy(lines_rectangles_container, clicked_lines) if line is None else None
+    }
+    
+    return to_save
+    
+    
+def save_line_data(lines_rectangles_container, line_data):
+    ## save out line parameters on each trial
+    
+    for entry in lines_rectangles_container:
+        top = entry['line'].start if entry['line'].start[1] > entry['line'].end[1] else entry['line'].end
+        bottom= entry['line'].start if entry['line'].start[1] < entry['line'].end[1] else entry['line'].end
+        
+        line_data.append({
+            'participant': expInfo['participant'],
+            'date': expInfo['date'],
+            'trial_count': trial_count,
+            'line_id': entry['line_id'],
+            'line_width': entry['line'].lineWidth,
+            'is_exterior': entry['is_exterior'],
+            'top_x': top[0], 
+            'top_y': top[1] ,
+            'bottom_x': bottom[0],
+            'bottom_y': bottom[1] 
+            })
+            
+    with open('line_data/{}_{}.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:
+        pickle.dump(line_data, file)
+    file.close()
+            
     
     
     
@@ -386,7 +448,6 @@ PromptToSelect = visual.TextStim(win=win, name='PromptToSelect',
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-2.0);
-subject_data = []
 
 # Initialize components for Routine "Blank"
 BlankClock = core.Clock()
@@ -429,10 +490,13 @@ for thisTrial in trials:
     lines_rectangles_container = []
     click_order = 0
     
+    
+    
     dhg = DrawHexGrid([-400, 400])
     
     dhg.make_grid()
     
+    save_line_data(lines_rectangles_container, line_data)
     line_width_container_original = []
     
     for i in range(400):
@@ -576,27 +640,23 @@ for thisTrial in trials:
         depth=-4.0);
     selection_start = datetime.now()
     
-    def save_data(pressed_object, line = None, line_id = None, selected_or_released = None):
         
-        selection_rt = datetime.now() - selection_start
-        selection_rt_ms = selection_rt.seconds * 1000 + selection_rt.microseconds / 1000
-        to_save = {
-            'participant': expInfo['participant'],
-            'date': expInfo['date'],
-            'trial_count': trial_count,
-            'click_order': click_order,
-            'prompt_rt_sec': PromptResponse.rt,
-            'selection_rt_ms': selection_rt_ms,
-            'pressed_object': pressed_object,
-            'line_width': line.lineWidth if line else None,
-            'line_id': line_id,
-            'line_orientation': get_line_orientation(line),
-            'selected_or_released': selected_or_released,
-            'accuracy': compute_accuracy(lines_rectangles_container, clicked_lines) if line is None else None
-        }
+                
+                
+                
+                
+                
+                
         
-        return to_save
         
+        
+        
+        
+        
+        
+        
+        
+    
     # keep track of which components have finished
     SelectionComponents = [SelectionResponse, PromptToSelect]
     for thisComponent in SelectionComponents:

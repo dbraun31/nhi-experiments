@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Fri 10 Sep 2021 12:06:17 PM EDT
+    on Mon 13 Sep 2021 11:33:26 AM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -174,7 +174,7 @@ class DrawHexGrid:
                     ## if odd
                         start_pos = 'top_left'
                         new_hex_n_turns = 3
-                        first_row_n_turns = 1  click_ord
+                        first_row_n_turns = 1  
                         
                     self._draw_hex(start_pos, 'top_right', self.first_row_start_coord)
                     self.new_hex_start_coord = self._coord_calculator(self.first_row_start_coord, start_pos, new_hex_n_turns)
@@ -323,9 +323,11 @@ def compute_accuracy(lines_rectangles_container, clicked_lines):
 def get_line_orientation(line):
     if line is None:
         return None
-    if line.start[0] < line.end[0]:
+    top = line.start if line.start[1] > line.end[1] else line.end
+    bottom= line.start if line.start[1] < line.end[1] else line.end
+    if top[0] < bottom[0]:
         return 'back_slash'
-    if line.start[0] > line.end[0]:
+    if top[0] > bottom[0]:
         return 'forward_slash'
     return 'vertical'
     
@@ -576,6 +578,13 @@ for thisTrial in trials:
     
     def save_data(pressed_object, line = None, line_id = None, selected_or_released = None):
         
+        ## compute line top and bottom
+        if line is not None:
+            top = line.start if line.start[1] > line.end[1] else line.end
+            bottom= line.start if line.start[1] < line.end[1] else line.end
+        else:
+            top = bottom = None
+        
         selection_rt = datetime.now() - selection_start
         selection_rt_ms = selection_rt.seconds * 1000 + selection_rt.microseconds / 1000
         to_save = {
@@ -587,6 +596,10 @@ for thisTrial in trials:
             'selection_rt_ms': selection_rt_ms,
             'pressed_object': pressed_object,
             'line_width': line.lineWidth if line else None,
+            'top_x': top[0] if top is not None else None,
+            'top_y': top[1] if top is not None else None,
+            'bottom_x': bottom[0] if bottom is not None else None,
+            'bottom_y': bottom[1] if bottom is not None else None,
             'line_id': line_id,
             'line_orientation': get_line_orientation(line),
             'selected_or_released': selected_or_released,
@@ -595,6 +608,19 @@ for thisTrial in trials:
         
         return to_save
         
+        
+    def save_line_data(lines_widths_container, line_data):
+        ## save out line parameters on each trial
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
     # keep track of which components have finished
     SelectionComponents = [SelectionResponse, PromptToSelect]
     for thisComponent in SelectionComponents:
