@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Wed 15 Sep 2021 11:07:00 AM EDT
+This experiment was created using PsychoPy3 Experiment Builder (v2021.2.0),
+    on September 17, 2021, at 11:11
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -39,7 +39,7 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2021.1.4'
+psychopyVersion = '2021.2.0'
 expName = 'visual-search_exp1'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
 dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
@@ -55,7 +55,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='visual-search_exp1_lastrun.py',
+    originPath='C:\\Users\\trimb\\Desktop\\nhi-experiments\\visual-search\\exp1\\production\\visual-search_exp1_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -69,7 +69,7 @@ frameTolerance = 0.001  # how close to onset before 'same' frame
 
 # Setup the Window
 win = visual.Window(
-    size=[1920, 1080], fullscr=True, screen=1, 
+    size=[1536, 864], fullscr=True, screen=1, 
     winType='pyglet', allowGUI=False, allowStencil=False,
     monitor='testMonitor', color=[0.75,0.75,0.75], colorSpace='rgb',
     blendMode='avg', useFBO=True, 
@@ -81,13 +81,16 @@ if expInfo['frameRate'] != None:
 else:
     frameDur = 1.0 / 60.0  # could not measure, so guess
 
+# Setup eyetracking
+ioDevice = ioConfig = ioSession = ioServer = eyetracker = None
+
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard()
 
 # Initialize components for Routine "Welcome"
 WelcomeClock = core.Clock()
 WelcomeText = visual.TextStim(win=win, name='WelcomeText',
-    text='Welcome to the experiment:\n\nWait for the experimenter to instruct you before pressing anything.',
+    text='Welcome to the experiment:\n\nYou will be viewing a series of images designed to capture aspects of the materials that the microscopist would see. You will view a 4 x 4 display of hexagons. The important features are the boundaries between these hexagons. Your task is going to be to search the array and select three of the thinnest lines that you can find. These lines will always be in the interior of the array between two hexagons. Click spacebar to see an example of the array.',
     font='Open Sans',
     pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
@@ -95,10 +98,29 @@ WelcomeText = visual.TextStim(win=win, name='WelcomeText',
     depth=0.0);
 WelcomeResponse = keyboard.Keyboard()
 
+# Initialize components for Routine "Example"
+ExampleClock = core.Clock()
+ExampleResponse = keyboard.Keyboard()
+text = visual.TextStim(win=win, name='text',
+    text='Press the space bar when you are ready to move on.',
+    font='Open Sans',
+    units='pix', pos=(-700, 400), height=35.0, wrapWidth=None, ori=0.0, 
+    color='black', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=-1.0);
+image = visual.ImageStim(
+    win=win,
+    name='image', 
+    image='C:/Users/trimb/Desktop/Hexagon.png', mask=None,
+    ori=0.0, pos=(0, 0), size=(1,1),
+    color=[1,1,1], colorSpace='rgb', opacity=None,
+    flipHoriz=False, flipVert=False,
+    texRes=128.0, interpolate=True, depth=-2.0)
+
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
 InstructionsText = visual.TextStim(win=win, name='InstructionsText',
-    text="In this experiment, you will look a t an array composed of lines. The thickness of the lines will vary, and it will be your job to select the three thinnest lines present in across the array. You will see this array many times and the thickness of the lines will change each time, so it is imperative that you pay close attention so that you are selecting the thinnest available lines as quickly and as accurately as possible. This experiment should take about 'x' minutes to complete.\n\nPlease press the space bar when you are ready to begin the experiment.",
+    text='When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.\n\nPlease press the space bar when you are ready to begin the experiment.',
     font='Open Sans',
     pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
@@ -592,6 +614,113 @@ thisExp.nextEntry()
 # the Routine "Welcome" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
+# ------Prepare to start Routine "Example"-------
+continueRoutine = True
+# update component parameters for each repeat
+ExampleResponse.keys = []
+ExampleResponse.rt = []
+_ExampleResponse_allKeys = []
+# keep track of which components have finished
+ExampleComponents = [ExampleResponse, text, image]
+for thisComponent in ExampleComponents:
+    thisComponent.tStart = None
+    thisComponent.tStop = None
+    thisComponent.tStartRefresh = None
+    thisComponent.tStopRefresh = None
+    if hasattr(thisComponent, 'status'):
+        thisComponent.status = NOT_STARTED
+# reset timers
+t = 0
+_timeToFirstFrame = win.getFutureFlipTime(clock="now")
+ExampleClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+frameN = -1
+
+# -------Run Routine "Example"-------
+while continueRoutine:
+    # get current time
+    t = ExampleClock.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=ExampleClock)
+    tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+    frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+    # update/draw components on each frame
+    
+    # *ExampleResponse* updates
+    waitOnFlip = False
+    if ExampleResponse.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        ExampleResponse.frameNStart = frameN  # exact frame index
+        ExampleResponse.tStart = t  # local t and not account for scr refresh
+        ExampleResponse.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(ExampleResponse, 'tStartRefresh')  # time at next scr refresh
+        ExampleResponse.status = STARTED
+        # keyboard checking is just starting
+        waitOnFlip = True
+        win.callOnFlip(ExampleResponse.clock.reset)  # t=0 on next screen flip
+        win.callOnFlip(ExampleResponse.clearEvents, eventType='keyboard')  # clear events on next screen flip
+    if ExampleResponse.status == STARTED and not waitOnFlip:
+        theseKeys = ExampleResponse.getKeys(keyList=['space'], waitRelease=False)
+        _ExampleResponse_allKeys.extend(theseKeys)
+        if len(_ExampleResponse_allKeys):
+            ExampleResponse.keys = _ExampleResponse_allKeys[-1].name  # just the last key pressed
+            ExampleResponse.rt = _ExampleResponse_allKeys[-1].rt
+            # a response ends the routine
+            continueRoutine = False
+    
+    # *text* updates
+    if text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        text.frameNStart = frameN  # exact frame index
+        text.tStart = t  # local t and not account for scr refresh
+        text.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
+        text.setAutoDraw(True)
+    
+    # *image* updates
+    if image.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        image.frameNStart = frameN  # exact frame index
+        image.tStart = t  # local t and not account for scr refresh
+        image.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(image, 'tStartRefresh')  # time at next scr refresh
+        image.setAutoDraw(True)
+    
+    # check for quit (typically the Esc key)
+    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+        core.quit()
+    
+    # check if all components have finished
+    if not continueRoutine:  # a component has requested a forced-end of Routine
+        break
+    continueRoutine = False  # will revert to True if at least one component still running
+    for thisComponent in ExampleComponents:
+        if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+            continueRoutine = True
+            break  # at least one component has not yet finished
+    
+    # refresh the screen
+    if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+        win.flip()
+
+# -------Ending Routine "Example"-------
+for thisComponent in ExampleComponents:
+    if hasattr(thisComponent, "setAutoDraw"):
+        thisComponent.setAutoDraw(False)
+# check responses
+if ExampleResponse.keys in ['', [], None]:  # No response was made
+    ExampleResponse.keys = None
+thisExp.addData('ExampleResponse.keys',ExampleResponse.keys)
+if ExampleResponse.keys != None:  # we had a response
+    thisExp.addData('ExampleResponse.rt', ExampleResponse.rt)
+thisExp.addData('ExampleResponse.started', ExampleResponse.tStartRefresh)
+thisExp.addData('ExampleResponse.stopped', ExampleResponse.tStopRefresh)
+thisExp.nextEntry()
+thisExp.addData('text.started', text.tStartRefresh)
+thisExp.addData('text.stopped', text.tStopRefresh)
+thisExp.addData('image.started', image.tStartRefresh)
+thisExp.addData('image.stopped', image.tStopRefresh)
+# the Routine "Example" was not non-slip safe, so reset the non-slip timer
+routineTimer.reset()
+
 # ------Prepare to start Routine "Instructions"-------
 continueRoutine = True
 # update component parameters for each repeat
@@ -989,7 +1118,7 @@ for thisTrial in trials:
             win.timeOnFlip(PromptToSelect, 'tStartRefresh')  # time at next scr refresh
             PromptToSelect.setAutoDraw(True)
         if PromptToSelect.status == STARTED:  # only update if drawing
-            PromptToSelect.setText(show_text)
+            PromptToSelect.setText(show_text, log=False)
         
         
         ## control instruction text
