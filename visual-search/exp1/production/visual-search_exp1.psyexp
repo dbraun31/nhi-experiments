@@ -315,7 +315,7 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val="" valType="num"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="constant" val="When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You should only compare the interior lines--you will not be able to select the exterior lines and they don't count as being among the thinnest or not. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.&amp;#10;&amp;#10;You will do one practice round before starting the real experiment.&amp;#10;&amp;#10;Please press the space bar when you are ready to begin the practice." valType="str"/>
+        <Param name="text" updates="constant" val="When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.&amp;#10;&amp;#10;You will do one practice round before starting the real experiment.&amp;#10;&amp;#10;Please press the space bar when you are ready to begin the practice." valType="str"/>
         <Param name="units" updates="None" val="pix" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="1000" valType="num"/>
       </TextComponent>
@@ -518,7 +518,7 @@
       <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
       <Param name="isTrials" updates="None" val="True" valType="bool"/>
       <Param name="loopType" updates="None" val="random" valType="str"/>
-      <Param name="nReps" updates="None" val="3" valType="num"/>
+      <Param name="nReps" updates="None" val="100" valType="num"/>
       <Param name="name" updates="None" val="trials" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>

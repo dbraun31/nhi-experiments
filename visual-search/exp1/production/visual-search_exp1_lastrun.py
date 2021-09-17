@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Fri 17 Sep 2021 12:33:40 PM EDT
+    on Fri 17 Sep 2021 02:46:59 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -111,7 +111,7 @@ DemoText = visual.TextStim(win=win, name='DemoText',
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
 InstructionsText = visual.TextStim(win=win, name='InstructionsText',
-    text="When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You should only compare the interior lines--you will not be able to select the exterior lines and they don't count as being among the thinnest or not. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.\n\nYou will do one practice round before starting the real experiment.\n\nPlease press the space bar when you are ready to begin the practice.",
+    text='When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.\n\nYou will do one practice round before starting the real experiment.\n\nPlease press the space bar when you are ready to begin the practice.',
     font='Open Sans',
     units='pix', pos=(0, 0), height=30.0, wrapWidth=1000.0, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
@@ -814,7 +814,7 @@ thisExp.nextEntry()
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
-trials = data.TrialHandler(nReps=3.0, method='random', 
+trials = data.TrialHandler(nReps=21.0, method='random', 
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='trials')
@@ -1255,7 +1255,7 @@ for thisTrial in trials:
     routineTimer.reset()
     thisExp.nextEntry()
     
-# completed 3.0 repeats of 'trials'
+# completed 21.0 repeats of 'trials'
 
 
 # ------Prepare to start Routine "Ending"-------
