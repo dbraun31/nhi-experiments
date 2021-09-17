@@ -76,12 +76,12 @@
     </Routine>
     <Routine name="Prompt">
       <CodeComponent name="GlobalDefinitions">
-        <Param name="Before Experiment" updates="constant" val="from datetime import datetime&amp;#10;import pickle&amp;#10;trial_count = 0" valType="extendedCode"/>
+        <Param name="Before Experiment" updates="constant" val="from datetime import datetime&amp;#10;import pickle&amp;#10;trial_count = -1" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="import psychopy&amp;#10;## this line is essential for mapping coordinates of mouse clicks to the coordinates of rectangles&amp;#10;win.units = 'pix'&amp;#10;&amp;#10;## print_line_widths&amp;#10;## ^ flag for troubleshooting&amp;#10;&amp;#10;## initialize data containers&amp;#10;subject_data = []&amp;#10;line_data = []&amp;#10;&amp;#10;&amp;#10;&amp;#10;class DrawHexGrid:&amp;#10;    '''&amp;#10;    The general idea here is to think, for any given hexagon I want to draw, what position (eg, top left) in the hex am i starting at, what position do i want to finish at, and what's the starting coordinate&amp;#10;    Given this information, we rely on the formulas below to draw however many lines are needed to connect the starting position to the ending position&amp;#10;    In the process, I save out starting coordinates that will be used for the next hexagon and for the first hexagon in a new row, as well as handling some other edge case things&amp;#10;    &amp;#10;    Formula for calculating coordinates:&amp;#10;    xx = x + (d * cos(alpha))&amp;#10;    yy = y + (d * sin(alpha))&amp;#10;    '''&amp;#10;    def __init__(self, top_left_origin, edge_length = 120, x_count = 4, y_count = 4):&amp;#10;&amp;#10;        self.top_left_origin = top_left_origin&amp;#10;        self.edge_length = edge_length&amp;#10;        self. x_count = x_count&amp;#10;        self.y_count = y_count&amp;#10;        self.point_list = ['top_left', 'bottom_left', 'bottom', 'bottom_right', 'top_right', 'top']&amp;#10;        self.point_dictionary = {&amp;#10;'top_left': '[start_coord[0], start_coord[1] - self.edge_length]',&amp;#10;'bottom_left': '[start_coord[0] + self.edge_length * cos(120), start_coord[1] - self.edge_length * sin(120)]',&amp;#10;'bottom': '[start_coord[0] + self.edge_length * cos(120), start_coord[1] + self.edge_length * sin(120)]',&amp;#10;'bottom_right': '[start_coord[0], start_coord[1] + self.edge_length]',&amp;#10;'top_right': '[start_coord[0] - self.edge_length * cos(120), start_coord[1] + self.edge_length * sin(120)]',&amp;#10;'top': '[start_coord[0] - self.edge_length * cos(120), start_coord[1] - self.edge_length * sin(120)]'&amp;#10;}&amp;#10;        # for creating rectangles&amp;#10;        self.angle_dictionary = {&amp;#10;        'top_left': 0,&amp;#10;        'bottom_left': -55,&amp;#10;        'bottom': 55,&amp;#10;        'bottom_right': 0,&amp;#10;        'top_right': -55,&amp;#10;        'top': 55&amp;#10;        }&amp;#10;        &amp;#10;        # for creating line ids&amp;#10;        self.point_to_side = {&amp;#10;        'top_left': 'left',&amp;#10;        'bottom_left': 'bottom_left',&amp;#10;        'bottom': 'bottom_right',&amp;#10;        'bottom_right': 'right',&amp;#10;        'top_right': 'top_right',&amp;#10;        'top': 'top_left'&amp;#10;        }&amp;#10;        &amp;#10;    def make_grid(self):&amp;#10;        for row in range(self.y_count):&amp;#10;            for col in range(self.x_count):&amp;#10;                self.row = row&amp;#10;                self.col = col&amp;#10;                &amp;#10;                ## if it's the first hex&amp;#10;                if not row and not col:&amp;#10;              &amp;#10;                    ## reset the line width drawer&amp;#10;                    self.line_width_container_draw = copy.deepcopy(line_width_container_original)&amp;#10;                    &amp;#10;                    self._draw_hex('top_left', 'top_left', self.top_left_origin)&amp;#10;                    self.first_row_start_coord = self._coord_calculator(self.top_left_origin, 'top_left', 2)&amp;#10;                    self.new_hex_start_coord = self._coord_calculator(self.top_left_origin, 'top_left', 3)&amp;#10;                &amp;#10;                ## if it's the first row&amp;#10;                elif not row:&amp;#10;                    self._draw_hex('bottom_left', 'top_left', self.new_hex_start_coord)&amp;#10;                    self.new_hex_start_coord = self._coord_calculator(self.new_hex_start_coord, 'bottom_left', 2)&amp;#10;                    &amp;#10;                ## if it's the first column&amp;#10;                elif not col:&amp;#10;                    &amp;#10;                    ## conditional to account for the staggered pattern&amp;#10;                    if not row % 2:&amp;#10;                    ## if even&amp;#10;                        start_pos = 'top'&amp;#10;                        new_hex_n_turns = 4&amp;#10;                        first_row_n_turns = 3&amp;#10;                        &amp;#10;                    else:&amp;#10;                    ## if odd&amp;#10;                        start_pos = 'top_left'&amp;#10;                        new_hex_n_turns = 3&amp;#10;                        first_row_n_turns = 1  &amp;#10;                        &amp;#10;                    self._draw_hex(start_pos, 'top_right', self.first_row_start_coord)&amp;#10;                    self.new_hex_start_coord = self._coord_calculator(self.first_row_start_coord, start_pos, new_hex_n_turns)&amp;#10;                    self.first_row_start_coord = self._coord_calculator(self.first_row_start_coord, start_pos, first_row_n_turns)&amp;#10;                    &amp;#10;                ## for all internal hex's&amp;#10;                else:&amp;#10;                    ## catch the last hex on odd rows&amp;#10;                    if col == self.x_count - 1 and row % 2:&amp;#10;                        end_pos = 'top'&amp;#10;                    else:&amp;#10;                        end_pos = 'top_right'&amp;#10;&amp;#10;                    self._draw_hex('bottom_left', end_pos, self.new_hex_start_coord)&amp;#10;                    self.new_hex_start_coord = self._coord_calculator(self.new_hex_start_coord, 'bottom_left', 2)&amp;#10;&amp;#10;                    &amp;#10;    def _coord_calculator(self, start_coord, start_pos, n_turns):&amp;#10;        ## takes in a starting coordinate, starting pos, and number of calcs to do&amp;#10;        ## returns ending coord as [x, y]&amp;#10;        ## this function will fail if you try to turn past top left, which i dont think ill need to do&amp;#10;        &amp;#10;        ## calc a slice out of point_list to iterate over what's appropriate&amp;#10;        new_point_list = self._rearrange_point_list(start_pos)&amp;#10;        &amp;#10;        for pos in new_point_list[:n_turns]:&amp;#10;            start_coord = eval(self.point_dictionary[pos])&amp;#10;        &amp;#10;        return start_coord&amp;#10;            &amp;#10;            &amp;#10;    &amp;#10;    def _draw_hex(self, start_pos, end_pos, start_coord):&amp;#10;        &amp;#10;        ## draws a line from start_pos to end_pos&amp;#10;        new_point_list = self._rearrange_point_list(start_pos)&amp;#10;&amp;#10;        for position in new_point_list:&amp;#10;            if start_pos != end_pos and position == end_pos:&amp;#10;                break&amp;#10;            ## are we dealing with an exterior line?&amp;#10;            is_exterior = self._determine_exterior(self.row, self.col, self.x_count, self.y_count, position)&amp;#10;            &amp;#10;            line = self._define_line_type(is_exterior)&amp;#10;            line.start = start_coord&amp;#10;            line.end = eval(self.point_dictionary[position])&amp;#10;            line.draw()&amp;#10;&amp;#10;            lines_rectangles_container.append({'line': line, 'line_id': 'r{}c{}_{}'.format(self.row, self.col, self.point_to_side[position]), 'is_exterior': is_exterior})&amp;#10;                &amp;#10;            self._draw_rect(start_coord, line.end, position, is_exterior)&amp;#10;            &amp;#10;            start_coord= line.end&amp;#10;&amp;#10;&amp;#10;    def _draw_rect(self, line_start, line_end, position, is_exterior = False):&amp;#10;&amp;#10;        edge_length = self.edge_length&amp;#10;        center = [(line_end[0] + line_start[0]) / 2, (line_end[1] + line_start[1]) / 2]&amp;#10;        rotation = self.angle_dictionary[position]&amp;#10;        if not is_exterior:&amp;#10;            rect =  psychopy.visual.Rect(&amp;#10;            win = win,&amp;#10;            pos = center,&amp;#10;            units = 'pix',&amp;#10;            width = 20,&amp;#10;            height = edge_length - 20,&amp;#10;            opacity = 0,&amp;#10;            ori = rotation&amp;#10;            )&amp;#10;            rect.draw()&amp;#10;            &amp;#10;            lines_rectangles_container[-1]['rect'] = rect&amp;#10;            lines_rectangles_container[-1]['is_clicked'] = 'not_clicked'&amp;#10;        else:&amp;#10;            lines_rectangles_container[-1]['rect'] = None&amp;#10;            lines_rectangles_container[-1]['is_clicked'] = None&amp;#10;&amp;#10;    def _determine_exterior(self, row, col, x_count, y_count, position):&amp;#10;        ## i should write good comments here but not now lol&amp;#10;        ## basically just using position in the array to check relative line position to determine whether to draw rectangles&amp;#10;        if not row:&amp;#10;            if position in ['top_right', 'top']:&amp;#10;                return True&amp;#10;        if not col:&amp;#10;            if not row % 2:&amp;#10;                to_check = ['top_left', 'bottom_left', 'top']&amp;#10;            else:&amp;#10;                to_check = ['top_left']&amp;#10;            if position in to_check:&amp;#10;                return True&amp;#10;        if row == y_count - 1:&amp;#10;            if position in ['bottom_left', 'bottom']:&amp;#10;                return True&amp;#10;        if col == x_count - 1:&amp;#10;            if not row % 2:&amp;#10;                to_check = ['bottom_right']&amp;#10;            else:&amp;#10;                to_check = ['bottom', 'bottom_right', 'top_right']&amp;#10;            if position in to_check:&amp;#10;                return True&amp;#10;&amp;#10;        return False&amp;#10;&amp;#10;    def _rearrange_point_list(self, start_pos):&amp;#10;        ## outputs a list where the first element is start_pos and the last element is the one before start_pos in point_list&amp;#10;        if start_pos == 'top_left':&amp;#10;            return self.point_list&amp;#10;&amp;#10;        return self.point_list[self.point_list.index(start_pos):] + self.point_list[:self.point_list.index(start_pos)-1]&amp;#10;&amp;#10;    def _define_line_type(self, is_exterior):&amp;#10;        &amp;#10;        if is_exterior:&amp;#10;            lineWidth = 2.3333333&amp;#10;        else:&amp;#10;            ## this complexity might not be necessary anymore because this whole script is only running once&amp;#10;            if not self.line_width_container_draw:&amp;#10;                self.line_width_container_draw = copy.deepcopy(line_width_container_original)&amp;#10;            lineWidth = self.line_width_container_draw.pop(0)&amp;#10;&amp;#10;        return psychopy.visual.Line(&amp;#10;            lineWidth = lineWidth,&amp;#10;            win = win,&amp;#10;            units='pix',&amp;#10;            lineColor=[-1, -1, -1]&amp;#10;            )&amp;#10;&amp;#10;###############&amp;#10;## OTHER STUFF###&amp;#10;###############&amp;#10;&amp;#10;def compute_accuracy(lines_rectangles_container, clicked_lines):&amp;#10;&amp;#10;    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None]&amp;#10;    selected_line_widths = [x['line'].lineWidth for x in clicked_lines]&amp;#10;&amp;#10;    top_three = sorted(all_line_widths)[:3]&amp;#10;    accuracy = 0    &amp;#10;    for selected_line_width in selected_line_widths:&amp;#10;        if selected_line_width in top_three:&amp;#10;            accuracy += 1&amp;#10;    return accuracy / 3&amp;#10;    &amp;#10;    &amp;#10;def get_line_orientation(line):&amp;#10;    if line is None:&amp;#10;        return None&amp;#10;    top = line.start if line.start[1] &gt; line.end[1] else line.end&amp;#10;    bottom= line.start if line.start[1] &lt; line.end[1] else line.end&amp;#10;    if top[0] &lt; bottom[0]:&amp;#10;        return 'back_slash'&amp;#10;    if top[0] &gt; bottom[0]:&amp;#10;        return 'forward_slash'&amp;#10;    return 'vertical'&amp;#10;    &amp;#10;    &amp;#10;def save_data(pressed_object, line = None, line_id = None, selected_or_released = None):&amp;#10;    &amp;#10;    ## compute line top and bottom&amp;#10;    if line is not None:&amp;#10;        top = line.start if line.start[1] &gt; line.end[1] else line.end&amp;#10;        bottom= line.start if line.start[1] &lt; line.end[1] else line.end&amp;#10;    else:&amp;#10;        top = bottom = None&amp;#10;    &amp;#10;    selection_rt = datetime.now() - selection_start&amp;#10;    selection_rt_ms = selection_rt.seconds * 1000 + selection_rt.microseconds / 1000&amp;#10;    to_save = {&amp;#10;        'participant': expInfo['participant'],&amp;#10;        'date': expInfo['date'],&amp;#10;        'trial_count': trial_count,&amp;#10;        'click_order': click_order,&amp;#10;        'prompt_rt_sec': PromptResponse.rt,&amp;#10;        'selection_rt_ms': selection_rt_ms,&amp;#10;        'pressed_object': pressed_object,&amp;#10;        'line_width': line.lineWidth if line else None,&amp;#10;        'top_x': top[0] if top is not None else None,&amp;#10;        'top_y': top[1] if top is not None else None,&amp;#10;        'bottom_x': bottom[0] if bottom is not None else None,&amp;#10;        'bottom_y': bottom[1] if bottom is not None else None,&amp;#10;        'line_id': line_id,&amp;#10;        'line_orientation': get_line_orientation(line),&amp;#10;        'selected_or_released': selected_or_released,&amp;#10;        'accuracy': compute_accuracy(lines_rectangles_container, clicked_lines) if line is None else None&amp;#10;    }&amp;#10;    &amp;#10;    return to_save&amp;#10;    &amp;#10;    &amp;#10;def save_line_data(lines_rectangles_container, line_data):&amp;#10;    ## save out line parameters on each trial&amp;#10;    &amp;#10;    for entry in lines_rectangles_container:&amp;#10;        top = entry['line'].start if entry['line'].start[1] &gt; entry['line'].end[1] else entry['line'].end&amp;#10;        bottom= entry['line'].start if entry['line'].start[1] &lt; entry['line'].end[1] else entry['line'].end&amp;#10;        &amp;#10;        line_data.append({&amp;#10;            'participant': expInfo['participant'],&amp;#10;            'date': expInfo['date'],&amp;#10;            'trial_count': trial_count,&amp;#10;            'line_id': entry['line_id'],&amp;#10;            'line_width': entry['line'].lineWidth,&amp;#10;            'is_exterior': entry['is_exterior'],&amp;#10;            'top_x': top[0], &amp;#10;            'top_y': top[1] ,&amp;#10;            'bottom_x': bottom[0],&amp;#10;            'bottom_y': bottom[1] &amp;#10;            })&amp;#10;            &amp;#10;    with open('line_data/{}_{}.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:&amp;#10;        pickle.dump(line_data, file)&amp;#10;    file.close()&amp;#10;            &amp;#10;    &amp;#10;    &amp;#10;    &amp;#10;    &amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="import psychopy&amp;#10;## this line is essential for mapping coordinates of mouse clicks to the coordinates of rectangles&amp;#10;win.units = 'pix'&amp;#10;&amp;#10;## print_line_widths&amp;#10;## ^ flag for troubleshooting&amp;#10;&amp;#10;## initialize data containers&amp;#10;subject_data = []&amp;#10;line_data = []&amp;#10;lines_rectangles_container = []&amp;#10;&amp;#10;&amp;#10;class DrawHexGrid:&amp;#10;    '''&amp;#10;    The general idea here is to think, for any given hexagon I want to draw, what position (eg, top left) in the hex am i starting at, what position do i want to finish at, and what's the starting coordinate&amp;#10;    Given this information, we rely on the formulas below to draw however many lines are needed to connect the starting position to the ending position&amp;#10;    In the process, I save out starting coordinates that will be used for the next hexagon and for the first hexagon in a new row, as well as handling some other edge case things&amp;#10;    &amp;#10;    Formula for calculating coordinates:&amp;#10;    xx = x + (d * cos(alpha))&amp;#10;    yy = y + (d * sin(alpha))&amp;#10;    '''&amp;#10;    def __init__(self, top_left_origin, edge_length = 120, x_count = 4, y_count = 4):&amp;#10;&amp;#10;        self.top_left_origin = top_left_origin&amp;#10;        self.edge_length = edge_length&amp;#10;        self. x_count = x_count&amp;#10;        self.y_count = y_count&amp;#10;        self.point_list = ['top_left', 'bottom_left', 'bottom', 'bottom_right', 'top_right', 'top']&amp;#10;        self.point_dictionary = {&amp;#10;'top_left': '[start_coord[0], start_coord[1] - self.edge_length]',&amp;#10;'bottom_left': '[start_coord[0] + self.edge_length * cos(120), start_coord[1] - self.edge_length * sin(120)]',&amp;#10;'bottom': '[start_coord[0] + self.edge_length * cos(120), start_coord[1] + self.edge_length * sin(120)]',&amp;#10;'bottom_right': '[start_coord[0], start_coord[1] + self.edge_length]',&amp;#10;'top_right': '[start_coord[0] - self.edge_length * cos(120), start_coord[1] + self.edge_length * sin(120)]',&amp;#10;'top': '[start_coord[0] - self.edge_length * cos(120), start_coord[1] - self.edge_length * sin(120)]'&amp;#10;}&amp;#10;        # for creating rectangles&amp;#10;        self.angle_dictionary = {&amp;#10;        'top_left': 0,&amp;#10;        'bottom_left': -55,&amp;#10;        'bottom': 55,&amp;#10;        'bottom_right': 0,&amp;#10;        'top_right': -55,&amp;#10;        'top': 55&amp;#10;        }&amp;#10;        &amp;#10;        # for creating line ids&amp;#10;        self.point_to_side = {&amp;#10;        'top_left': 'left',&amp;#10;        'bottom_left': 'bottom_left',&amp;#10;        'bottom': 'bottom_right',&amp;#10;        'bottom_right': 'right',&amp;#10;        'top_right': 'top_right',&amp;#10;        'top': 'top_left'&amp;#10;        }&amp;#10;        &amp;#10;    def make_grid(self):&amp;#10;        for row in range(self.y_count):&amp;#10;            for col in range(self.x_count):&amp;#10;                self.row = row&amp;#10;                self.col = col&amp;#10;                &amp;#10;                ## if it's the first hex&amp;#10;                if not row and not col:&amp;#10;              &amp;#10;                    ## reset the line width drawer&amp;#10;                    self.line_width_container_draw = copy.deepcopy(line_width_container_original)&amp;#10;                    &amp;#10;                    self._draw_hex('top_left', 'top_left', self.top_left_origin)&amp;#10;                    self.first_row_start_coord = self._coord_calculator(self.top_left_origin, 'top_left', 2)&amp;#10;                    self.new_hex_start_coord = self._coord_calculator(self.top_left_origin, 'top_left', 3)&amp;#10;                &amp;#10;                ## if it's the first row&amp;#10;                elif not row:&amp;#10;                    self._draw_hex('bottom_left', 'top_left', self.new_hex_start_coord)&amp;#10;                    self.new_hex_start_coord = self._coord_calculator(self.new_hex_start_coord, 'bottom_left', 2)&amp;#10;                    &amp;#10;                ## if it's the first column&amp;#10;                elif not col:&amp;#10;                    &amp;#10;                    ## conditional to account for the staggered pattern&amp;#10;                    if not row % 2:&amp;#10;                    ## if even&amp;#10;                        start_pos = 'top'&amp;#10;                        new_hex_n_turns = 4&amp;#10;                        first_row_n_turns = 3&amp;#10;                        &amp;#10;                    else:&amp;#10;                    ## if odd&amp;#10;                        start_pos = 'top_left'&amp;#10;                        new_hex_n_turns = 3&amp;#10;                        first_row_n_turns = 1  &amp;#10;                        &amp;#10;                    self._draw_hex(start_pos, 'top_right', self.first_row_start_coord)&amp;#10;                    self.new_hex_start_coord = self._coord_calculator(self.first_row_start_coord, start_pos, new_hex_n_turns)&amp;#10;                    self.first_row_start_coord = self._coord_calculator(self.first_row_start_coord, start_pos, first_row_n_turns)&amp;#10;                    &amp;#10;                ## for all internal hex's&amp;#10;                else:&amp;#10;                    ## catch the last hex on odd rows&amp;#10;                    if col == self.x_count - 1 and row % 2:&amp;#10;                        end_pos = 'top'&amp;#10;                    else:&amp;#10;                        end_pos = 'top_right'&amp;#10;&amp;#10;                    self._draw_hex('bottom_left', end_pos, self.new_hex_start_coord)&amp;#10;                    self.new_hex_start_coord = self._coord_calculator(self.new_hex_start_coord, 'bottom_left', 2)&amp;#10;&amp;#10;                    &amp;#10;    def _coord_calculator(self, start_coord, start_pos, n_turns):&amp;#10;        ## takes in a starting coordinate, starting pos, and number of calcs to do&amp;#10;        ## returns ending coord as [x, y]&amp;#10;        ## this function will fail if you try to turn past top left, which i dont think ill need to do&amp;#10;        &amp;#10;        ## calc a slice out of point_list to iterate over what's appropriate&amp;#10;        new_point_list = self._rearrange_point_list(start_pos)&amp;#10;        &amp;#10;        for pos in new_point_list[:n_turns]:&amp;#10;            start_coord = eval(self.point_dictionary[pos])&amp;#10;        &amp;#10;        return start_coord&amp;#10;            &amp;#10;            &amp;#10;    &amp;#10;    def _draw_hex(self, start_pos, end_pos, start_coord):&amp;#10;        &amp;#10;        ## draws a line from start_pos to end_pos&amp;#10;        new_point_list = self._rearrange_point_list(start_pos)&amp;#10;&amp;#10;        for position in new_point_list:&amp;#10;            if start_pos != end_pos and position == end_pos:&amp;#10;                break&amp;#10;            ## are we dealing with an exterior line?&amp;#10;            is_exterior = self._determine_exterior(self.row, self.col, self.x_count, self.y_count, position)&amp;#10;            &amp;#10;            line = self._define_line_type(is_exterior)&amp;#10;            line.start = start_coord&amp;#10;            line.end = eval(self.point_dictionary[position])&amp;#10;            line.draw()&amp;#10;&amp;#10;            lines_rectangles_container.append({'line': line, 'line_id': 'r{}c{}_{}'.format(self.row, self.col, self.point_to_side[position]), 'is_exterior': is_exterior})&amp;#10;                &amp;#10;            self._draw_rect(start_coord, line.end, position, is_exterior)&amp;#10;            &amp;#10;            start_coord= line.end&amp;#10;&amp;#10;&amp;#10;    def _draw_rect(self, line_start, line_end, position, is_exterior = False):&amp;#10;&amp;#10;        edge_length = self.edge_length&amp;#10;        center = [(line_end[0] + line_start[0]) / 2, (line_end[1] + line_start[1]) / 2]&amp;#10;        rotation = self.angle_dictionary[position]&amp;#10;        if not is_exterior:&amp;#10;            rect =  psychopy.visual.Rect(&amp;#10;            win = win,&amp;#10;            pos = center,&amp;#10;            units = 'pix',&amp;#10;            width = 20,&amp;#10;            height = edge_length - 20,&amp;#10;            opacity = 0,&amp;#10;            ori = rotation&amp;#10;            )&amp;#10;            rect.draw()&amp;#10;            &amp;#10;            lines_rectangles_container[-1]['rect'] = rect&amp;#10;            lines_rectangles_container[-1]['is_clicked'] = 'not_clicked'&amp;#10;        else:&amp;#10;            lines_rectangles_container[-1]['rect'] = None&amp;#10;            lines_rectangles_container[-1]['is_clicked'] = None&amp;#10;&amp;#10;    def _determine_exterior(self, row, col, x_count, y_count, position):&amp;#10;        ## i should write good comments here but not now lol&amp;#10;        ## basically just using position in the array to check relative line position to determine whether to draw rectangles&amp;#10;        if not row:&amp;#10;            if position in ['top_right', 'top']:&amp;#10;                return True&amp;#10;        if not col:&amp;#10;            if not row % 2:&amp;#10;                to_check = ['top_left', 'bottom_left', 'top']&amp;#10;            else:&amp;#10;                to_check = ['top_left']&amp;#10;            if position in to_check:&amp;#10;                return True&amp;#10;        if row == y_count - 1:&amp;#10;            if position in ['bottom_left', 'bottom']:&amp;#10;                return True&amp;#10;        if col == x_count - 1:&amp;#10;            if not row % 2:&amp;#10;                to_check = ['bottom_right']&amp;#10;            else:&amp;#10;                to_check = ['bottom', 'bottom_right', 'top_right']&amp;#10;            if position in to_check:&amp;#10;                return True&amp;#10;&amp;#10;        return False&amp;#10;&amp;#10;    def _rearrange_point_list(self, start_pos):&amp;#10;        ## outputs a list where the first element is start_pos and the last element is the one before start_pos in point_list&amp;#10;        if start_pos == 'top_left':&amp;#10;            return self.point_list&amp;#10;&amp;#10;        return self.point_list[self.point_list.index(start_pos):] + self.point_list[:self.point_list.index(start_pos)-1]&amp;#10;&amp;#10;    def _define_line_type(self, is_exterior):&amp;#10;        &amp;#10;        if is_exterior:&amp;#10;            lineWidth = 2.3333333&amp;#10;        else:&amp;#10;            ## this complexity might not be necessary anymore because this whole script is only running once&amp;#10;            if not self.line_width_container_draw:&amp;#10;                self.line_width_container_draw = copy.deepcopy(line_width_container_original)&amp;#10;            lineWidth = self.line_width_container_draw.pop(0)&amp;#10;&amp;#10;        return psychopy.visual.Line(&amp;#10;            lineWidth = lineWidth,&amp;#10;            win = win,&amp;#10;            units='pix',&amp;#10;            lineColor=[-1, -1, -1]&amp;#10;            )&amp;#10;&amp;#10;###############&amp;#10;## OTHER STUFF###&amp;#10;###############&amp;#10;&amp;#10;def compute_accuracy(lines_rectangles_container, clicked_lines):&amp;#10;&amp;#10;    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None]&amp;#10;    selected_line_widths = [x['line'].lineWidth for x in clicked_lines]&amp;#10;&amp;#10;    top_three = sorted(all_line_widths)[:3]&amp;#10;    accuracy = 0    &amp;#10;    for selected_line_width in selected_line_widths:&amp;#10;        if selected_line_width in top_three:&amp;#10;            accuracy += 1&amp;#10;    return accuracy / 3&amp;#10;    &amp;#10;    &amp;#10;def get_line_orientation(line):&amp;#10;    if line is None:&amp;#10;        return None&amp;#10;    top = line.start if line.start[1] &gt; line.end[1] else line.end&amp;#10;    bottom= line.start if line.start[1] &lt; line.end[1] else line.end&amp;#10;    if top[0] &lt; bottom[0]:&amp;#10;        return 'back_slash'&amp;#10;    if top[0] &gt; bottom[0]:&amp;#10;        return 'forward_slash'&amp;#10;    return 'vertical'&amp;#10;    &amp;#10;    &amp;#10;def save_data(pressed_object, line = None, line_id = None, selected_or_released = None):&amp;#10;    &amp;#10;    ## compute line top and bottom&amp;#10;    if line is not None:&amp;#10;        top = line.start if line.start[1] &gt; line.end[1] else line.end&amp;#10;        bottom= line.start if line.start[1] &lt; line.end[1] else line.end&amp;#10;    else:&amp;#10;        top = bottom = None&amp;#10;    &amp;#10;    selection_rt = datetime.now() - selection_start&amp;#10;    selection_rt_ms = selection_rt.seconds * 1000 + selection_rt.microseconds / 1000&amp;#10;    to_save = {&amp;#10;        'participant': expInfo['participant'],&amp;#10;        'date': expInfo['date'],&amp;#10;        'trial_count': trial_count,&amp;#10;        'click_order': click_order,&amp;#10;        'prompt_rt_sec': PromptResponse.rt,&amp;#10;        'selection_rt_ms': selection_rt_ms,&amp;#10;        'pressed_object': pressed_object,&amp;#10;        'line_width': line.lineWidth if line else None,&amp;#10;        'top_x': top[0] if top is not None else None,&amp;#10;        'top_y': top[1] if top is not None else None,&amp;#10;        'bottom_x': bottom[0] if bottom is not None else None,&amp;#10;        'bottom_y': bottom[1] if bottom is not None else None,&amp;#10;        'line_id': line_id,&amp;#10;        'line_orientation': get_line_orientation(line),&amp;#10;        'selected_or_released': selected_or_released,&amp;#10;        'accuracy': compute_accuracy(lines_rectangles_container, clicked_lines) if line is None else None,&amp;#10;        'is_practice': is_practice&amp;#10;    }&amp;#10;    &amp;#10;    return to_save&amp;#10;    &amp;#10;    &amp;#10;def save_line_data(lines_rectangles_container, line_data):&amp;#10;    ## save out line parameters on each trial&amp;#10;    &amp;#10;    for entry in lines_rectangles_container:&amp;#10;        top = entry['line'].start if entry['line'].start[1] &gt; entry['line'].end[1] else entry['line'].end&amp;#10;        bottom= entry['line'].start if entry['line'].start[1] &lt; entry['line'].end[1] else entry['line'].end&amp;#10;        &amp;#10;        line_data.append({&amp;#10;            'participant': expInfo['participant'],&amp;#10;            'date': expInfo['date'],&amp;#10;            'trial_count': trial_count,&amp;#10;            'line_id': entry['line_id'],&amp;#10;            'line_width': entry['line'].lineWidth,&amp;#10;            'is_exterior': entry['is_exterior'],&amp;#10;            'top_x': top[0], &amp;#10;            'top_y': top[1] ,&amp;#10;            'bottom_x': bottom[0],&amp;#10;            'bottom_y': bottom[1] &amp;#10;            })&amp;#10;            &amp;#10;    with open('line_data/{}_{}.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:&amp;#10;        pickle.dump(line_data, file)&amp;#10;    file.close()&amp;#10;            &amp;#10;    &amp;#10;    &amp;#10;    &amp;#10;    &amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="trial_count += 1&amp;#10;lines_rectangles_counter = 0&amp;#10;lines_rectangles_container = []&amp;#10;click_order = 0&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="trial_count += 1&amp;#10;lines_rectangles_counter = 0&amp;#10;click_order = 0&amp;#10;if not trial_count:&amp;#10;    is_practice = True&amp;#10;else:&amp;#10;    is_practice = False&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -171,24 +171,6 @@
       </TextComponent>
     </Routine>
     <Routine name="Selection">
-      <KeyboardComponent name="SelectionResponse">
-        <Param name="allowedKeys" updates="constant" val="'y','n','left','right','space'" valType="list"/>
-        <Param name="correctAns" updates="constant" val="" valType="str"/>
-        <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
-        <Param name="durationEstim" updates="None" val="" valType="num"/>
-        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
-        <Param name="name" updates="None" val="SelectionResponse" valType="code"/>
-        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
-        <Param name="startEstim" updates="None" val="" valType="num"/>
-        <Param name="startType" updates="None" val="time (s)" valType="str"/>
-        <Param name="startVal" updates="None" val="0.0" valType="num"/>
-        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="" valType="num"/>
-        <Param name="store" updates="constant" val="last key" valType="str"/>
-        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
-        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
-      </KeyboardComponent>
       <CodeComponent name="LineSelection">
         <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
@@ -266,85 +248,6 @@
         <Param name="name" updates="None" val="SaveData" valType="code"/>
       </CodeComponent>
     </Routine>
-    <Routine name="Blank">
-      <TextComponent name="TimingText">
-        <Param name="color" updates="constant" val="black" valType="color"/>
-        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
-        <Param name="contrast" updates="constant" val="1" valType="num"/>
-        <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="durationEstim" updates="None" val="" valType="num"/>
-        <Param name="flip" updates="constant" val="None" valType="str"/>
-        <Param name="font" updates="constant" val="Open Sans" valType="str"/>
-        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
-        <Param name="letterHeight" updates="constant" val="30" valType="num"/>
-        <Param name="name" updates="None" val="TimingText" valType="code"/>
-        <Param name="opacity" updates="constant" val="" valType="num"/>
-        <Param name="ori" updates="constant" val="0" valType="num"/>
-        <Param name="pos" updates="constant" val="(0, 0)" valType="list"/>
-        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
-        <Param name="startEstim" updates="None" val="" valType="num"/>
-        <Param name="startType" updates="None" val="time (s)" valType="str"/>
-        <Param name="startVal" updates="None" val="0.0" valType="num"/>
-        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="" valType="num"/>
-        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="constant" val="Press the space bar to see the next display." valType="str"/>
-        <Param name="units" updates="None" val="pix" valType="str"/>
-        <Param name="wrapWidth" updates="constant" val="" valType="num"/>
-      </TextComponent>
-      <CodeComponent name="SaveToFile">
-        <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="import pickle&amp;#10;&amp;#10;with open('long_data/{}_{}.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:&amp;#10;    pickle.dump(subject_data, file)&amp;#10;file.close()&amp;#10;" valType="extendedCode"/>
-        <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="name" updates="None" val="SaveToFile" valType="code"/>
-      </CodeComponent>
-      <CodeComponent name="ComputeAccuracy">
-        <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="name" updates="None" val="ComputeAccuracy" valType="code"/>
-      </CodeComponent>
-      <KeyboardComponent name="key_resp_2">
-        <Param name="allowedKeys" updates="constant" val="'space'" valType="list"/>
-        <Param name="correctAns" updates="constant" val="" valType="str"/>
-        <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
-        <Param name="durationEstim" updates="None" val="" valType="num"/>
-        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
-        <Param name="name" updates="None" val="key_resp_2" valType="code"/>
-        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
-        <Param name="startEstim" updates="None" val="" valType="num"/>
-        <Param name="startType" updates="None" val="time (s)" valType="str"/>
-        <Param name="startVal" updates="None" val="0.0" valType="num"/>
-        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="" valType="num"/>
-        <Param name="store" updates="constant" val="last key" valType="str"/>
-        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
-        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
-      </KeyboardComponent>
-    </Routine>
     <Routine name="Welcome">
       <TextComponent name="WelcomeText">
         <Param name="color" updates="constant" val="black" valType="color"/>
@@ -367,12 +270,12 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val="" valType="num"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="constant" val="Welcome to the experiment:&amp;#10;&amp;#10;You will be viewing a series of images designed to capture aspects of the materials that the microscopist would see. You will view a 4 x 4 display of hexagons. The important features are the boundaries between these hexagons. Your task is going to be to search the array and select three of the thinnest lines that you can find. These lines will always be in the interior of the array between two hexagons. Click spacebar to see an example of the array." valType="str"/>
+        <Param name="text" updates="constant" val="Welcome to the experiment:&amp;#10;&amp;#10;You will be viewing a series of images designed to capture aspects of the materials that the microscopist would see. You will view a 4 x 4 display of hexagons. The important features are the boundaries between these hexagons. Your task is going to be to search the array and select three of the thinnest lines that you can find. These lines will always be in the interior of the array between two hexagons. Wait for the experimenter to proceed." valType="str"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="num"/>
       </TextComponent>
       <KeyboardComponent name="WelcomeResponse">
-        <Param name="allowedKeys" updates="constant" val="'q'" valType="list"/>
+        <Param name="allowedKeys" updates="constant" val="'w'" valType="list"/>
         <Param name="correctAns" updates="constant" val="" valType="str"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="discard previous" updates="constant" val="True" valType="bool"/>
@@ -524,6 +427,102 @@
         <Param name="name" updates="None" val="DrawDemoArray" valType="code"/>
       </CodeComponent>
     </Routine>
+    <Routine name="ISI">
+      <CodeComponent name="displayText">
+        <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="if is_practice:&amp;#10;    ISI_display_text = &quot;You just finished the practice trial. Moving forward with the experiment you will be \&amp;#10;    doing trials like this for about 20 minutes. If you would like more clarification before beginning, you can\&amp;#10;    ask the experimenter any questions at this time. Otherwise, press spacebar to continue to the experiment.&quot;&amp;#10;else:&amp;#10;    ISI_display_text = &quot;Press the space bar to see the next display.&quot;&amp;#10;    &amp;#10;" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="displayText" valType="code"/>
+      </CodeComponent>
+      <TextComponent name="TimingText">
+        <Param name="color" updates="constant" val="black" valType="color"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="contrast" updates="constant" val="1" valType="num"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="num"/>
+        <Param name="flip" updates="constant" val="None" valType="str"/>
+        <Param name="font" updates="constant" val="Open Sans" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="30" valType="num"/>
+        <Param name="name" updates="None" val="TimingText" valType="code"/>
+        <Param name="opacity" updates="constant" val="" valType="num"/>
+        <Param name="ori" updates="constant" val="0" valType="num"/>
+        <Param name="pos" updates="constant" val="(0, 0)" valType="list"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="num"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="num"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="num"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="text" updates="set every repeat" val="$ISI_display_text" valType="str"/>
+        <Param name="units" updates="None" val="pix" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="num"/>
+      </TextComponent>
+      <CodeComponent name="SaveToFile">
+        <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="import pickle&amp;#10;&amp;#10;with open('long_data/{}_{}.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:&amp;#10;    pickle.dump(subject_data, file)&amp;#10;file.close()&amp;#10;" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="SaveToFile" valType="code"/>
+      </CodeComponent>
+      <CodeComponent name="ComputeAccuracy">
+        <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="ComputeAccuracy" valType="code"/>
+      </CodeComponent>
+      <KeyboardComponent name="key_resp_2">
+        <Param name="allowedKeys" updates="constant" val="'space'" valType="list"/>
+        <Param name="correctAns" updates="constant" val="" valType="str"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="num"/>
+        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="name" updates="None" val="key_resp_2" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="num"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="num"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="num"/>
+        <Param name="store" updates="constant" val="last key" valType="str"/>
+        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
+        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
+      </KeyboardComponent>
+    </Routine>
   </Routines>
   <Flow>
     <Routine name="Welcome"/>
@@ -542,7 +541,7 @@
     </LoopInitiator>
     <Routine name="Prompt"/>
     <Routine name="Selection"/>
-    <Routine name="Blank"/>
+    <Routine name="ISI"/>
     <LoopTerminator name="trials"/>
     <Routine name="Ending"/>
   </Flow>

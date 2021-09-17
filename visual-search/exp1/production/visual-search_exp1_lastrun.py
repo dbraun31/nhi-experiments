@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Fri 17 Sep 2021 11:26:48 AM EDT
+    on Fri Sep 17 11:55:24 2021
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -30,7 +30,7 @@ from psychopy.hardware import keyboard
 
 from datetime import datetime
 import pickle
-trial_count = 0
+trial_count = -1
 import copy
 
 
@@ -55,7 +55,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='visual-search_exp1_lastrun.py',
+    originPath='/Users/lilyspencer/Desktop/NHIsep17/nhi-experiments/visual-search/exp1/production/visual-search_exp1_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -87,7 +87,7 @@ defaultKeyboard = keyboard.Keyboard()
 # Initialize components for Routine "Welcome"
 WelcomeClock = core.Clock()
 WelcomeText = visual.TextStim(win=win, name='WelcomeText',
-    text='Welcome to the experiment:\n\nYou will be viewing a series of images designed to capture aspects of the materials that the microscopist would see. You will view a 4 x 4 display of hexagons. The important features are the boundaries between these hexagons. Your task is going to be to search the array and select three of the thinnest lines that you can find. These lines will always be in the interior of the array between two hexagons. Click spacebar to see an example of the array.',
+    text='Welcome to the experiment:\n\nYou will be viewing a series of images designed to capture aspects of the materials that the microscopist would see. You will view a 4 x 4 display of hexagons. The important features are the boundaries between these hexagons. Your task is going to be to search the array and select three of the thinnest lines that you can find. These lines will always be in the interior of the array between two hexagons. Wait for the experimenter to proceed.',
     font='Open Sans',
     pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
@@ -129,7 +129,7 @@ win.units = 'pix'
 ## initialize data containers
 subject_data = []
 line_data = []
-
+lines_rectangles_container = []
 
 
 class DrawHexGrid:
@@ -397,7 +397,8 @@ def save_data(pressed_object, line = None, line_id = None, selected_or_released 
         'line_id': line_id,
         'line_orientation': get_line_orientation(line),
         'selected_or_released': selected_or_released,
-        'accuracy': compute_accuracy(lines_rectangles_container, clicked_lines) if line is None else None
+        'accuracy': compute_accuracy(lines_rectangles_container, clicked_lines) if line is None else None,
+        'is_practice': is_practice
     }
     
     return to_save
@@ -482,15 +483,15 @@ PromptToSelect = visual.TextStim(win=win, name='PromptToSelect',
     languageStyle='LTR',
     depth=-2.0);
 
-# Initialize components for Routine "Blank"
-BlankClock = core.Clock()
+# Initialize components for Routine "ISI"
+ISIClock = core.Clock()
 TimingText = visual.TextStim(win=win, name='TimingText',
-    text='Press the space bar to see the next display.',
+    text='',
     font='Open Sans',
     units='pix', pos=(0, 0), height=30.0, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
-    depth=0.0);
+    depth=-1.0);
 key_resp_2 = keyboard.Keyboard()
 
 # Initialize components for Routine "Ending"
@@ -560,7 +561,7 @@ while continueRoutine:
         win.callOnFlip(WelcomeResponse.clock.reset)  # t=0 on next screen flip
         win.callOnFlip(WelcomeResponse.clearEvents, eventType='keyboard')  # clear events on next screen flip
     if WelcomeResponse.status == STARTED and not waitOnFlip:
-        theseKeys = WelcomeResponse.getKeys(keyList=['q'], waitRelease=False)
+        theseKeys = WelcomeResponse.getKeys(keyList=['w'], waitRelease=False)
         _WelcomeResponse_allKeys.extend(theseKeys)
         if len(_WelcomeResponse_allKeys):
             WelcomeResponse.keys = _WelcomeResponse_allKeys[-1].name  # just the last key pressed
@@ -827,9 +828,11 @@ for thisTrial in trials:
     # update component parameters for each repeat
     trial_count += 1
     lines_rectangles_counter = 0
-    lines_rectangles_container = []
     click_order = 0
-    
+    if not trial_count:
+        is_practice = True
+    else:
+        is_practice = False
     
     
     dhg = DrawHexGrid([-400, 400])
@@ -1166,9 +1169,18 @@ for thisTrial in trials:
     # the Routine "Selection" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     
-    # ------Prepare to start Routine "Blank"-------
+    # ------Prepare to start Routine "ISI"-------
     continueRoutine = True
     # update component parameters for each repeat
+    if is_practice:
+        ISI_display_text = "You just finished the practice trial. Moving forward with the experiment you will be \
+        doing trials like this for about 20 minutes. If you would like more clarification before beginning, you can\
+        ask the experimenter any questions at this time. Otherwise, press spacebar to continue to the experiment."
+    else:
+        ISI_display_text = "Press the space bar to see the next display."
+        
+    
+    TimingText.setText(ISI_display_text)
     import pickle
     
     with open('long_data/{}_{}.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:
@@ -1179,8 +1191,8 @@ for thisTrial in trials:
     key_resp_2.rt = []
     _key_resp_2_allKeys = []
     # keep track of which components have finished
-    BlankComponents = [TimingText, key_resp_2]
-    for thisComponent in BlankComponents:
+    ISIComponents = [TimingText, key_resp_2]
+    for thisComponent in ISIComponents:
         thisComponent.tStart = None
         thisComponent.tStop = None
         thisComponent.tStartRefresh = None
@@ -1190,14 +1202,14 @@ for thisTrial in trials:
     # reset timers
     t = 0
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
-    BlankClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+    ISIClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
     frameN = -1
     
-    # -------Run Routine "Blank"-------
+    # -------Run Routine "ISI"-------
     while continueRoutine:
         # get current time
-        t = BlankClock.getTime()
-        tThisFlip = win.getFutureFlipTime(clock=BlankClock)
+        t = ISIClock.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=ISIClock)
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
@@ -1241,7 +1253,7 @@ for thisTrial in trials:
         if not continueRoutine:  # a component has requested a forced-end of Routine
             break
         continueRoutine = False  # will revert to True if at least one component still running
-        for thisComponent in BlankComponents:
+        for thisComponent in ISIComponents:
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
                 break  # at least one component has not yet finished
@@ -1250,8 +1262,8 @@ for thisTrial in trials:
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
     
-    # -------Ending Routine "Blank"-------
-    for thisComponent in BlankComponents:
+    # -------Ending Routine "ISI"-------
+    for thisComponent in ISIComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
     trials.addData('TimingText.started', TimingText.tStartRefresh)
@@ -1264,7 +1276,7 @@ for thisTrial in trials:
         trials.addData('key_resp_2.rt', key_resp_2.rt)
     trials.addData('key_resp_2.started', key_resp_2.tStartRefresh)
     trials.addData('key_resp_2.stopped', key_resp_2.tStopRefresh)
-    # the Routine "Blank" was not non-slip safe, so reset the non-slip timer
+    # the Routine "ISI" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     thisExp.nextEntry()
     
