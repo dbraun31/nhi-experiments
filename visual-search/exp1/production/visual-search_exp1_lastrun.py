@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2021.2.0),
-    on September 17, 2021, at 11:11
+This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
+    on Fri 17 Sep 2021 11:26:48 AM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -39,7 +39,7 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2021.2.0'
+psychopyVersion = '2021.1.4'
 expName = 'visual-search_exp1'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
 dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
@@ -55,7 +55,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\trimb\\Desktop\\nhi-experiments\\visual-search\\exp1\\production\\visual-search_exp1_lastrun.py',
+    originPath='visual-search_exp1_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -81,9 +81,6 @@ if expInfo['frameRate'] != None:
 else:
     frameDur = 1.0 / 60.0  # could not measure, so guess
 
-# Setup eyetracking
-ioDevice = ioConfig = ioSession = ioServer = eyetracker = None
-
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard()
 
@@ -101,26 +98,18 @@ WelcomeResponse = keyboard.Keyboard()
 # Initialize components for Routine "Example"
 ExampleClock = core.Clock()
 ExampleResponse = keyboard.Keyboard()
-text = visual.TextStim(win=win, name='text',
-    text='Press the space bar when you are ready to move on.',
+DemoText = visual.TextStim(win=win, name='DemoText',
+    text='This is an example of the array that you will be seeing in the experiment. You should only pay attention to the interior lines when looking for the thinnest lines, you will not be able to select the exterior lines.\n\nPress the space bar when you are ready to see the rest of the instructions.',
     font='Open Sans',
     units='pix', pos=(-700, 400), height=35.0, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
-image = visual.ImageStim(
-    win=win,
-    name='image', 
-    image='C:/Users/trimb/Desktop/Hexagon.png', mask=None,
-    ori=0.0, pos=(0, 0), size=(1,1),
-    color=[1,1,1], colorSpace='rgb', opacity=None,
-    flipHoriz=False, flipVert=False,
-    texRes=128.0, interpolate=True, depth=-2.0)
 
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
 InstructionsText = visual.TextStim(win=win, name='InstructionsText',
-    text='When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.\n\nPlease press the space bar when you are ready to begin the experiment.',
+    text='When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.\n\nYou will do one practice round before starting the real experiment.\n\nPlease press the space bar when you are ready to begin the practice.',
     font='Open Sans',
     pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
@@ -620,8 +609,11 @@ continueRoutine = True
 ExampleResponse.keys = []
 ExampleResponse.rt = []
 _ExampleResponse_allKeys = []
+dhg = DrawHexGrid([-400, 400])
+
+dhg.make_grid()
 # keep track of which components have finished
-ExampleComponents = [ExampleResponse, text, image]
+ExampleComponents = [ExampleResponse, DemoText]
 for thisComponent in ExampleComponents:
     thisComponent.tStart = None
     thisComponent.tStop = None
@@ -666,23 +658,19 @@ while continueRoutine:
             # a response ends the routine
             continueRoutine = False
     
-    # *text* updates
-    if text.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+    # *DemoText* updates
+    if DemoText.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
-        text.frameNStart = frameN  # exact frame index
-        text.tStart = t  # local t and not account for scr refresh
-        text.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(text, 'tStartRefresh')  # time at next scr refresh
-        text.setAutoDraw(True)
+        DemoText.frameNStart = frameN  # exact frame index
+        DemoText.tStart = t  # local t and not account for scr refresh
+        DemoText.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(DemoText, 'tStartRefresh')  # time at next scr refresh
+        DemoText.setAutoDraw(True)
     
-    # *image* updates
-    if image.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-        # keep track of start time/frame for later
-        image.frameNStart = frameN  # exact frame index
-        image.tStart = t  # local t and not account for scr refresh
-        image.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(image, 'tStartRefresh')  # time at next scr refresh
-        image.setAutoDraw(True)
+    for entry in lines_rectangles_container:
+        entry['line'].draw()
+        
+    
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -714,10 +702,8 @@ if ExampleResponse.keys != None:  # we had a response
 thisExp.addData('ExampleResponse.started', ExampleResponse.tStartRefresh)
 thisExp.addData('ExampleResponse.stopped', ExampleResponse.tStopRefresh)
 thisExp.nextEntry()
-thisExp.addData('text.started', text.tStartRefresh)
-thisExp.addData('text.stopped', text.tStopRefresh)
-thisExp.addData('image.started', image.tStartRefresh)
-thisExp.addData('image.stopped', image.tStopRefresh)
+thisExp.addData('DemoText.started', DemoText.tStartRefresh)
+thisExp.addData('DemoText.stopped', DemoText.tStopRefresh)
 # the Routine "Example" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
@@ -1118,7 +1104,7 @@ for thisTrial in trials:
             win.timeOnFlip(PromptToSelect, 'tStartRefresh')  # time at next scr refresh
             PromptToSelect.setAutoDraw(True)
         if PromptToSelect.status == STARTED:  # only update if drawing
-            PromptToSelect.setText(show_text, log=False)
+            PromptToSelect.setText(show_text)
         
         
         ## control instruction text
