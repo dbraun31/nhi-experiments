@@ -1,5 +1,6 @@
 import pandas as pd
 import pickle
+import sys
 
 
 
@@ -7,7 +8,14 @@ import pickle
 
 
 if __name__ == '__main__':
-	with open('long_data/0.pickle', 'rb') as file:
+
+	f = sys.argv[1]
+
+	if not f:
+		print('point to the file to convert')
+		sys.exit(1)
+
+	with open(f, 'rb') as file:
 		d = pickle.load(file)
 
 	d = pd.DataFrame(d)

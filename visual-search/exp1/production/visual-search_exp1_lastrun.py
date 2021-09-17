@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Fri Sep 17 11:55:24 2021
+    on Fri 17 Sep 2021 12:33:40 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -31,6 +31,8 @@ from psychopy.hardware import keyboard
 from datetime import datetime
 import pickle
 trial_count = -1
+
+time_start_experiment = datetime.now()
 import copy
 
 
@@ -55,7 +57,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='/Users/lilyspencer/Desktop/NHIsep17/nhi-experiments/visual-search/exp1/production/visual-search_exp1_lastrun.py',
+    originPath='visual-search_exp1_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -89,7 +91,7 @@ WelcomeClock = core.Clock()
 WelcomeText = visual.TextStim(win=win, name='WelcomeText',
     text='Welcome to the experiment:\n\nYou will be viewing a series of images designed to capture aspects of the materials that the microscopist would see. You will view a 4 x 4 display of hexagons. The important features are the boundaries between these hexagons. Your task is going to be to search the array and select three of the thinnest lines that you can find. These lines will always be in the interior of the array between two hexagons. Wait for the experimenter to proceed.',
     font='Open Sans',
-    pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
+    units='pix', pos=(0, 0), height=30.0, wrapWidth=1000.0, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
@@ -99,9 +101,9 @@ WelcomeResponse = keyboard.Keyboard()
 ExampleClock = core.Clock()
 ExampleResponse = keyboard.Keyboard()
 DemoText = visual.TextStim(win=win, name='DemoText',
-    text='This is an example of the array that you will be seeing in the experiment. You should only pay attention to the interior lines when looking for the thinnest lines, you will not be able to select the exterior lines.\n\nPress the space bar when you are ready to see the rest of the instructions.',
+    text='Press the space bar when you are ready to see the rest of the instructions.',
     font='Open Sans',
-    units='pix', pos=(-700, 400), height=35.0, wrapWidth=None, ori=0.0, 
+    units='pix', pos=(-700, 350), height=35.0, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
@@ -109,9 +111,9 @@ DemoText = visual.TextStim(win=win, name='DemoText',
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
 InstructionsText = visual.TextStim(win=win, name='InstructionsText',
-    text='When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.\n\nYou will do one practice round before starting the real experiment.\n\nPlease press the space bar when you are ready to begin the practice.',
+    text="When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You should only compare the interior lines--you will not be able to select the exterior lines and they don't count as being among the thinnest or not. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.\n\nYou will do one practice round before starting the real experiment.\n\nPlease press the space bar when you are ready to begin the practice.",
     font='Open Sans',
-    pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
+    units='pix', pos=(0, 0), height=30.0, wrapWidth=1000.0, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
@@ -357,6 +359,12 @@ def compute_accuracy(lines_rectangles_container, clicked_lines):
             accuracy += 1
     return accuracy / 3
     
+def compute_possible_thinnest_lines(lines_rectangles_container):
+    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None]
+    
+    top_three = sorted(all_line_widths)[:3]
+    return len([x for x in all_line_widths if x <= top_three[-1]])
+    
     
 def get_line_orientation(line):
     if line is None:
@@ -384,6 +392,7 @@ def save_data(pressed_object, line = None, line_id = None, selected_or_released 
     to_save = {
         'participant': expInfo['participant'],
         'date': expInfo['date'],
+        'overall_time': datetime.now() - time_start_experiment,
         'trial_count': trial_count,
         'click_order': click_order,
         'prompt_rt_sec': PromptResponse.rt,
@@ -398,6 +407,7 @@ def save_data(pressed_object, line = None, line_id = None, selected_or_released 
         'line_orientation': get_line_orientation(line),
         'selected_or_released': selected_or_released,
         'accuracy': compute_accuracy(lines_rectangles_container, clicked_lines) if line is None else None,
+        'possible_thinnest_lines': compute_possible_thinnest_lines(lines_rectangles_container),
         'is_practice': is_practice
     }
     
@@ -474,21 +484,20 @@ PromptToContinue = visual.TextStim(win=win, name='PromptToContinue',
 
 # Initialize components for Routine "Selection"
 SelectionClock = core.Clock()
-SelectionResponse = keyboard.Keyboard()
 PromptToSelect = visual.TextStim(win=win, name='PromptToSelect',
     text='',
     font='Open Sans',
     units='pix', pos=(-700, 400), height=35.0, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
-    depth=-2.0);
+    depth=-1.0);
 
 # Initialize components for Routine "ISI"
 ISIClock = core.Clock()
 TimingText = visual.TextStim(win=win, name='TimingText',
     text='',
     font='Open Sans',
-    units='pix', pos=(0, 0), height=30.0, wrapWidth=None, ori=0.0, 
+    units='pix', pos=(0, 0), height=30.0, wrapWidth=1000.0, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
@@ -561,7 +570,7 @@ while continueRoutine:
         win.callOnFlip(WelcomeResponse.clock.reset)  # t=0 on next screen flip
         win.callOnFlip(WelcomeResponse.clearEvents, eventType='keyboard')  # clear events on next screen flip
     if WelcomeResponse.status == STARTED and not waitOnFlip:
-        theseKeys = WelcomeResponse.getKeys(keyList=['w'], waitRelease=False)
+        theseKeys = WelcomeResponse.getKeys(keyList=['q'], waitRelease=False)
         _WelcomeResponse_allKeys.extend(theseKeys)
         if len(_WelcomeResponse_allKeys):
             WelcomeResponse.keys = _WelcomeResponse_allKeys[-1].name  # just the last key pressed
@@ -834,6 +843,7 @@ for thisTrial in trials:
     else:
         is_practice = False
     
+    lines_rectangles_container = []
     
     dhg = DrawHexGrid([-400, 400])
     
@@ -953,9 +963,6 @@ for thisTrial in trials:
     # ------Prepare to start Routine "Selection"-------
     continueRoutine = True
     # update component parameters for each repeat
-    SelectionResponse.keys = []
-    SelectionResponse.rt = []
-    _SelectionResponse_allKeys = []
     mouse = psychopy.event.Mouse(win = win)
     
     clicked_lines = []
@@ -1001,7 +1008,7 @@ for thisTrial in trials:
         
     
     # keep track of which components have finished
-    SelectionComponents = [SelectionResponse, PromptToSelect]
+    SelectionComponents = [PromptToSelect]
     for thisComponent in SelectionComponents:
         thisComponent.tStart = None
         thisComponent.tStop = None
@@ -1023,28 +1030,6 @@ for thisTrial in trials:
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        
-        # *SelectionResponse* updates
-        waitOnFlip = False
-        if SelectionResponse.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-            # keep track of start time/frame for later
-            SelectionResponse.frameNStart = frameN  # exact frame index
-            SelectionResponse.tStart = t  # local t and not account for scr refresh
-            SelectionResponse.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(SelectionResponse, 'tStartRefresh')  # time at next scr refresh
-            SelectionResponse.status = STARTED
-            # keyboard checking is just starting
-            waitOnFlip = True
-            win.callOnFlip(SelectionResponse.clock.reset)  # t=0 on next screen flip
-            win.callOnFlip(SelectionResponse.clearEvents, eventType='keyboard')  # clear events on next screen flip
-        if SelectionResponse.status == STARTED and not waitOnFlip:
-            theseKeys = SelectionResponse.getKeys(keyList=['y', 'n', 'left', 'right', 'space'], waitRelease=False)
-            _SelectionResponse_allKeys.extend(theseKeys)
-            if len(_SelectionResponse_allKeys):
-                SelectionResponse.keys = _SelectionResponse_allKeys[-1].name  # just the last key pressed
-                SelectionResponse.rt = _SelectionResponse_allKeys[-1].rt
-                # a response ends the routine
-                continueRoutine = False
         import time
         
         ## check for hovering
@@ -1156,14 +1141,6 @@ for thisTrial in trials:
     for thisComponent in SelectionComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
-    # check responses
-    if SelectionResponse.keys in ['', [], None]:  # No response was made
-        SelectionResponse.keys = None
-    trials.addData('SelectionResponse.keys',SelectionResponse.keys)
-    if SelectionResponse.keys != None:  # we had a response
-        trials.addData('SelectionResponse.rt', SelectionResponse.rt)
-    trials.addData('SelectionResponse.started', SelectionResponse.tStartRefresh)
-    trials.addData('SelectionResponse.stopped', SelectionResponse.tStopRefresh)
     trials.addData('PromptToSelect.started', PromptToSelect.tStartRefresh)
     trials.addData('PromptToSelect.stopped', PromptToSelect.tStopRefresh)
     # the Routine "Selection" was not non-slip safe, so reset the non-slip timer
@@ -1173,9 +1150,7 @@ for thisTrial in trials:
     continueRoutine = True
     # update component parameters for each repeat
     if is_practice:
-        ISI_display_text = "You just finished the practice trial. Moving forward with the experiment you will be \
-        doing trials like this for about 20 minutes. If you would like more clarification before beginning, you can\
-        ask the experimenter any questions at this time. Otherwise, press spacebar to continue to the experiment."
+        ISI_display_text = "You just finished the practice trial. Moving forward with the experiment you will be doing trials like this for about 20 minutes. If you would like more clarification before beginning, you can ask the experimenter any questions at this time. Otherwise, press spacebar to continue to the experiment."
     else:
         ISI_display_text = "Press the space bar to see the next display."
         
