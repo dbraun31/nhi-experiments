@@ -61,18 +61,27 @@ calc_accuracy_columns <- function(d) {
   thinnest_lines_set <- thinnest_lines[thinnest_lines$participant == participant & thinnest_lines$trial_count == trial,]$line_id
   
   ## determine the final three lines they selected
+  ## some extra logic to assign NA to any lines that were selected and later released
   selected_lines <- c(NA, NA, NA)
+  indices <- c(NA, NA, NA)
   for (row in 1:(nrow(d))) {
     if (d[row,]$selected_or_released == 'selected') {
-      selected_lines[which(is.na(selected_lines))[1]] <- d[row,]$line_id
+      slot <- which(is.na(selected_lines))[1]
+      selected_lines[slot]<- d[row,]$line_id
+      indices[slot] <- row
     } else {
-      selected_lines[!(is.na(selected_lines)) & selected_lines == d[row,]$line_id] <- NA
+      slot <- which(!(is.na(selected_lines)) & selected_lines == d[row,]$line_id)
+      selected_lines[slot] <- NA
+      indices[slot] <- NA
     }
   }
   
-  selected_lines_accuracy_column <- ifelse(is.na(d$bottom_y), NA, ifelse(d$line_id %in% selected_lines & d$line_id %in% thinnest_lines_set, 'hit', 'false_alarm'))
+  selected_lines_accuracy_column <- rep(NA, nrow(d))
+  accuracy_code <- ifelse(selected_lines %in% thinnest_lines_set, 'hit', 'false_alarm')
+  selected_lines_accuracy_column[indices] <- accuracy_code
+
   return(selected_lines_accuracy_column)
-  
+
 }
 
 out  <- vector()
