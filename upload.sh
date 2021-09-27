@@ -1,0 +1,1 @@
+rsync -avP --delete -e 'ssh -p 18765' /home/dave/Dropbox\ \(Lehigh\ University\)/Fall_2021/NHI/nhi-experiments/ u231-f6hnzkbwb44b@davebraun.net:~/www/davebraun.net/public_html/nhi-experiments/

@@ -1,0 +1,155 @@
+---
+title: "Grain Boundary Search Task (V1) EDA"
+author: "Dave Braun"
+date: "9/24/2021"
+output: 
+  html_document:
+    code_folding: hide
+    df_print: paged
+    theme: flatly
+    
+knit:
+  (function(inputFile, encoding) {
+      rmarkdown::render(inputFile,
+                    encoding = encoding,
+                    output_file = 'index.html')})
+---
+
+
+## What do we want to look at?
+
+* Why did Nick's participants take so much longer than Lily's?  
+  * Somewhat captured in the plots already produced  
+* IVs:  
+  * Possible line widths  
+  * Location of lines  
+  * Line orientation
+* DVs:  
+  * Accuracy  
+  * RT  
+  * Choice  
+  * Order of line selection  
+* How does accuracy change over line selections and de selections
+
+## Line orientation
+This is not simple.
+
+What we need:  
+* The final three lines they selected  
+* The widths and orientations of all possible thinnest lines they could've selected  
+* With those two sets, calculate hits, misses, false alarms
+  
+```{r include = FALSE}
+library(tidyverse)
+library(testit)
+```
+
+  
+  
+```{r}
+d <- read.csv('../../data/raw/long_data/pilot/pilot_data.csv')
+thinnest_lines <- read.csv('../../data/raw/line_data/pilot/thinnest_lines.csv')
+head(d)
+```
+
+  
+```{r}
+calc_accuracy_columns <- function(d) {
+  participant <- d$participant[1]
+  trial <- d$trial_count[1]
+  
+  thinnest_lines_set <- thinnest_lines[thinnest_lines$participant == participant & thinnest_lines$trial_count == trial,]$line_id
+  
+  ## determine the final three lines they selected
+  selected_lines <- c(NA, NA, NA)
+  for (row in 1:(nrow(d))) {
+    if (d[row,]$selected_or_released == 'selected') {
+      selected_lines[which(is.na(selected_lines))[1]] <- d[row,]$line_id
+    } else {
+      selected_lines[!(is.na(selected_lines)) & selected_lines == d[row,]$line_id] <- NA
+    }
+  }
+  
+  selected_lines_accuracy_column <- ifelse(is.na(d$bottom_y), NA, ifelse(d$line_id %in% selected_lines & d$line_id %in% thinnest_lines_set, 'hit', 'false_alarm'))
+  return(selected_lines_accuracy_column)
+  
+}
+
+out  <- vector()
+
+for (participant in unlist(lapply(levels(factor(d$participant)), as.integer))) {
+  for (trial in 0:99) {
+    out <- c(out, calc_accuracy_columns(d[d$participant == participant & d$trial_count == trial,]))
+  }
+}
+
+d$accuracy_type <- out
+
+
+```
+  
+```{r}
+## summarize hits and false alarms
+summary_data <- d %>% 
+  filter(!(is.na(accuracy_type))) %>% 
+  mutate(hit = ifelse(accuracy_type == 'hit', 1, 0), false_alarm = ifelse(accuracy_type == 'false_alarm', 1, 0)) %>% 
+  group_by(line_orientation) %>% 
+  summarize(hits = sum(hit), false_alarms = sum(false_alarm))
+```
+
+  
+  
+```{r}
+## summarize misses
+
+thinnest_lines <- d %>% 
+  filter(pressed_object == 'submit') %>% 
+  select(participant, trial_count, accuracy) %>% 
+  inner_join(thinnest_lines)
+
+summary_data <- thinnest_lines %>% 
+  filter(accuracy != 1) %>% 
+  group_by(line_orientation) %>% 
+  summarize(misses = n()) %>% 
+  inner_join(summary_data) %>% 
+  gather(accuracy_type, count, misses:false_alarms) 
+
+summary_data %>% 
+  ggplot(aes(x = line_orientation, y = count)) +
+  geom_bar(stat = 'identity', aes(fill = accuracy_type), position = position_dodge(width = .9)) +
+  labs(
+    y = 'Count',
+    x = 'Line Orientation',
+    fill = 'Accuracy Type'
+  ) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom')
+  
+```
+  
+```{r}
+ggsave('line_orientation.png', height = 1080 / 300, width = 1920 / 300, units = 'in', dpi = 300)
+```
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

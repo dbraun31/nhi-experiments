@@ -1,1 +1,3 @@
 visual-search/exp1/general_journal.txt
+visual-search/exp1/analysis/data/raw/line_data/pilot/*.pickle
+visual-search/exp1/analysis/data/raw/long_data/pilot/*.pickle
