@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Tue 28 Sep 2021 10:15:26 AM EDT
+    on Fri 01 Oct 2021 10:52:45 AM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -57,7 +57,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='visual-search_exp1_lastrun.py',
+    originPath='visual-search_exp2_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -71,9 +71,9 @@ frameTolerance = 0.001  # how close to onset before 'same' frame
 
 # Setup the Window
 win = visual.Window(
-    size=[1536, 864], fullscr=True, screen=1, 
+    size=[1920, 1080], fullscr=True, screen=1, 
     winType='pyglet', allowGUI=False, allowStencil=False,
-    monitor='testMonitor', color=[0.75,0.75,0.75], colorSpace='rgb',
+    monitor='testMonitor', color=[-1,-1,-1], colorSpace='rgb',
     blendMode='avg', useFBO=True, 
     units='height')
 # store frame rate of monitor if we can measure it
@@ -92,7 +92,7 @@ WelcomeText = visual.TextStim(win=win, name='WelcomeText',
     text='Welcome to the experiment:\n\nYou will be viewing a series of images designed to capture aspects of the materials that the microscopist would see. You will view a 4 x 4 display of hexagons. The important features are the boundaries between these hexagons. Your task is going to be to search the array and select three of the thinnest lines that you can find. These lines will always be in the interior of the array between two hexagons. Wait for the experimenter to proceed.',
     font='Open Sans',
     units='pix', pos=(0, 0), height=30.0, wrapWidth=1000.0, ori=0.0, 
-    color='black', colorSpace='rgb', opacity=None, 
+    color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
 WelcomeResponse = keyboard.Keyboard()
@@ -104,7 +104,7 @@ DemoText = visual.TextStim(win=win, name='DemoText',
     text='Press the space bar when you are ready to see the rest of the instructions.',
     font='Open Sans',
     units='pix', pos=(-700, 350), height=35.0, wrapWidth=None, ori=0.0, 
-    color='black', colorSpace='rgb', opacity=None, 
+    color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
 
@@ -114,7 +114,7 @@ InstructionsText = visual.TextStim(win=win, name='InstructionsText',
     text='When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.\n\nYou will do one practice round before starting the real experiment.\n\nPlease press the space bar when you are ready to begin the practice.',
     font='Open Sans',
     units='pix', pos=(0, 0), height=30.0, wrapWidth=1000.0, ori=0.0, 
-    color='black', colorSpace='rgb', opacity=None, 
+    color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
 InstructionsResponse = keyboard.Keyboard()
@@ -340,7 +340,7 @@ class DrawHexGrid:
             lineWidth = lineWidth,
             win = win,
             units='pix',
-            lineColor=[-1, -1, -1]
+            lineColor=[1, 1, 1]
             )
 
 ###############
@@ -478,7 +478,7 @@ PromptToContinue = visual.TextStim(win=win, name='PromptToContinue',
     text='Press the space bar when you are ready to select the three thinnest lines.',
     font='Open Sans',
     units='pix', pos=(-700, 400), height=35.0, wrapWidth=None, ori=0.0, 
-    color='black', colorSpace='rgb', opacity=None, 
+    color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-4.0);
 
@@ -488,7 +488,7 @@ PromptToSelect = visual.TextStim(win=win, name='PromptToSelect',
     text='',
     font='Open Sans',
     units='pix', pos=(-700, 400), height=35.0, wrapWidth=None, ori=0.0, 
-    color='black', colorSpace='rgb', opacity=None, 
+    color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
 
@@ -498,7 +498,7 @@ TimingText = visual.TextStim(win=win, name='TimingText',
     text='',
     font='Open Sans',
     units='pix', pos=(0, 0), height=30.0, wrapWidth=1000.0, ori=0.0, 
-    color='black', colorSpace='rgb', opacity=None, 
+    color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=-1.0);
 key_resp_2 = keyboard.Keyboard()
@@ -509,7 +509,7 @@ EndingText = visual.TextStim(win=win, name='EndingText',
     text='This concludes the experiment- thank you for participating!',
     font='Open Sans',
     pos=(0, 0), height=24.0, wrapWidth=None, ori=0.0, 
-    color='black', colorSpace='rgb', opacity=None, 
+    color='white', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
 
@@ -851,15 +851,7 @@ for thisTrial in trials:
     
     save_line_data(lines_rectangles_container, line_data)
     
-    rect1 = psychopy.visual.Rect(
-    win = win,
-    width = 100,
-    height = 100,
-    units = 'pix',
-    lineColor = 'red',
-    fillColor = 'red',
-    pos = [0,0]
-    )
+    
     line_width_container_original = []
     
     for i in range(400):
@@ -893,8 +885,6 @@ for thisTrial in trials:
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        
-        rect1.draw()
         
         for entry in lines_rectangles_container:
             entry['line'].draw()
@@ -1055,7 +1045,7 @@ for thisTrial in trials:
                 elif entry['rect'].contains(mouse):
                     entry['line'].lineColor = [1, -1, -1]
                 else:
-                    entry['line'].lineColor = [-1] * 3
+                    entry['line'].lineColor = [1] * 3
             
             entry['line'].draw()
             

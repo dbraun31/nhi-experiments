@@ -97,6 +97,7 @@ d$accuracy_type <- out
 
 ```
   
+
 ```{r}
 ## summarize hits and false alarms
 summary_data <- d %>% 
@@ -106,7 +107,8 @@ summary_data <- d %>%
   summarize(hits = sum(hit), false_alarms = sum(false_alarm))
 ```
 
-  
+
+
   
 ```{r}
 ## summarize misses
@@ -143,11 +145,27 @@ ggsave('line_orientation.png', height = 1080 / 300, width = 1920 / 300, units = 
   
   
   
+## Quadrant Analysis
+
+```{r}
+d <- d %>% 
+  mutate(quadrant = ifelse(top_x > 0 & top_y > 0, 'I', ifelse(top_x < 0 & top_y > 0, 'II', ifelse(top_x < 0 & top_y < 0, 'III', ifelse(top_x > 0 & top_y < 0, 'IV', '')))))
+```
+
+  
+```{r}
+d %>% 
+  filter(!(is.na(quadrant))) %>% 
+  group_by(quadrant) %>% 
+  summarize(count = n()) %>% 
+  ggplot(aes(x = quadrant, y = count)) +
+  geom_bar(stat = 'identity')
+```
   
   
-  
-  
-  
+**update**
+
+We'll calculate the center of the grid by looking at the most extreme X's and Y's and taking the center, then compare the center of the lines against that center point.
   
   
   
