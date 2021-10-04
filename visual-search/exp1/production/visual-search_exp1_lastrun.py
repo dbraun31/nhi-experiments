@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Tue 28 Sep 2021 10:15:26 AM EDT
+    on Mon 04 Oct 2021 10:45:20 AM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -850,16 +850,16 @@ for thisTrial in trials:
     dhg.make_grid()
     
     save_line_data(lines_rectangles_container, line_data)
-    
+    '''
     rect1 = psychopy.visual.Rect(
     win = win,
-    width = 100,
-    height = 100,
+    height = 20,
+    width = 20,
     units = 'pix',
-    lineColor = 'red',
     fillColor = 'red',
-    pos = [0,0]
+    pos = [39.65772, 55.48999]
     )
+    '''
     line_width_container_original = []
     
     for i in range(400):
@@ -894,7 +894,7 @@ for thisTrial in trials:
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
         
-        rect1.draw()
+        #rect1.draw()
         
         for entry in lines_rectangles_container:
             entry['line'].draw()

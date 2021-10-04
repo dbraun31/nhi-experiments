@@ -98,9 +98,9 @@
         <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="&amp;#10;dhg = DrawHexGrid([-400, 400])&amp;#10;&amp;#10;dhg.make_grid()&amp;#10;&amp;#10;save_line_data(lines_rectangles_container, line_data)&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="&amp;#10;dhg = DrawHexGrid([-400, 400])&amp;#10;&amp;#10;dhg.make_grid()&amp;#10;&amp;#10;save_line_data(lines_rectangles_container, line_data)&amp;#10;'''&amp;#10;rect1 = psychopy.visual.Rect(&amp;#10;win = win,&amp;#10;height = 20,&amp;#10;width = 20,&amp;#10;units = 'pix',&amp;#10;fillColor = 'red',&amp;#10;pos = [39.65772, 55.48999]&amp;#10;)&amp;#10;'''" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="&amp;#10;for entry in lines_rectangles_container:&amp;#10;    entry['line'].draw()&amp;#10;    &amp;#10;&amp;#10;&amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="&amp;#10;#rect1.draw()&amp;#10;&amp;#10;for entry in lines_rectangles_container:&amp;#10;    entry['line'].draw()&amp;#10;    &amp;#10;&amp;#10;&amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
