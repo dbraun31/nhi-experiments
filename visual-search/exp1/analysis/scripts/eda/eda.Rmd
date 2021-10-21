@@ -1,12 +1,15 @@
 ---
 title: "Grain Boundary Search Task (V1) EDA"
 author: "Dave Braun"
-date: "9/24/2021"
+date: "10/21/2021"
 output: 
   html_document:
     code_folding: hide
     df_print: paged
     theme: flatly
+    includes:
+      after_body: ../../../../../html/footer.html
+      in_header: ../../../../../html/favicon.html
     
 knit:
   (function(inputFile, encoding) {
@@ -15,6 +18,7 @@ knit:
                     output_file = 'index.html')})
 ---
 
+This document was last updated at `r Sys.time()`.
 
 ## What do we want to look at?
 
@@ -42,13 +46,15 @@ What we need:
 ```{r include = FALSE}
 library(tidyverse)
 library(testit)
+library(psycho)
 ```
 
   
   
 ```{r}
-d <- read.csv('../../data/raw/long_data/pilot/pilot_data.csv')
-thinnest_lines <- read.csv('../../data/raw/line_data/pilot/thinnest_lines.csv')
+d <- read.csv('../../data/exp1_long_data.csv')
+thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
+line_data <- read.csv('../../data/exp1_line_data.csv')
 head(d)
 N <- d %>% 
   group_by(participant) %>% 
@@ -58,9 +64,9 @@ N <- d %>%
 
   
 ```{r}
-calc_accuracy_columns <- function(d) {
-  participant <- d$participant[1]
-  trial <- d$trial_count[1]
+calc_accuracy_columns <- function(data) {
+  participant <- data$participant[1]
+  trial <- data$trial_count[1]
   
   thinnest_lines_set <- thinnest_lines[thinnest_lines$participant == participant & thinnest_lines$trial_count == trial,]$line_id
   
@@ -68,19 +74,19 @@ calc_accuracy_columns <- function(d) {
   ## some extra logic to assign NA to any lines that were selected and later released
   selected_lines <- c(NA, NA, NA)
   indices <- c(NA, NA, NA)
-  for (row in 1:(nrow(d))) {
-    if (d[row,]$selected_or_released == 'selected') {
+  for (row in 1:(nrow(data))) {
+    if (data[row,]$selected_or_released == 'selected') {
       slot <- which(is.na(selected_lines))[1]
-      selected_lines[slot]<- d[row,]$line_id
+      selected_lines[slot]<- data[row,]$line_id
       indices[slot] <- row
-    } else {
-      slot <- which(!(is.na(selected_lines)) & selected_lines == d[row,]$line_id)
+    } else if (data[row,]$selected_or_released == 'released'){
+      slot <- which(!(is.na(selected_lines)) & selected_lines == data[row,]$line_id)
       selected_lines[slot] <- NA
       indices[slot] <- NA
     }
   }
   
-  selected_lines_accuracy_column <- rep(NA, nrow(d))
+  selected_lines_accuracy_column <- rep(NA, nrow(data))
   accuracy_code <- ifelse(selected_lines %in% thinnest_lines_set, 'hit', 'false_alarm')
   selected_lines_accuracy_column[indices] <- accuracy_code
 
@@ -90,7 +96,7 @@ calc_accuracy_columns <- function(d) {
 
 out  <- vector()
 
-for (participant in unlist(lapply(levels(factor(d$participant)), as.integer))) {
+for (participant in sapply(unique(d$participant), as.integer)) {
   for (trial in 0:99) {
     out <- c(out, calc_accuracy_columns(d[d$participant == participant & d$trial_count == trial,]))
   }
@@ -111,6 +117,14 @@ summary_data <- d %>%
   summarize(hits = sum(hit), false_alarms = sum(false_alarm))
 ```
 
+Base rate of line orientation types on each trial:
+
+```{r}
+line_data %>% 
+  filter(participant == 10, trial_count == 0) %>% 
+  group_by(line_orientation) %>% 
+  summarize(count = n()) 
+```
 
 
   
@@ -128,6 +142,22 @@ summary_data <- thinnest_lines %>%
   summarize(misses = n()) %>% 
   inner_join(summary_data) %>% 
   gather(accuracy_type, count, misses:false_alarms) 
+
+
+d %>% 
+  filter(selected_or_released == 'selected') %>% 
+  group_by(participant, line_orientation) %>% 
+  summarize(count = n()) %>% 
+  group_by(line_orientation) %>% 
+  summarize(mean_selection_rate = mean(count), se = sd(count) / sqrt(length(unique(d$participant)))) %>% 
+  ggplot(aes(x = line_orientation, y = mean_selection_rate)) + 
+  geom_bar(stat = 'identity') + 
+  geom_errorbar(aes(ymin = mean_selection_rate - se, ymax = mean_selection_rate + se), width = .5) +
+  labs(
+    x = 'Line Orientation',
+    y = 'Mean Selection Rate'
+  ) + 
+  theme_bw()
 
 summary_data %>% 
   ggplot(aes(x = line_orientation, y = count)) +
@@ -156,7 +186,7 @@ We'll calculate the center of the grid by looking at the most extreme X's and Y'
   
   
 ```{r}
-line_data <- read.csv('../../data/raw/line_data/pilot/pilot_data.csv')
+line_data <- read.csv('../../data/exp1_line_data.csv')
 head(line_data)
 ```
 
@@ -192,7 +222,7 @@ line_data <- line_data %>%
 
 
 line_data %>% 
-  filter(participant == 90, trial_count == 1, is_exterior == 'False') %>% 
+  filter(participant == 1, trial_count == 0, is_exterior == 'False') %>% 
   mutate(x_dist = abs(line_center_x - center[1]), y_dist = abs(line_center_y - center[2])) %>% 
   mutate(is_on_axis = ifelse(x_dist < 0.1, 'y_axis', ifelse(y_dist < 0.1, 'x_axis', ''))) %>% 
   mutate(quadrant = ifelse(is_on_axis == '', quadrant, is_on_axis)) %>% 
@@ -251,6 +281,126 @@ ggsave('accuracy_by_quadrant.png', height = 1080 / 300, width = 1920 / 300, unit
 ```
   
 
+## Features of Possible Thinnest Lines
+  
+```{r}
+thinnest_lines_summaries <- thinnest_lines %>% 
+  group_by(participant, trial_count) %>% 
+  summarize(mean_line_width = mean(line_width), sd_line_width = sd(line_width))
+head(thinnest_lines_summaries)
+
+```
+
+
+
+```{r}
+
+plot_data <- d %>% 
+  group_by(participant, trial_count, accuracy_type) %>% 
+  summarize(count = n(), possible_thinnest_lines = max(possible_thinnest_lines)) %>% 
+  filter(!(is.na(accuracy_type))) %>% 
+  inner_join(thinnest_lines_summaries) 
+
+plot_data %>% 
+  gather(variable, value, possible_thinnest_lines:sd_line_width) %>% 
+  ggplot(aes(x = value)) +
+  geom_histogram() + 
+  facet_wrap(~variable, scales = 'free') + 
+  labs(
+    x = '',
+    y = 'Frequency'
+  ) +
+  theme_bw() +
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+
+
+```
+```{r}
+plot_data %>% 
+  #filter(possible_thinnest_lines < 4) %>% 
+  group_by(accuracy_type, count) %>% 
+  summarize(frequency = n()) %>% 
+  ggplot(aes(x = count, y = frequency)) + 
+  geom_bar(stat = 'identity', aes(fill = accuracy_type), position = position_dodge(width = .9)) + 
+  labs(
+    x = 'Number of occurances in a trial',
+    y = 'Frequency',
+    fill = 'Accuracy Type'
+  ) + 
+  theme_bw()
+```
+
+```{r}
+plot_data <- plot_data %>% 
+  spread(accuracy_type, count) %>% 
+  mutate(false_alarm = replace_na(false_alarm, 0),
+         hit = replace_na(hit, 0),
+         miss = ifelse(hit == 3, 0, possible_thinnest_lines - hit),
+         correct_reject = (33 - false_alarm) - possible_thinnest_lines) %>% 
+  mutate(d_prime = dprime(n_hit = hit, n_fa = false_alarm, n_miss = miss, n_cr = correct_reject)$dprime) 
+```
+
+
+```{r}
+## average mean line width and d' to participant level and correlate
+
+plot_data %>% 
+  gather(var, value, false_alarm, correct_reject, possible_thinnest_lines, d_prime) %>% 
+  ggplot(aes(x = value)) + 
+  geom_histogram() + 
+  facet_wrap(~var, scales = 'free') +
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+  
+plot_data %>% 
+  gather(var, value, mean_line_width, sd_line_width, possible_thinnest_lines) %>% 
+  ggplot(aes(x = value, y = d_prime)) +
+  geom_point() +
+  geom_smooth(method = 'lm') + 
+  facet_wrap(~var, scales = 'free') +
+  labs(
+    x = '',
+    y = "d'",
+    caption = 'Each point represents a trial.'
+  ) + 
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+
+  
+```
+
+Try to look at the relationship between mean line width and d' while controlling for possible thinnest lines.
+
+```{r}
+plot_data %>% 
+  mutate(possible_thinnest_lines_bin = ifelse(possible_thinnest_lines == 3, 'three', ifelse(possible_thinnest_lines == 4, 'four', ifelse(possible_thinnest_lines > 5 & possible_thinnest_lines < 7, 'five and six', '> six')))) %>% 
+  mutate(possible_thinnest_lines_bin = factor(possible_thinnest_lines_bin, levels = c('three', 'four', 'five and six', '> six'))) %>% 
+  ggplot(aes(x = mean_line_width, y = d_prime)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm') + 
+  facet_wrap(~possible_thinnest_lines_bin) + 
+  labs(
+    x = 'Mean line width',
+    y = "d'",
+    caption = 'Facets represent groupings on number of possible thinnest lines in a trial'
+  ) + 
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+```
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
