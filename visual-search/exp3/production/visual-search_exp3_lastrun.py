@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Mon 25 Oct 2021 02:53:25 PM EDT
+    on Thu 28 Oct 2021 04:58:18 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -369,7 +369,7 @@ class DrawHexGrid:
 
 def compute_accuracy(lines_rectangles_container, clicked_lines):
 
-    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None]
+    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None and x['line'].lineWidth is not None]
     selected_line_widths = [x['line'].lineWidth for x in clicked_lines]
 
     top_three = sorted(all_line_widths)[:3]
@@ -380,7 +380,7 @@ def compute_accuracy(lines_rectangles_container, clicked_lines):
     return accuracy / 3
     
 def compute_possible_thinnest_lines(lines_rectangles_container):
-    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None]
+    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None and x['line'].lineWidth is not None]
     
     top_three = sorted(all_line_widths)[:3]
     return len([x for x in all_line_widths if x <= top_three[-1]])
@@ -465,7 +465,9 @@ def save_line_data(lines_rectangles_container, line_data):
             'bottom_x': bottom[0],
             'bottom_y': bottom[1],
             })
-            
+       
+    if not os.path.exists('line_data'):
+        os.mkdir('line_data')
     with open('line_data/{}_{}_line.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:
         pickle.dump(line_data, file)
     file.close()
@@ -881,13 +883,23 @@ for thisTrial in trials:
     
     dhg.make_grid()
     
-    is_anomaly_trial = np.random.uniform() < anomaly_probability
+    
+    if trial_count == 0:
+        is_anomaly_trial  = False
+    else:
+        is_anomaly_trial = np.random.uniform() < anomaly_probability
+        
+    
     anomaly_line_id = ''
     anomaly_group = ''
     anomaly_line = {'line_id': ''}
-    if is_anomaly_trial and trial_count > 0:
+    if is_anomaly_trial:
         anomaly_line_id, anomaly_group = random.sample(anomalies, 1)[0]
         anomaly_line = [x for x in lines_rectangles_container if x['line_id'] == anomaly_line_id][0]
+        X = lines_rectangles_container.index([x for x in lines_rectangles_container if x['line_id'] == anomaly_line_id][0])
+        lines_rectangles_container[X]['line'].lineWidth = None
+    
+    win.flip() 
     
     save_line_data(lines_rectangles_container, line_data)
     
@@ -1203,6 +1215,8 @@ for thisTrial in trials:
     TimingText.setText(ISI_display_text)
     import pickle
     
+    if not os.path.exists('long_data'):
+        os.mkdir('long_data')
     with open('long_data/{}_{}_long.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:
         pickle.dump(subject_data, file)
     file.close()

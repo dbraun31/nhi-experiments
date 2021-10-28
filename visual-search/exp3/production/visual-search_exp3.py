@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Mon 25 Oct 2021 02:23:32 PM EDT
+    on Thu 28 Oct 2021 04:55:18 PM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -30,6 +30,7 @@ from psychopy.hardware import keyboard
 
 from datetime import datetime
 import pickle
+import random
 trial_count = -1
 
 time_start_experiment = datetime.now()
@@ -134,7 +135,7 @@ line_data = []
 lines_rectangles_container = []
 
 ## anomaly stuff
-anomaly_probability = .7
+anomaly_probability = .3
 anomalies = [
 ['r0c1_bottom_right', 2],
 ['r0c2_bottom_left', 2],
@@ -368,7 +369,7 @@ class DrawHexGrid:
 
 def compute_accuracy(lines_rectangles_container, clicked_lines):
 
-    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None]
+    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None and x['line'].lineWidth is not None]
     selected_line_widths = [x['line'].lineWidth for x in clicked_lines]
 
     top_three = sorted(all_line_widths)[:3]
@@ -379,7 +380,7 @@ def compute_accuracy(lines_rectangles_container, clicked_lines):
     return accuracy / 3
     
 def compute_possible_thinnest_lines(lines_rectangles_container):
-    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None]
+    all_line_widths = [x['line'].lineWidth for x in lines_rectangles_container if x['rect'] is not None and x['line'].lineWidth is not None]
     
     top_three = sorted(all_line_widths)[:3]
     return len([x for x in all_line_widths if x <= top_three[-1]])
@@ -405,6 +406,13 @@ def save_data(pressed_object, line = None, line_id = None, selected_or_released 
         bottom= line.start if line.start[1] < line.end[1] else line.end
     else:
         top = bottom = None
+        
+    anomaly_center = ''
+    anomaly_mid_x = ''
+    anomaly_mid_y = ''
+    if is_anomaly_trial:
+        anomaly_mid_x = (anomaly_line['line'].start[0] + anomaly_line['line'].end[0]) / 2
+        anomaly_mid_y = (anomaly_line['line'].start[1] + anomaly_line['line'].end[1]) / 2
     
     selection_rt = datetime.now() - selection_start
     selection_rt_ms = selection_rt.seconds * 1000 + selection_rt.microseconds / 1000
@@ -427,7 +435,12 @@ def save_data(pressed_object, line = None, line_id = None, selected_or_released 
         'selected_or_released': selected_or_released,
         'accuracy': compute_accuracy(lines_rectangles_container, clicked_lines) if line is None else None,
         'possible_thinnest_lines': compute_possible_thinnest_lines(lines_rectangles_container),
-        'is_practice': is_practice
+        'is_practice': is_practice,
+        'is_anomaly_trial': is_anomaly_trial,
+        'anomaly_mid_x': anomaly_mid_x,
+        'anomaly_mid_y': anomaly_mid_y,
+        'anomaly_line_id': anomaly_line['line_id'],
+        'anomaly_group': anomaly_group
     }
     
     return to_save
@@ -439,7 +452,7 @@ def save_line_data(lines_rectangles_container, line_data):
     for entry in lines_rectangles_container:
         top = entry['line'].start if entry['line'].start[1] > entry['line'].end[1] else entry['line'].end
         bottom= entry['line'].start if entry['line'].start[1] < entry['line'].end[1] else entry['line'].end
-        
+            
         line_data.append({
             'participant': expInfo['participant'],
             'date': expInfo['date'],
@@ -450,10 +463,12 @@ def save_line_data(lines_rectangles_container, line_data):
             'top_x': top[0], 
             'top_y': top[1] ,
             'bottom_x': bottom[0],
-            'bottom_y': bottom[1] 
+            'bottom_y': bottom[1],
             })
-            
-    with open('line_data/{}_{}.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:
+       
+    if not os.path.exists('line_data'):
+        os.mkdir('line_data')
+    with open('line_data/{}_{}_line.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:
         pickle.dump(line_data, file)
     file.close()
             
@@ -499,7 +514,7 @@ PromptToContinue = visual.TextStim(win=win, name='PromptToContinue',
     units='pix', pos=(-700, 400), height=35.0, wrapWidth=None, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
-    depth=-5.0);
+    depth=-4.0);
 
 # Initialize components for Routine "Selection"
 SelectionClock = core.Clock()
@@ -854,7 +869,6 @@ for thisTrial in trials:
     # ------Prepare to start Routine "Prompt"-------
     continueRoutine = True
     # update component parameters for each repeat
-    is_anomaly_trial = np.random.uniform() > anomaly_probability
     trial_count += 1
     lines_rectangles_counter = 0
     click_order = 0
@@ -869,17 +883,24 @@ for thisTrial in trials:
     
     dhg.make_grid()
     
+    
+    if trial_count == 0:
+        is_anomaly_trial  = False
+    else:
+        is_anomaly_trial = np.random.uniform() < anomaly_probability
+        
+    
+    anomaly_line_id = ''
+    anomaly_group = ''
+    anomaly_line = {'line_id': ''}
+    if is_anomaly_trial:
+        anomaly_line_id, anomaly_group = random.sample(anomalies, 1)[0]
+        anomaly_line = [x for x in lines_rectangles_container if x['line_id'] == anomaly_line_id][0]
+        X = lines_rectangles_container.index([x for x in lines_rectangles_container if x['line_id'] == anomaly_line_id][0])
+        lines_rectangles_container[X]['line'].lineWidth = None
+    
     save_line_data(lines_rectangles_container, line_data)
-    '''
-    rect1 = psychopy.visual.Rect(
-    win = win,
-    height = 20,
-    width = 20,
-    units = 'pix',
-    fillColor = 'red',
-    pos = [39.65772, 55.48999]
-    )
-    '''
+    
     line_width_container_original = []
     
     for i in range(400):
@@ -916,14 +937,11 @@ for thisTrial in trials:
         
         #rect1.draw()
         
-        anomaly_line = ''
-        anomaly_group = ''
-        if is_anomaly_trial:
-            anomaly_line, anomaly_group = random.sample(anomalies, 1)
+        
         
         for entry in lines_rectangles_container:
-            if entry['line_id'] != anomaly_line:
-                entry['line'].draw()
+            #if entry['line_id'] != anomaly_line['line_id']:
+            entry['line'].draw()
             
         
         
@@ -1070,7 +1088,7 @@ for thisTrial in trials:
         
         ## check for hovering
         for entry in lines_rectangles_container:
-            if entry['rect'] is not None:
+            if entry['rect'] is not None and entry['line_id'] != anomaly_line['line_id']:
                 entry['rect'].draw()
                 
                 if entry['is_clicked'] == 'clicked':
@@ -1083,7 +1101,8 @@ for thisTrial in trials:
                 else:
                     entry['line'].lineColor = [-1] * 3
             
-            entry['line'].draw()
+            if entry['line_id'] != anomaly_line['line_id']:
+                entry['line'].draw()
             
             # people on the forums say you should timeout for 1ms on a loop like this to not hog all the computer's resources
             # but i find that even 0.5 ms timeout makes the display laggy
@@ -1093,7 +1112,7 @@ for thisTrial in trials:
         if mouse.getPressed()[0]:
             mouse_pos = mouse.getPos()
             for entry in lines_rectangles_container:
-                if entry['rect'] is not None and entry['rect'].contains(mouse_pos):
+                if entry['rect'] is not None and entry['rect'].contains(mouse_pos) and entry['line_id'] != anomaly_line['line_id']:
         
                     if entry['is_clicked'] == 'clicked':
                         click_order += 1
@@ -1194,7 +1213,9 @@ for thisTrial in trials:
     TimingText.setText(ISI_display_text)
     import pickle
     
-    with open('long_data/{}_{}.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:
+    if not os.path.exists('long_data'):
+        os.mkdir('long_data')
+    with open('long_data/{}_{}_long.pickle'.format(expInfo['participant'], expInfo['date']), 'wb') as file:
         pickle.dump(subject_data, file)
     file.close()
     
