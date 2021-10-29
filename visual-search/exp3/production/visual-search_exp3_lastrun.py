@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.4),
-    on Thu 28 Oct 2021 04:58:18 PM EDT
+    on Fri 29 Oct 2021 09:09:49 AM EDT
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -31,6 +31,7 @@ from psychopy.hardware import keyboard
 from datetime import datetime
 import pickle
 import random
+import time
 trial_count = -1
 
 time_start_experiment = datetime.now()
@@ -112,13 +113,24 @@ DemoText = visual.TextStim(win=win, name='DemoText',
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
 InstructionsText = visual.TextStim(win=win, name='InstructionsText',
-    text='When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.\n\nYou will do one practice round before starting the real experiment.\n\nPlease press the space bar when you are ready to begin the practice.',
+    text='When the image first appears, you can search the display for as long as you like. Once you are ready to identify the lines that you think are three of the thinnest, press the spacebar. You can then use your mouse to select the lines you have chosen. You can click and unclick lines, if you change your mind. Once you are happy with your three selections you can press the submit button. Please work through each search array as quickly and accurately as possible. You will be able to take short breaks before starting each search task.',
     font='Open Sans',
     units='pix', pos=(0, 0), height=30.0, wrapWidth=1000.0, ori=0.0, 
     color='black', colorSpace='rgb', opacity=None, 
     languageStyle='LTR',
     depth=0.0);
 InstructionsResponse = keyboard.Keyboard()
+
+# Initialize components for Routine "AnomalyInstructions"
+AnomalyInstructionsClock = core.Clock()
+AnomalyInstructionsText = visual.TextStim(win=win, name='AnomalyInstructionsText',
+    text="Throughout this experiment, there will be times when one of the lines in the array will be missing. This will have the impact of making one of the grains larger than the rest of them. The boundaries of these larger grains are no more or less likely to be thinner than boundaries between other grains---in other words, there's no need to pay special attention to the boundaries of the large grains.\n\nYou will do one practice round before starting the real experiment.\n\nPlease press the space bar when you are ready to begin the practice.",
+    font='Open Sans',
+    units='pix', pos=(0, 0), height=30.0, wrapWidth=1000.0, ori=0.0, 
+    color='black', colorSpace='rgb', opacity=None, 
+    languageStyle='LTR',
+    depth=0.0);
+AnomalyInstructionsResponse = keyboard.Keyboard()
 
 # Initialize components for Routine "Prompt"
 PromptClock = core.Clock()
@@ -281,7 +293,6 @@ class DrawHexGrid:
             line = self._define_line_type(is_exterior)
             line.start = start_coord
             line.end = eval(self.point_dictionary[position])
-            line.draw()
 
             lines_rectangles_container.append({'line': line, 'line_id': 'r{}c{}_{}'.format(self.row, self.col, self.point_to_side[position]), 'is_exterior': is_exterior})
                 
@@ -847,6 +858,102 @@ thisExp.nextEntry()
 # the Routine "Instructions" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
+# ------Prepare to start Routine "AnomalyInstructions"-------
+continueRoutine = True
+# update component parameters for each repeat
+AnomalyInstructionsResponse.keys = []
+AnomalyInstructionsResponse.rt = []
+_AnomalyInstructionsResponse_allKeys = []
+# keep track of which components have finished
+AnomalyInstructionsComponents = [AnomalyInstructionsText, AnomalyInstructionsResponse]
+for thisComponent in AnomalyInstructionsComponents:
+    thisComponent.tStart = None
+    thisComponent.tStop = None
+    thisComponent.tStartRefresh = None
+    thisComponent.tStopRefresh = None
+    if hasattr(thisComponent, 'status'):
+        thisComponent.status = NOT_STARTED
+# reset timers
+t = 0
+_timeToFirstFrame = win.getFutureFlipTime(clock="now")
+AnomalyInstructionsClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+frameN = -1
+
+# -------Run Routine "AnomalyInstructions"-------
+while continueRoutine:
+    # get current time
+    t = AnomalyInstructionsClock.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=AnomalyInstructionsClock)
+    tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+    frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+    # update/draw components on each frame
+    
+    # *AnomalyInstructionsText* updates
+    if AnomalyInstructionsText.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        AnomalyInstructionsText.frameNStart = frameN  # exact frame index
+        AnomalyInstructionsText.tStart = t  # local t and not account for scr refresh
+        AnomalyInstructionsText.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(AnomalyInstructionsText, 'tStartRefresh')  # time at next scr refresh
+        AnomalyInstructionsText.setAutoDraw(True)
+    
+    # *AnomalyInstructionsResponse* updates
+    waitOnFlip = False
+    if AnomalyInstructionsResponse.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        AnomalyInstructionsResponse.frameNStart = frameN  # exact frame index
+        AnomalyInstructionsResponse.tStart = t  # local t and not account for scr refresh
+        AnomalyInstructionsResponse.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(AnomalyInstructionsResponse, 'tStartRefresh')  # time at next scr refresh
+        AnomalyInstructionsResponse.status = STARTED
+        # keyboard checking is just starting
+        waitOnFlip = True
+        win.callOnFlip(AnomalyInstructionsResponse.clock.reset)  # t=0 on next screen flip
+        win.callOnFlip(AnomalyInstructionsResponse.clearEvents, eventType='keyboard')  # clear events on next screen flip
+    if AnomalyInstructionsResponse.status == STARTED and not waitOnFlip:
+        theseKeys = AnomalyInstructionsResponse.getKeys(keyList=['space'], waitRelease=False)
+        _AnomalyInstructionsResponse_allKeys.extend(theseKeys)
+        if len(_AnomalyInstructionsResponse_allKeys):
+            AnomalyInstructionsResponse.keys = _AnomalyInstructionsResponse_allKeys[-1].name  # just the last key pressed
+            AnomalyInstructionsResponse.rt = _AnomalyInstructionsResponse_allKeys[-1].rt
+            # a response ends the routine
+            continueRoutine = False
+    
+    # check for quit (typically the Esc key)
+    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+        core.quit()
+    
+    # check if all components have finished
+    if not continueRoutine:  # a component has requested a forced-end of Routine
+        break
+    continueRoutine = False  # will revert to True if at least one component still running
+    for thisComponent in AnomalyInstructionsComponents:
+        if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+            continueRoutine = True
+            break  # at least one component has not yet finished
+    
+    # refresh the screen
+    if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+        win.flip()
+
+# -------Ending Routine "AnomalyInstructions"-------
+for thisComponent in AnomalyInstructionsComponents:
+    if hasattr(thisComponent, "setAutoDraw"):
+        thisComponent.setAutoDraw(False)
+thisExp.addData('AnomalyInstructionsText.started', AnomalyInstructionsText.tStartRefresh)
+thisExp.addData('AnomalyInstructionsText.stopped', AnomalyInstructionsText.tStopRefresh)
+# check responses
+if AnomalyInstructionsResponse.keys in ['', [], None]:  # No response was made
+    AnomalyInstructionsResponse.keys = None
+thisExp.addData('AnomalyInstructionsResponse.keys',AnomalyInstructionsResponse.keys)
+if AnomalyInstructionsResponse.keys != None:  # we had a response
+    thisExp.addData('AnomalyInstructionsResponse.rt', AnomalyInstructionsResponse.rt)
+thisExp.addData('AnomalyInstructionsResponse.started', AnomalyInstructionsResponse.tStartRefresh)
+thisExp.addData('AnomalyInstructionsResponse.stopped', AnomalyInstructionsResponse.tStopRefresh)
+thisExp.nextEntry()
+# the Routine "AnomalyInstructions" was not non-slip safe, so reset the non-slip timer
+routineTimer.reset()
+
 # set up handler to look after randomisation of conditions etc
 trials = data.TrialHandler(nReps=100.0, method='random', 
     extraInfo=expInfo, originPath=-1,
@@ -938,8 +1045,6 @@ for thisTrial in trials:
         # update/draw components on each frame
         
         #rect1.draw()
-        
-        
         
         for entry in lines_rectangles_container:
             if entry['line_id'] != anomaly_line['line_id']:
@@ -1086,7 +1191,6 @@ for thisTrial in trials:
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        import time
         
         ## check for hovering
         for entry in lines_rectangles_container:
