@@ -1,0 +1,166 @@
+---
+title: "Grain Boundary Search Task (V2) Preprocessing"
+author: "Dave Braun"
+date: "12/17/2021"
+output: 
+  html_document:
+    code_folding: hide
+    df_print: paged
+    theme: flatly
+    includes:
+      after_body: ../../../../../html/footer.html
+      in_header: ../../../../../html/favicon.html
+    
+knit:
+  (function(inputFile, encoding) {
+      rmarkdown::render(inputFile,
+                    encoding = encoding,
+                    output_file = 'index.html')})
+---
+
+This document was last updated at `r Sys.time()`.
+
+  
+```{r include = FALSE}
+library(tidyverse)
+```
+
+  
+  
+```{r}
+d <- read.csv('../../data/exp2_long_data_raw.csv')
+line_data <- read.csv('../../data/exp2_line_data_raw.csv')
+head(d)
+N <- d %>% 
+  group_by(participant) %>% 
+  summarize(n()) %>% 
+  nrow()
+```
+
+**There were `r N` participants in this study.**
+
+
+### Compute orientation
+
+```{r}
+line_data$line_orientation <- ifelse(line_data$top_x == line_data$bottom_x, 'vertical', ifelse(line_data$top_x > line_data$bottom_x, 'forward_slash', ifelse(line_data$top_x < line_data$bottom_x, 'back_slash', 'PROBLEM')))
+```
+
+
+### rt trimming
+
+I want to trim trials where either the initial prompt rt is above 2 sds from participant means or if line selection rt is above 2 sds from p means. Not worrying much about trimming below for now.
+I think I'll constrain it such that it has to be above 2 sds *and* 15 s, just so I'm not dropping 2% of data from all ppl.
+
+
+```{r}
+bad_trial_code <- d %>% 
+  group_by(participant) %>% 
+  summarize(prompt_rt_sec_m = mean(prompt_rt_sec), prompt_rt_sec_sd = sd(prompt_rt_sec), selection_rt_ms_m = mean(selection_rt_ms), selection_rt_ms_sd = sd(selection_rt_ms)) %>% 
+  inner_join(d) %>% 
+  mutate(bad_trial = ifelse(!is.na(accuracy), 0, ifelse((prompt_rt_sec > (2 * prompt_rt_sec_sd) + prompt_rt_sec_m & prompt_rt_sec > 15) | (selection_rt_ms > (2 * selection_rt_ms_sd) + selection_rt_ms_m & selection_rt_ms > 15000), 1, 0))) %>% 
+  filter(bad_trial == 1) %>% 
+  group_by(participant, trial_count) %>% 
+  summarize(count = n()) %>% 
+  mutate(bad_trial = 1) %>% 
+  right_join(d) %>% 
+  group_by(participant, trial_count) %>% 
+  summarize(bad_trial = sum(bad_trial)) %>% 
+  mutate(bad_trial = ifelse(is.na(bad_trial), 0, 1)) 
+
+bad_trial_code %>% 
+  group_by(participant) %>% 
+  summarize(drop_count = sum(bad_trial), count = n()) %>% 
+  ggplot(aes(x = drop_count)) +
+  geom_histogram(binwidth = 3, color = 'black') + 
+  xlab('Percent Trials Dropped') + 
+  ylab('Number of Participants')
+  
+  
+```
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+## trim bad trials from thinnest lines data too
+thinnest_lines <- read.csv("../../data/thinnest_lines_raw.csv")
+thinnest_lines$drop_marker <- paste0(thinnest_lines$participant, '_', thinnest_lines$trial_count)
+line_data$drop_marker <- paste0(line_data$participant, '_', line_data$trial_count)
+d$drop_marker <- paste0(d$participant, '_', d$trial_count)
+bad_trial_code <- unite(bad_trial_code, drop_marker, participant, trial_count, sep = '_')
+d <- d %>% 
+  inner_join(bad_trial_code)
+thinnest_lines <- thinnest_lines %>% 
+  inner_join(bad_trial_code)
+line_data <- line_data %>% 
+  inner_join(bad_trial_code)
+```
+
+```{r}
+## calculate indecision trial
+t <- d %>% 
+  group_by(participant, trial_count, selected_or_released) %>% 
+  summarize(count = n()) %>% 
+  filter(selected_or_released == 'released') %>% 
+  mutate(indecision_trial = 1) %>% 
+  select(participant, trial_count, indecision_trial)
+
+d <- d %>% 
+  left_join(t)
+
+d$indecision_trial <- ifelse(is.na(d$indecision_trial), 0, 1)
+```
+
+
+```{r}
+## drop bad trials and save
+original_trials <- length(unique(d$participant)) * 100
+d <- d[d$bad_trial == 0,]
+d <- select(d, -bad_trial)
+thinnest_lines <- thinnest_lines[d$bad_trial == 0,]
+thinnest_lines <- select(thinnest_lines, -bad_trial)
+line_data <- line_data[line_data$bad_trial == 0,]
+line_data <- select(line_data, -bad_trial)
+final_trials <- d %>% 
+  group_by(participant, trial_count) %>% 
+  summarize(n()) %>% 
+  nrow()
+print(paste0('Percent of trials dropped: ', round((1 - (final_trials / original_trials)) * 100, 2), '%'))
+
+write.csv(d, '../../data/exp2_long_data.csv', row.names = FALSE)
+write.csv(line_data, '../../data/exp2_line_data.csv', row.names = FALSE)
+write.csv(thinnest_lines, '../../data/thinnest_lines.csv', row.names = FALSE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

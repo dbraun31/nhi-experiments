@@ -1,0 +1,150 @@
+---
+title: 'Clicking Analysis in Grain Boundary Search Task (E1)'
+author: 'Dave Braun'
+date: March 3, 2022
+output:
+  html_document:
+    toc: true
+    theme: flatly
+    df_print: paged
+    code_folding: hide
+knit:
+  (function(inputFile, encoding) {
+    rmarkdown::render(inputFile,
+                encoding = encoding,
+                output_file = 'index.html')})
+---
+
+This document was last updated on `r Sys.time()`.
+
+In this document, we are exploring sequential effects within trials from clicking behavior. I'll look at RTs and error rates across line clicks, and try to assess things like whether they're clicking on the thinnest line first or not.
+
+
+```{r include = FALSE}
+library(tidyverse)
+library(data.table)
+library(ggridges)
+library(ez)
+```
+
+```{r}
+d <- read.csv('../../data/exp1_long_data.csv')
+thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
+source('../compute_accuracy_columns.r')
+d <- compute_accuracy_columns(d, thinnest_lines)
+N <- length(unique(d$participant))
+head(d)
+head(thinnest_lines)
+colnames(d)[which(colnames(d) == 'participant')] <- 'subject'
+```
+
+There were `r N` participants included in this analysis.
+
+Only looking at trials where they selected only three lines:
+
+```{r}
+click_summary <- d %>% 
+  group_by(subject, trial_count) %>% 
+  summarize(count = n()) %>% 
+  filter(count == 4) %>% 
+  select(-count) %>% 
+  mutate(key = 'keep')
+
+d <- d %>% 
+  inner_join(click_summary) %>% 
+  filter(key == 'keep', is.na(accuracy)) %>% 
+  select(-key)
+
+```
+
+## Accuracy and RT across clicks
+
+
+```{r}
+
+d$selection_rt_ms_relative <- ifelse(shift(d$click_order) < d$click_order, d$selection_rt_ms - shift(d$selection_rt_ms), d$selection_rt_ms)
+d$selection_rt_ms_relative[1] <- d$selection_rt_ms[1]
+d$accuracy_numeric <- ifelse(d$accuracy_type == 'hit', 1, 0)
+
+subject_summary <- d %>% 
+  group_by(subject, click_order) %>% 
+  summarize(RT = mean(selection_rt_ms_relative), Accuracy = mean(accuracy_numeric)) 
+subject_summary %>% 
+  gather(outcome, value, RT:Accuracy) %>% 
+  ggplot(aes(x = value, y = click_order, group = click_order)) + 
+  geom_density_ridges(fill = 'steel blue', alpha = .8) + 
+  facet_wrap(~outcome, scales = 'free') + 
+  labs(
+    x = '',
+    y = 'Click Order'
+  ) + 
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+
+```
+
+
+Some quick stats
+
+```{r}
+acc <- ezANOVA(wid = subject, within = click_order, dv = Accuracy, data = subject_summary)
+rt <- ezANOVA(wid = subject, within = click_order, dv = RT, data = subject_summary)
+
+acc
+rt
+```
+
+Main effect of click order for both accuracy and RT.
+
+
+
+
+## Click order and spatial effects
+
+Looking at quadrants first
+
+```{r}
+source('../compute_quadrants.r')
+line_data <- read.csv('../../data/exp1_line_data.csv')
+d <- compute_quadrants(d, line_data)
+```
+
+
+```{r}
+d %>% 
+  group_by(subject, quadrant, click_order) %>% 
+  summarize(count = n()) %>% 
+  group_by(quadrant, click_order) %>% 
+  summarize(average_sum = mean(count)) %>% 
+  ggplot(aes(x = quadrant, y = average_sum, group = click_order)) + 
+  geom_bar(stat = 'identity', aes(fill = factor(click_order)), color = 'black') + 
+  scale_fill_brewer() + 
+  theme_bw() + 
+  labs(
+    x = 'Area on Grid',
+    y = 'Average Proportion',
+    fill = 'Click Order'
+  ) 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

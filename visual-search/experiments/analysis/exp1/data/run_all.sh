@@ -1,0 +1,3 @@
+Rscript compute_orientation.r
+
+python keep_thinnest_lines.py exp1_line_data_raw.csv

@@ -1,0 +1,244 @@
+---
+title: "Grain Boundary Search Task (V1) Timing Analysis"
+author: "Dave Braun"
+date: "12/13/2021"
+output: 
+  html_document:
+    code_folding: hide
+    df_print: paged
+    theme: flatly
+    includes:
+      after_body: ../../../../../html/footer.html
+      in_header: ../../../../../html/favicon.html
+    
+knit:
+  (function(inputFile, encoding) {
+      rmarkdown::render(inputFile,
+                    encoding = encoding,
+                    output_file = 'index.html')})
+---
+
+This document was last updated at `r Sys.time()`.
+
+  
+```{r include = FALSE}
+library(tidyverse)
+library(data.table)
+```
+  
+```{r}
+d <- read.csv('../../data/exp2_long_data.csv')
+thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
+line_data <- read.csv('../../data/exp2_line_data.csv')
+head(d)
+N <- d %>% 
+  group_by(participant) %>% 
+  summarize(n()) %>% 
+  nrow()
+```
+
+**There were `r N` participants in this study.**
+  
+```{r}
+calc_accuracy_columns <- function(data) {
+  participant <- data$participant[1]
+  trial <- data$trial_count[1]
+  
+  thinnest_lines_set <- thinnest_lines[thinnest_lines$participant == participant & thinnest_lines$trial_count == trial,]$line_id
+  
+  ## determine the final three lines they selected
+  ## some extra logic to assign NA to any lines that were selected and later released
+  selected_lines <- c(NA, NA, NA)
+  indices <- c(NA, NA, NA)
+  for (row in 1:(nrow(data))) {
+    if (data[row,]$selected_or_released == 'selected') {
+      slot <- which(is.na(selected_lines))[1]
+      selected_lines[slot]<- data[row,]$line_id
+      indices[slot] <- row
+    } else if (data[row,]$selected_or_released == 'released'){
+      slot <- which(!(is.na(selected_lines)) & selected_lines == data[row,]$line_id)
+      selected_lines[slot] <- NA
+      indices[slot] <- NA
+    }
+  }
+  
+  selected_lines_accuracy_column <- rep(NA, nrow(data))
+  accuracy_code <- ifelse(selected_lines %in% thinnest_lines_set, 'hit', 'false_alarm')
+  selected_lines_accuracy_column[indices] <- accuracy_code
+
+  return(selected_lines_accuracy_column)
+
+}
+
+out  <- vector()
+
+for (participant in sapply(unique(d$participant), as.integer)) {
+  for (trial in unique(d[d$participant == participant,]$trial_count)) {
+    out <- c(out, calc_accuracy_columns(d[d$participant == participant & d$trial_count == trial,]))
+  }
+}
+
+d$accuracy_type <- out
+
+
+```
+  
+
+```{r}
+## summarize hits and false alarms
+summary_data <- d %>% 
+  filter(!(is.na(accuracy_type))) %>% 
+  mutate(hit = ifelse(accuracy_type == 'hit', 1, 0), false_alarm = ifelse(accuracy_type == 'false_alarm', 1, 0)) %>% 
+  group_by(line_orientation) %>% 
+  summarize(hits = sum(hit), false_alarms = sum(false_alarm))
+```
+
+
+**Coding other important variables.**
+
+
+
+```{r}
+## calculate relative line rt
+d$selection_rt_ms_relative <- ifelse(d$trial_count == lag(d$trial_count), d$selection_rt_ms - lag(d$selection_rt_ms), d$selection_rt_ms)
+```
+
+
+## Selection RT over time
+
+```{r}
+d %>% 
+  mutate(indecision_trial = factor(indecision_trial)) %>% 
+  group_by(participant, trial_count, indecision_trial) %>% 
+  summarize(selection_rt_ms = mean(selection_rt_ms_relative), prompt_rt = mean(prompt_rt_sec * 1000)) %>% 
+  gather(phase, rt_ms, selection_rt_ms, prompt_rt) %>% 
+  group_by(trial_count, indecision_trial, phase) %>% 
+  summarize(rt = mean(rt_ms), se = sd(rt_ms) / sqrt(N)) %>% 
+  ggplot(aes(x = trial_count, y = rt, group = indecision_trial)) + 
+  geom_ribbon(aes(ymin = rt - se, ymax = rt + se, fill = indecision_trial), alpha = .5) + 
+  geom_line(aes(color = indecision_trial)) + 
+  facet_wrap(~phase, scales = 'free') + 
+  labs(
+    x = 'Trial',
+    y = 'Response Time (ms)',
+    fill = 'Indecision Trial',
+    color = 'Indecision Trial'
+  ) + 
+  theme_bw() + 
+  theme(legend.position = c(.8,.8),
+        strip.background = element_rect(color = 'black', fill = 'white'))
+  
+    
+  
+```
+
+
+Does time spent looking at the prompt negatively correlate with time selecting lines?
+
+```{r}
+d %>% 
+  mutate(indecision_trial = factor(indecision_trial)) %>% #,
+  mutate(indecision_trial = recode(indecision_trial, `0` = 'No Indecision', `1` = 'Indecision')) %>% 
+  group_by(participant, trial_count, indecision_trial) %>% 
+  summarize(selection_rt_ms = mean(selection_rt_ms_relative), prompt_rt_ms = mean(prompt_rt_sec * 1000), possible_thinnest_lines = max(possible_thinnest_lines)) %>% 
+  group_by(trial_count, indecision_trial) %>% 
+  summarize(selection_rt_ms = mean(selection_rt_ms), prompt_rt_ms = mean(prompt_rt_ms), possible_thinnest_lines = max(possible_thinnest_lines)) %>% 
+  ggplot(aes(x = prompt_rt_ms, y = selection_rt_ms)) + 
+  geom_point(aes(size = possible_thinnest_lines, color = possible_thinnest_lines)) + 
+  geom_smooth(method = 'lm') + 
+  facet_wrap(~indecision_trial) + 
+  labs(
+    x = 'Prompt RT (ms)',
+    y = 'Selection RT (ms)',
+    size = 'Possible Thinnest Lines',
+    color = 'Possible Thinnest Lines',
+    caption = 'Each dot represents a trial mean'
+  ) + 
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+  
+```
+
+
+
+Seems to be quite a bit different from E1. Stronger positive trend for no indecision. Let's compare directly.
+
+```{r}
+e2 <- d %>% 
+  select(participant, trial_count, indecision_trial, prompt_rt_sec, selection_rt_ms_relative, possible_thinnest_lines) %>% 
+  mutate(experiment = 'Experiment 2')
+e1 <- read.csv('../../../../exp1/analysis/data/exp1_long_data.csv')
+e1 <- e1 %>% 
+  mutate(experiment = 'Experiment 1',
+         selection_rt_ms_relative = ifelse(trial_count == lag(trial_count), selection_rt_ms - lag(selection_rt_ms), selection_rt_ms)) %>% 
+  select(participant, trial_count, indecision_trial, prompt_rt_sec, selection_rt_ms_relative, possible_thinnest_lines, experiment)
+
+p <- rbind(e1,e2)
+
+p %>% 
+  mutate(indecision_trial = factor(indecision_trial)) %>% #,
+  mutate(indecision_trial = recode(indecision_trial, `0` = 'No Indecision', `1` = 'Indecision')) %>% 
+  group_by(participant, trial_count, indecision_trial, experiment) %>% 
+  summarize(selection_rt_ms = mean(selection_rt_ms_relative), prompt_rt_ms = mean(prompt_rt_sec * 1000), possible_thinnest_lines = max(possible_thinnest_lines)) %>% 
+  group_by(trial_count, indecision_trial, experiment) %>% 
+  summarize(selection_rt_ms = mean(selection_rt_ms), prompt_rt_ms = mean(prompt_rt_ms), possible_thinnest_lines = max(possible_thinnest_lines)) %>% 
+  ggplot(aes(x = prompt_rt_ms, y = selection_rt_ms)) + 
+  geom_point(aes(size = possible_thinnest_lines, color = possible_thinnest_lines)) + 
+  geom_smooth(method = 'lm') + 
+  facet_grid(experiment~indecision_trial) + 
+  labs(
+    x = 'Prompt RT (ms)',
+    y = 'Selection RT (ms)',
+    size = 'Possible Thinnest Lines',
+    color = 'Possible Thinnest Lines',
+    caption = 'Each dot represents a trial mean'
+  ) + 
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+```
+
+
+```{r}
+p <- d %>% 
+  mutate(indecision_trial = factor(indecision_trial)) %>% 
+  mutate(indecision_trial = recode(indecision_trial, `0` = 'No Indecision', `1` = 'Indecision')) %>% 
+  group_by(participant, trial_count, indecision_trial) %>% 
+  summarize(possible_thinnest_lines = max(possible_thinnest_lines)) %>% 
+  group_by(indecision_trial, possible_thinnest_lines) %>% 
+  summarize(count = n()) 
+
+p2 <- p %>% 
+  group_by(indecision_trial) %>% 
+  summarize(overall_count = sum(count))
+
+p %>% 
+  inner_join(p2) %>% 
+  mutate(proportion = count / overall_count) %>% 
+  ggplot(aes(x = possible_thinnest_lines, y = proportion)) +
+  geom_bar(stat = 'identity') + 
+  facet_wrap(~indecision_trial) + 
+  labs(
+    x = 'Possible Thinnest Lines',
+    y = 'Proportion of Trials'
+  ) + 
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+```
+
+Yea wow these look exactly the same. okay.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

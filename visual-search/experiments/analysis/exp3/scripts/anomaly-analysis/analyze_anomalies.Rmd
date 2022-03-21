@@ -1,0 +1,381 @@
+---
+title: Anomaly Analysis for Grain Boundary Visual Search (E3)
+author: Dave Braun
+date: November 12, 2021
+output:
+  html_document:
+    theme: flatly
+    code_folding: hide
+    df_print: paged
+    includes:
+      after_body: ../../../../../html/footer.html
+      in_header: ../../../../../html/favicon.html
+knit:
+  (function(inputFile, encoding) {
+    rmarkdown::render(inputFile,
+              encoding = encoding,
+              output_file = 'index.html')})
+---
+
+```{r include = FALSE}
+library(tidyverse)
+library(reticulate)
+d <- read.csv('../../data/exp3_long_data.csv')
+thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
+line_data <- read.csv('../../data/exp3_line_data.csv')
+N <- length(unique(d$participant))
+```
+
+
+*This document was last updated at `r Sys.time()`.*
+
+This is a space where we'll explore some of the effects related to the presence absence of the anomaly, which is simply just one inner hexagon boundary that's randomly chosen to be missing on 30% of trials. The lines that were selected to be among the anomalies were a subset of the total lines, mostly clustered in the middle of the array to minimize the number of lines that border the "larger grain" that also fell on the exterior of the whole array.  
+
+**Sample size = `r N`.**
+
+**Things to look at:**  
+
+1. Start with just a simple analysis looking at whether there was a bias to be attracted to or averse to boundaries surrounding the larger grain relative to those other boundaries.
+
+
+# 1. Simple anomaly analysis
+
+Need to start with some of the basic preprocessing that's been done in the usual eda analyses, which involves summarizing which lines were selected on each trial.
+
+```{r}
+calc_accuracy_columns <- function(data) {
+  participant <- data$participant[1]
+  trial <- data$trial_count[1]
+  
+  thinnest_lines_set <- thinnest_lines[thinnest_lines$participant == participant & thinnest_lines$trial_count == trial,]$line_id
+  
+  ## determine the final three lines they selected
+  ## some extra logic to assign NA to any lines that were selected and later released
+  selected_lines <- c(NA, NA, NA)
+  indices <- c(NA, NA, NA)
+  for (row in 1:(nrow(data))) {
+    if (data[row,]$selected_or_released == 'selected') {
+      slot <- which(is.na(selected_lines))[1]
+      selected_lines[slot]<- data[row,]$line_id
+      indices[slot] <- row
+    } else if (data[row,]$selected_or_released == 'released'){
+      slot <- which(!(is.na(selected_lines)) & selected_lines == data[row,]$line_id)
+      selected_lines[slot] <- NA
+      indices[slot] <- NA
+    }
+  }
+  
+  selected_lines_accuracy_column <- rep(NA, nrow(data))
+  accuracy_code <- ifelse(selected_lines %in% thinnest_lines_set, 'hit', 'false_alarm')
+  selected_lines_accuracy_column[indices] <- accuracy_code
+
+  return(selected_lines_accuracy_column)
+
+}
+
+out  <- vector()
+
+for (participant in sapply(unique(d$participant), as.integer)) {
+  for (trial in 0:99) {
+    out <- c(out, calc_accuracy_columns(d[d$participant == participant & d$trial_count == trial,]))
+  }
+}
+
+d$accuracy_type <- out
+
+```
+
+
+```{r}
+compute_selected_lines <- function(data){
+  participant <- data$participant[1]
+  trial <- data$trial_count[1]
+
+  selected_lines <- c(NA, NA, NA)
+  indices <- c(NA, NA, NA)
+  for (row in 1:(nrow(data))) {
+    if (data[row,]$selected_or_released == 'selected') {
+      slot <- which(is.na(selected_lines))[1]
+      selected_lines[slot]<- data[row,]$line_id
+      indices[slot] <- row
+    } else if (data[row,]$selected_or_released == 'released'){
+      slot <- which(!(is.na(selected_lines)) & selected_lines == data[row,]$line_id)
+      selected_lines[slot] <- NA
+      indices[slot] <- NA
+    }
+  }
+  
+  return(selected_lines)
+  
+}
+
+
+
+
+trial_summary <- data.frame(participant = vector(), trial = vector(), is_anomaly_trial = vector(), anomaly_line_id = vector(), anomaly_group = vector(), selected_line_1 = vector(), selected_line_2 = vector(), selected_line_3 = vector())
+
+for (participant in sapply(unique(d$participant), as.integer)) {
+  for (trial in 0:99) {
+    selected_lines <- compute_selected_lines(d[d$participant == participant & d$trial_count == trial,])
+    is_anomaly_trial <- d[d$participant == participant & d$trial_count == trial,]$is_anomaly_trial[1]
+    anomaly_line_id <- d[d$participant == participant & d$trial_count == trial,]$anomaly_line_id[1]
+    anomaly_group <- d[d$participant == participant & d$trial_count == trial,]$anomaly_group[1]
+    trial_summary <- rbind(trial_summary, data.frame(participant = participant, trial = trial, is_anomaly_trial = is_anomaly_trial, anomaly_line_id = anomaly_line_id, anomaly_group = anomaly_group,
+                                                     selected_line_1 = selected_lines[1], selected_line_2 = selected_lines[2], selected_line_3 = selected_lines[3]))
+  }
+}
+
+head(trial_summary)
+```
+
+
+```{python}
+import pandas as pd
+import pickle
+import sys
+
+trial_summary = pd.DataFrame(r.trial_summary)
+trial_summary_dict = trial_summary.to_dict('records')
+
+with open('contiguous_dict.pickle', 'rb') as file:
+  contiguous_dict = pickle.load(file)
+
+
+
+trial_summary_start = [x for x in trial_summary_dict if x['is_anomaly_trial'] == 'True']
+trial_summary_end = []
+
+
+for trial in trial_summary_start:
+  num_contiguous = 0
+  for i in range(1,4):
+    if trial['selected_line_{}'.format(i)] in contiguous_dict[trial['anomaly_line_id']]:
+      num_contiguous += 1
+  trial['num_contiguous'] = num_contiguous
+  trial_summary_end.append(trial)
+
+trial_summary = pd.DataFrame(trial_summary_end)
+```
+
+```{r}
+trial_summary_all <- trial_summary
+trial_summary = py$trial_summary
+trial_summary$num_non_contiguous <- 3 - trial_summary$num_contiguous
+head(trial_summary)
+```
+
+
+```{r}
+total_inner_lines <- nrow(line_data[line_data$participant == 59 & line_data$trial_count == 0 & line_data$is_exterior != 'True',])
+total_trials <- nrow(trial_summary)
+non_big_grain_lines_0 <- (total_inner_lines - 10 - 1) * total_trials
+big_grain_lines_0 <- (10) * total_trials
+non_big_grain_lines_1 <- (total_inner_lines - 9 - 1) * total_trials
+big_grain_lines_1 <- 9 * total_trials
+non_big_grain_lines_2 <- (total_inner_lines - 8 - 1) * total_trials
+big_grain_lines_2 <- 8 * total_trials
+
+results <- data.frame(expected = vector(), observed = vector(), group = vector())
+
+for (group in 0:2){
+  expected <- c(eval(as.name(paste0('non_big_grain_lines_', group))), eval(as.name(paste0('big_grain_lines_', group))))
+  observed <- c(sum(trial_summary[trial_summary$anomaly_group == group,]$num_non_contiguous), sum(trial_summary[trial_summary$anomaly_group == group,]$num_contiguous))
+  print(c(expected, observed))
+  #results[paste0('test', group)] <- chisq.test(expected, observed)
+  results <- rbind(results, data.frame(expected_non = expected[1], expected_anomaly = expected[2], observed_non = observed[1], observed_anomaly = observed[2], group = group))
+}
+
+results
+```
+
+**Overall count**
+
+```{r}
+results$expected_proportion <- results$expected_anomaly / (results$expected_non + results$expected_anomaly)
+results$observed_proportion <- results$observed_anomaly / (results$observed_non + results$observed_anomaly)
+
+plot_data <- results %>% 
+  select(group, expected_proportion, observed_proportion) %>% 
+  gather(var, value, expected_proportion, observed_proportion) 
+
+plot_data %>% 
+  mutate(var = recode(var, 'expected_proportion' = 'expected', 'observed_proportion' = 'observed')) %>% 
+  ggplot(aes(x = group, y = value, group = var)) +
+  geom_bar(stat = 'identity', aes(fill = var), position = position_dodge(width = .9)) + 
+  ylim(0, .5) + 
+  labs(
+    x = 'Number of Borders of Anomaly Touching Exterior',
+    y = 'Proportion of Anomaly Borders to \nall Selectable Borders',
+    fill = ''
+  ) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom')
+  
+
+ggsave('basic_anomaly_result.pdf', height = 5.5, width = 7.5, units = 'in')
+```
+
+**Subject-level Proportions**
+
+```{r}
+library(ez)
+
+expected_proportions <- data.frame(anomaly_group = c(0:2), expected_proportion = c(10 / 33, 9 / 33,  8 / 33))
+
+
+anova_data <- trial_summary %>% 
+  group_by(participant, anomaly_group) %>% 
+  summarize(num_contiguous = sum(num_contiguous), num_non_contiguous = sum(num_non_contiguous)) %>% 
+  mutate(observed_proportion = num_contiguous / (num_contiguous + num_non_contiguous)) %>% 
+  inner_join(expected_proportions) %>% 
+  gather(proportion_type, proportion, observed_proportion, expected_proportion)  
+
+anova_data %>%     
+  group_by(anomaly_group, proportion_type) %>% 
+  summarize(mean_proportion = mean(proportion), se = sd(proportion) / sqrt(length(unique(trial_summary$participant)))) %>% 
+  ggplot(aes(x = anomaly_group, y = mean_proportion)) + 
+  geom_bar(stat = 'identity', aes(fill = proportion_type), position = position_dodge(width = .9)) + 
+  geom_errorbar(aes(ymin = mean_proportion - se, ymax = mean_proportion + se, group = proportion_type), position = position_dodge(width = .9), width = .5) + 
+  ylim(0, .5) + 
+  labs(
+    x = 'Anomaly Group',
+    y = 'Mean Proportion of Anomaly\n Borders to All Available Boundaries',
+    fill = 'Proportion Type'
+  ) + 
+  theme_bw()
+
+  
+
+
+```
+
+
+**one sample t tests**
+
+```{r include = FALSE}
+ttest_data <- anova_data %>% 
+  spread(proportion_type, proportion)
+
+ttest_results <- list()
+
+for (group in 0:2) {
+  mu <- ttest_data[ttest_data$anomaly_group == group,]$expected_proportion[1]
+  ttest_results[group + 1] <- t.test(x = ttest_data[ttest_data$anomaly_group == group,]$observed_proportion, mu = mu)$p.value
+}
+
+ttest_results
+```
+
+
+The observed proportion for anomaly group 1 is significantly different from what we'd expect based on chance.
+
+
+## Anomalies and biases
+
+Doing a basic check to see whether the anomaly groups are disproportionately distributed along the quadrants or line orientations.
+
+```{python}
+import pickle
+
+with open('contiguous_dict.pickle', 'rb') as file:
+  contiguous_dict = pickle.load(file)
+
+d1 = []
+d2 = []
+
+for key in contiguous_dict:
+  d1 += [key] * 10
+  d2 += contiguous_dict[key]
+  
+contiguous = pd.DataFrame({'anomaly_lines': d1, 'contiguous_lines': d2})
+```
+
+```{r}
+## merge in group number
+contiguous <- py$contiguous
+group_summary <- trial_summary %>% 
+  group_by(anomaly_line_id) %>% 
+  summarize(anomaly_group = unique(anomaly_group))
+colnames(group_summary)[1] <- 'anomaly_lines'
+contiguous <- contiguous %>% 
+  inner_join(group_summary)
+head(contiguous)
+```
+
+```{r}
+## merge in exterior information
+exterior_summary <- line_data %>% 
+  mutate(center_x = (top_x + bottom_x) / 2, center_y = (top_y + bottom_y) / 2) %>% 
+  group_by(line_id) %>% 
+  summarize(is_exterior = unique(is_exterior), center_x = unique(center_x), center_y = unique(center_y), line_orientation = unique(line_orientation))
+colnames(exterior_summary)[1] <- 'contiguous_lines'
+contiguous <- contiguous %>% 
+  inner_join(exterior_summary)
+head(contiguous)
+```
+
+```{r}
+## get quadrants
+top_left <- c(min(line_data$top_x), max(line_data$top_y))
+top_right <- c(max(line_data$top_x), max(line_data$top_y))
+bottom_left <- c(min(line_data$bottom_x), min(line_data$bottom_y))
+bottom_right <- c(max(line_data$bottom_x), min(line_data$bottom_y))
+center <- c(mean(c(top_left[1], top_right[1])), mean(c(top_left[2], bottom_left[2])))
+
+contiguous <- contiguous %>% 
+  mutate(quadrant = ifelse(center_x > center[1] & center_y > center[2], 'I', ifelse(center_x < center[1] & center_y > center[2], 'II',
+                    ifelse(center_x < center[1] & center_y < center[2], 'III', ifelse(center_x > center[1] & center_y < center[2], 'IV', '')))),
+         xdist = abs(center_x - center[1]), 
+         ydist = abs(center_y - center[2])) %>% 
+  mutate(is_on_axis = ifelse(xdist < 0.1, 'y_axis', ifelse(ydist < 0.1, 'x_axis', ''))) %>% 
+  mutate(quadrant = ifelse(is_on_axis == '', quadrant, is_on_axis)) %>% 
+  select(-center_x, -center_y, xdist, ydist) 
+```
+
+```{r}
+## line orientation
+contiguous %>% 
+  filter(is_exterior == 'False') %>% 
+  group_by(anomaly_group, line_orientation) %>% 
+  summarize(count = n()) %>% 
+  ggplot(aes(x = anomaly_group, y = count)) + 
+  geom_bar(stat = 'identity', aes(fill = line_orientation), position = position_dodge(width = .9)) +
+  labs(
+    x = 'Anomaly Group',
+    y = 'Count of Lines',
+    fill = 'Line Orientation'
+  ) + 
+  theme_bw()
+```
+
+
+```{r}
+## quadrant
+contiguous %>% 
+  filter(is_exterior == 'False') %>% 
+  group_by(anomaly_group, quadrant) %>% 
+  summarize(count = n()) %>% 
+  ggplot(aes(x = anomaly_group, y = count)) + 
+  geom_bar(stat = 'identity', aes(fill = quadrant), position = position_dodge(width = .9)) +
+  labs(
+    x = 'Anomaly Group',
+    y = 'Count of Lines',
+    fill = 'Quadrant'
+  ) + 
+  theme_bw()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

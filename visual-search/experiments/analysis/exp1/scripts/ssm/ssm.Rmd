@@ -1,0 +1,404 @@
+---
+title: "Grain Boundary Search Task (V1) SSM Analysis"
+author: "Dave Braun"
+date: "10/21/2021"
+output: 
+  html_document:
+    code_folding: hide
+    df_print: paged
+    theme: flatly
+    includes:
+      after_body: ../../../../../html/footer.html
+      in_header: ../../../../../html/favicon.html
+    
+knit:
+  (function(inputFile, encoding) {
+      rmarkdown::render(inputFile,
+                    encoding = encoding,
+                    output_file = 'index.html')})
+---
+
+This document was last updated at `r Sys.time()`.
+
+The goal here is to analyze these data for the presence of subsequent search misses (SSM; see Adamo et al., 2021). I would think that this effect would show up in our data as accuracy decreasing as a function of selection order of the lines.
+  
+```{r include = FALSE}
+library(tidyverse)
+library(testit)
+library(psycho)
+```
+
+  
+  
+```{r}
+d <- read.csv('../../data/exp1_long_data.csv')
+thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
+line_data <- read.csv('../../data/exp1_line_data.csv')
+head(d)
+N <- d %>% 
+  group_by(participant) %>% 
+  summarize(n()) %>% 
+  nrow()
+```
+
+**There were `r N` participants in this study.**
+  
+```{r}
+calc_accuracy_columns <- function(data) {
+  participant <- data$participant[1]
+  trial <- data$trial_count[1]
+  
+  thinnest_lines_set <- thinnest_lines[thinnest_lines$participant == participant & thinnest_lines$trial_count == trial,]$line_id
+  
+  ## determine the final three lines they selected
+  ## some extra logic to assign NA to any lines that were selected and later released
+  selected_lines <- c(NA, NA, NA)
+  indices <- c(NA, NA, NA)
+  for (row in 1:(nrow(data))) {
+    if (is.na(data[row,]$selected_or_released == 'selected')){
+      print(c(participant, trial))
+    }
+    if (data[row,]$selected_or_released == 'selected') {
+      slot <- which(is.na(selected_lines))[1]
+      selected_lines[slot]<- data[row,]$line_id
+      indices[slot] <- row
+    } else if (data[row,]$selected_or_released == 'released'){
+      slot <- which(!(is.na(selected_lines)) & selected_lines == data[row,]$line_id)
+      selected_lines[slot] <- NA
+      indices[slot] <- NA
+    }
+    
+  }
+  
+  selected_lines_accuracy_column <- rep(NA, nrow(data))
+  accuracy_code <- ifelse(selected_lines %in% thinnest_lines_set, 'hit', 'false_alarm')
+  selected_lines_accuracy_column[indices] <- accuracy_code
+
+  return(selected_lines_accuracy_column)
+
+}
+
+out  <- vector()
+
+for (participant in sapply(unique(d$participant), as.integer)) {
+  for (trial in sapply(unique(d[d$participant == participant,]$trial_count), as.integer)) {
+    out <- c(out, calc_accuracy_columns(d[d$participant == participant & d$trial_count == trial,]))
+  }
+}
+
+d$accuracy_type <- out
+
+
+```
+  
+
+```{r}
+## summarize hits and false alarms
+summary_data <- d %>% 
+  filter(!(is.na(accuracy_type))) %>% 
+  mutate(hit = ifelse(accuracy_type == 'hit', 1, 0), false_alarm = ifelse(accuracy_type == 'false_alarm', 1, 0)) %>% 
+  group_by(line_orientation) %>% 
+  summarize(hits = sum(hit), false_alarms = sum(false_alarm))
+```
+
+Base rate of line orientation types on each trial:
+
+```{r}
+line_data %>% 
+  filter(participant == 10, trial_count == 0) %>% 
+  group_by(line_orientation) %>% 
+  summarize(count = n()) 
+```
+
+
+  
+```{r}
+## summarize misses
+
+thinnest_lines <- d %>% 
+  filter(pressed_object == 'submit') %>% 
+  select(participant, trial_count, accuracy) %>% 
+  inner_join(thinnest_lines)
+
+summary_data <- thinnest_lines %>% 
+  filter(accuracy != 1) %>% 
+  group_by(line_orientation) %>% 
+  summarize(misses = n()) %>% 
+  inner_join(summary_data) %>% 
+  gather(accuracy_type, count, misses:false_alarms) 
+
+
+d %>% 
+  filter(selected_or_released == 'selected') %>% 
+  group_by(participant, line_orientation) %>% 
+  summarize(count = n()) %>% 
+  group_by(line_orientation) %>% 
+  summarize(mean_selection_rate = mean(count), se = sd(count) / sqrt(length(unique(d$participant)))) %>% 
+  ggplot(aes(x = line_orientation, y = mean_selection_rate)) + 
+  geom_bar(stat = 'identity') + 
+  geom_errorbar(aes(ymin = mean_selection_rate - se, ymax = mean_selection_rate + se), width = .5) +
+  labs(
+    x = 'Line Orientation',
+    y = 'Mean Selection Rate'
+  ) + 
+  theme_bw()
+
+summary_data %>% 
+  ggplot(aes(x = line_orientation, y = count)) +
+  geom_bar(stat = 'identity', aes(fill = accuracy_type), position = position_dodge(width = .9)) +
+  labs(
+    y = 'Count',
+    x = 'Line Orientation',
+    fill = 'Accuracy Type'
+  ) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom')
+  
+```
+  
+```{r}
+ggsave('line_orientation.png', height = 1080 / 300, width = 1920 / 300, units = 'in', dpi = 300)
+```
+  
+  
+  
+  
+## Quadrant Analysis
+
+  
+We'll calculate the center of the grid by looking at the most extreme X's and Y's and taking the center, then compare the center of the lines against that center point.
+  
+  
+```{r}
+line_data <- read.csv('../../data/exp1_line_data.csv')
+head(line_data)
+```
+
+  
+```{r}
+top_left <- c(min(line_data$top_x), max(line_data$top_y))
+top_right <- c(max(line_data$top_x), max(line_data$top_y))
+bottom_left <- c(min(line_data$bottom_x), min(line_data$bottom_y))
+bottom_right <- c(max(line_data$bottom_x), min(line_data$bottom_y))
+print(top_left)
+print(top_right)
+print(bottom_left)
+print(bottom_right)
+```
+
+```{r}
+center <- c(mean(c(top_left[1], top_right[1])), mean(c(top_left[2], bottom_left[2])))
+center
+```
+
+
+```{r}
+## calculate line centers
+
+d <- d %>% 
+  mutate(line_center_x = (top_x + bottom_x) / 2, line_center_y = (top_y + bottom_y) / 2) %>% 
+  mutate(quadrant = ifelse(line_center_x > center[1] & line_center_y > center[2], 'I', ifelse(line_center_x < center[1] & line_center_y > center[2], 'II',
+                    ifelse(line_center_x < center[1] & line_center_y < center[2], 'III', ifelse(line_center_x > center[1] & line_center_y < center[2], 'IV', '')))))
+line_data <- line_data %>% 
+  mutate(line_center_x = (top_x + bottom_x) / 2, line_center_y = (top_y + bottom_y) / 2) %>% 
+  mutate(quadrant = ifelse(line_center_x > center[1] & line_center_y > center[2], 'I', ifelse(line_center_x < center[1] & line_center_y > center[2], 'II',
+                    ifelse(line_center_x < center[1] & line_center_y < center[2], 'III', ifelse(line_center_x > center[1] & line_center_y < center[2], 'IV', '')))))
+
+
+line_data %>% 
+  filter(participant == 1, trial_count == 0, is_exterior == 'False') %>% 
+  mutate(x_dist = abs(line_center_x - center[1]), y_dist = abs(line_center_y - center[2])) %>% 
+  mutate(is_on_axis = ifelse(x_dist < 0.1, 'y_axis', ifelse(y_dist < 0.1, 'x_axis', ''))) %>% 
+  mutate(quadrant = ifelse(is_on_axis == '', quadrant, is_on_axis)) %>% 
+  group_by(quadrant) %>% 
+  summarize(count = n()) %>% 
+  ggplot(aes(x = quadrant, y = count)) + 
+  geom_bar(stat = 'identity') + 
+  labs(
+    x = 'Quadrant',
+    y = 'Number of Lines per Trial'
+  ) + 
+  theme_bw()
+
+ggsave('lines_per_quadrant.png', height = 1080 / 300, width = 1920 / 300, units = 'in', dpi = 300)
+
+d <- d %>% 
+  mutate(x_dist = abs(line_center_x - center[1]), y_dist = abs(line_center_y - center[2])) %>% 
+  mutate(is_on_axis = ifelse(x_dist < 0.1, 'y_axis', ifelse(y_dist < 0.1, 'x_axis', ''))) %>% 
+  mutate(quadrant = ifelse(is_on_axis == '', quadrant, is_on_axis)) 
+  
+d %>%   
+  filter(!(is.na(quadrant))) %>% 
+  group_by(participant, quadrant) %>% 
+  summarize(count = n()) %>% 
+  group_by(quadrant) %>% 
+  summarize(mean_trials = mean(count)) %>% 
+  ggplot(aes(x = quadrant, y = mean_trials)) +
+  geom_bar(stat = 'identity') +
+  labs(
+    x = 'Quadrant',
+    y = 'Mean Frequency Selected across Participants'
+  ) + 
+  theme_bw()
+
+ggsave('selection_by_quadrant.png', height = 1080 / 300, width = 1920 / 300, units = 'in', dpi = 300)
+
+d %>% 
+  filter(!(is.na(quadrant)), !(is.na(top_x)), !(is.na(accuracy_type))) %>% 
+  group_by(participant, quadrant, accuracy_type) %>% 
+  summarize(count = n()) %>% 
+  group_by(quadrant, accuracy_type) %>% 
+  summarize(mean_count = mean(count), se_count = sd(count) / sqrt(N)) %>% 
+  ggplot(aes(x = quadrant, y = mean_count, group = accuracy_type)) +
+  geom_bar(stat = 'identity', aes(fill = accuracy_type), position = position_dodge(width = .9)) + 
+  geom_errorbar(aes(ymin = mean_count - se_count, ymax = mean_count + se_count, group = accuracy_type), width = .5, position = position_dodge(.9)) + 
+  labs(
+    x = 'Quadrant',
+    y = 'Average Across Participants',
+    fill = 'Accuracy Type'
+  ) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom')
+
+ggsave('accuracy_by_quadrant.png', height = 1080 / 300, width = 1920 / 300, units = 'in', dpi = 300)
+
+```
+  
+
+## Features of Possible Thinnest Lines
+  
+```{r}
+thinnest_lines_summaries <- thinnest_lines %>% 
+  group_by(participant, trial_count) %>% 
+  summarize(mean_line_width = mean(line_width), sd_line_width = sd(line_width))
+head(thinnest_lines_summaries)
+
+```
+
+
+
+```{r}
+
+plot_data <- d %>% 
+  group_by(participant, trial_count, accuracy_type) %>% 
+  summarize(count = n(), possible_thinnest_lines = max(possible_thinnest_lines)) %>% 
+  filter(!(is.na(accuracy_type))) %>% 
+  inner_join(thinnest_lines_summaries) 
+
+plot_data %>% 
+  gather(variable, value, possible_thinnest_lines:sd_line_width) %>% 
+  ggplot(aes(x = value)) +
+  geom_histogram() + 
+  facet_wrap(~variable, scales = 'free') + 
+  labs(
+    x = '',
+    y = 'Frequency'
+  ) +
+  theme_bw() +
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+
+
+```
+```{r}
+plot_data %>% 
+  #filter(possible_thinnest_lines < 4) %>% 
+  group_by(accuracy_type, count) %>% 
+  summarize(frequency = n()) %>% 
+  ggplot(aes(x = count, y = frequency)) + 
+  geom_bar(stat = 'identity', aes(fill = accuracy_type), position = position_dodge(width = .9)) + 
+  labs(
+    x = 'Number of occurances in a trial',
+    y = 'Frequency',
+    fill = 'Accuracy Type'
+  ) + 
+  theme_bw()
+```
+
+```{r}
+plot_data <- plot_data %>% 
+  spread(accuracy_type, count) %>% 
+  mutate(false_alarm = replace_na(false_alarm, 0),
+         hit = replace_na(hit, 0),
+         miss = ifelse(hit == 3, 0, possible_thinnest_lines - hit),
+         correct_reject = (33 - false_alarm) - possible_thinnest_lines) %>% 
+  mutate(d_prime = dprime(n_hit = hit, n_fa = false_alarm, n_miss = miss, n_cr = correct_reject)$dprime) 
+```
+
+
+```{r}
+## average mean line width and d' to participant level and correlate
+
+plot_data %>% 
+  gather(var, value, false_alarm, correct_reject, possible_thinnest_lines, d_prime) %>% 
+  ggplot(aes(x = value)) + 
+  geom_histogram() + 
+  facet_wrap(~var, scales = 'free') +
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+  
+plot_data %>% 
+  gather(var, value, mean_line_width, sd_line_width, possible_thinnest_lines) %>% 
+  ggplot(aes(x = value, y = d_prime)) +
+  geom_point() +
+  geom_smooth(method = 'lm') + 
+  facet_wrap(~var, scales = 'free') +
+  labs(
+    x = '',
+    y = "d'",
+    caption = 'Each point represents a trial.'
+  ) + 
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+
+  
+```
+
+Try to look at the relationship between mean line width and d' while controlling for possible thinnest lines.
+
+```{r}
+plot_data %>% 
+  mutate(possible_thinnest_lines_bin = ifelse(possible_thinnest_lines == 3, 'three', ifelse(possible_thinnest_lines == 4, 'four', ifelse(possible_thinnest_lines > 5 & possible_thinnest_lines < 7, 'five and six', '> six')))) %>% 
+  mutate(possible_thinnest_lines_bin = factor(possible_thinnest_lines_bin, levels = c('three', 'four', 'five and six', '> six'))) %>% 
+  ggplot(aes(x = mean_line_width, y = d_prime)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm') + 
+  facet_wrap(~possible_thinnest_lines_bin) + 
+  labs(
+    x = 'Mean line width',
+    y = "d'",
+    caption = 'Facets represent groupings on number of possible thinnest lines in a trial'
+  ) + 
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+```
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
