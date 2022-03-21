@@ -8,8 +8,8 @@ output:
     df_print: paged
     theme: flatly
     includes:
-      after_body: ../../../../../html/footer.html
-      in_header: ../../../../../html/favicon.html
+      after_body: ../../../../../../html/footer.html
+      in_header: ../../../../../../html/favicon.html
     
 knit:
   (function(inputFile, encoding) {

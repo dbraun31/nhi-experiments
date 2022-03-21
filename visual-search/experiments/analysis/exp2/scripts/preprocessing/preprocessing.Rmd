@@ -8,8 +8,8 @@ output:
     df_print: paged
     theme: flatly
     includes:
-      after_body: ../../../../../html/footer.html
-      in_header: ../../../../../html/favicon.html
+      after_body: ../../../../../../html/footer.html
+      in_header: ../../../../../../html/favicon.html
     
 knit:
   (function(inputFile, encoding) {
@@ -122,11 +122,11 @@ d$indecision_trial <- ifelse(is.na(d$indecision_trial), 0, 1)
 
 
 ```{r}
-## drop bad trials and save
+## drop bad trials
 original_trials <- length(unique(d$participant)) * 100
 d <- d[d$bad_trial == 0,]
 d <- select(d, -bad_trial)
-thinnest_lines <- thinnest_lines[d$bad_trial == 0,]
+thinnest_lines <- thinnest_lines[thinnest_lines$bad_trial == 0,]
 thinnest_lines <- select(thinnest_lines, -bad_trial)
 line_data <- line_data[line_data$bad_trial == 0,]
 line_data <- select(line_data, -bad_trial)
@@ -136,9 +136,16 @@ final_trials <- d %>%
   nrow()
 print(paste0('Percent of trials dropped: ', round((1 - (final_trials / original_trials)) * 100, 2), '%'))
 
-write.csv(d, '../../data/exp2_long_data.csv', row.names = FALSE)
-write.csv(line_data, '../../data/exp2_line_data.csv', row.names = FALSE)
-write.csv(thinnest_lines, '../../data/thinnest_lines.csv', row.names = FALSE)
+
+```
+
+
+
+
+```{r}
+## add accuracy columns
+source('../compute_accuracy_columns.r')
+d <- compute_accuracy_columns(d, thinnest_lines) 
 ```
 
 
@@ -147,10 +154,12 @@ write.csv(thinnest_lines, '../../data/thinnest_lines.csv', row.names = FALSE)
 
 
 
-
-
-
-
+```{r}
+## save
+write.csv(d, '../../data/exp2_long_data.csv', row.names = FALSE)
+write.csv(line_data, '../../data/exp2_line_data.csv', row.names = FALSE)
+write.csv(thinnest_lines, '../../data/thinnest_lines.csv', row.names = FALSE)
+```
 
 
 

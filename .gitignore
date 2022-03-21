@@ -1,3 +1,4 @@
 visual-search/exp1/general_journal.txt
 visual-search/exp1/analysis/data/*
 **/*.pickle
+**/irb/

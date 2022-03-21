@@ -1731,7 +1731,7 @@ summary {
 </div>
 
 
-<p>This document was last updated at 2021-12-17 14:42:12.</p>
+<p>This document was last updated at 2022-03-21 13:41:28.</p>
 <pre class="r"><code>d &lt;- read.csv('../../data/exp2_long_data_raw.csv')
 line_data &lt;- read.csv('../../data/exp2_line_data_raw.csv')
 head(d)</code></pre>
@@ -1804,11 +1804,11 @@ t &lt;- d %&gt;%
   left_join(t)</code></pre>
 <pre><code>## Joining, by = c(&quot;participant&quot;, &quot;trial_count&quot;)</code></pre>
 <pre class="r"><code>d$indecision_trial &lt;- ifelse(is.na(d$indecision_trial), 0, 1)</code></pre>
-<pre class="r"><code>## drop bad trials and save
+<pre class="r"><code>## drop bad trials
 original_trials &lt;- length(unique(d$participant)) * 100
 d &lt;- d[d$bad_trial == 0,]
 d &lt;- select(d, -bad_trial)
-thinnest_lines &lt;- thinnest_lines[d$bad_trial == 0,]
+thinnest_lines &lt;- thinnest_lines[thinnest_lines$bad_trial == 0,]
 thinnest_lines &lt;- select(thinnest_lines, -bad_trial)
 line_data &lt;- line_data[line_data$bad_trial == 0,]
 line_data &lt;- select(line_data, -bad_trial)
@@ -1819,7 +1819,11 @@ final_trials &lt;- d %&gt;%
 <pre><code>## `summarise()` has grouped output by 'participant'. You can override using the `.groups` argument.</code></pre>
 <pre class="r"><code>print(paste0('Percent of trials dropped: ', round((1 - (final_trials / original_trials)) * 100, 2), '%'))</code></pre>
 <pre><code>## [1] &quot;Percent of trials dropped: 7.31%&quot;</code></pre>
-<pre class="r"><code>write.csv(d, '../../data/exp2_long_data.csv', row.names = FALSE)
+<pre class="r"><code>## add accuracy columns
+source('../compute_accuracy_columns.r')
+d &lt;- compute_accuracy_columns(d, thinnest_lines) </code></pre>
+<pre class="r"><code>## save
+write.csv(d, '../../data/exp2_long_data.csv', row.names = FALSE)
 write.csv(line_data, '../../data/exp2_line_data.csv', row.names = FALSE)
 write.csv(thinnest_lines, '../../data/thinnest_lines.csv', row.names = FALSE)</code></pre>
 </div>

@@ -2,6 +2,11 @@
 
 This repository contains all the code and analysis scripts for experiments run in the NHI Visualization Lab in Fall 2021.  
 
+See [here](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis) for a summary of analyses.
+
+
+
+
 *7/9/2021*  
 Most recent updates to "compare lines" pilot:  
 

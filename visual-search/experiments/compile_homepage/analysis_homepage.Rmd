@@ -1,0 +1,59 @@
+---
+title: "NHI - Visual Search Experiments"
+author: "Dave Braun"
+date: '`r format(Sys.time(), "%b %d %Y %X")`'
+output:
+  html_document:
+    code_folding: hide
+    df_print: paged
+    include:
+      in_header: ../../../html/favicon.html
+      after_body: ../../../html/footer.html
+---
+
+# {.tabset}
+  
+## Experiment 1
+### Search Strategy Analyses
+* [Search Strategy Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp1/scripts/search-strategy)
+
+### Subsequent Search Misses Analyses
+* [Subsequent Search Misses Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp1/scripts/subsequent-search-misses)
+
+### Preprocessing Analyses
+* [Preprocessing Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp1/scripts/preprocessing)
+
+### Clicking Analyses
+* [Clicking Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp1/scripts/clicking)
+
+### Timing Analyses
+* [Timing Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp1/scripts/timing)
+
+### Eda Analyses
+* [Eda Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp1/scripts/eda)
+
+
+## Experiment 2
+### Preprocessing Analyses
+* [Preprocessing Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp2/scripts/preprocessing)
+
+### Timing Analyses
+* [Timing Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp2/scripts/timing)
+
+### Eda Analyses
+* [Eda Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp2/scripts/eda)
+
+
+## Experiment 3
+### Preprocessing Analyses
+* [Preprocessing Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp3/scripts/preprocessing)
+
+### Anomaly Clicking Analyses
+* [Anomaly Clicking Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp3/scripts/anomaly-clicking)
+
+### Timing Analyses
+* [Timing Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp3/scripts/timing)
+
+### Eda Analyses
+* [Eda Analysis](https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/exp3/scripts/eda)
+

@@ -8,8 +8,8 @@ output:
     df_print: paged
     theme: flatly
     includes:
-      after_body: ../../../../../html/footer.html
-      in_header: ../../../../../html/favicon.html
+      after_body: ../../../../../../html/footer.html
+      in_header: ../../../../../../html/favicon.html
     
 knit:
   (function(inputFile, encoding) {
@@ -135,16 +135,22 @@ final_trials <- d %>%
   nrow()
 print(paste0('Percent of trials dropped: ', round((1 - (final_trials / original_trials)) * 100, 2), '%'))
 
-write.csv(d, '../../data/exp1_long_data.csv', row.names = FALSE)
-write.csv(line_data, '../../data/exp1_line_data.csv', row.names = FALSE)
-write.csv(thinnest_lines, '../../data/thinnest_lines.csv', row.names = FALSE)
+```
+
+```{r}
+source('../compute_accuracy_columns.r')
+d <- compute_accuracy_columns(d, thinnest_lines)
 ```
 
 
 
 
 
-
+```{r}
+write.csv(d, '../../data/exp1_long_data.csv', row.names = FALSE)
+write.csv(line_data, '../../data/exp1_line_data.csv', row.names = FALSE)
+write.csv(thinnest_lines, '../../data/thinnest_lines.csv', row.names = FALSE)
+```
 
 
 

@@ -8,8 +8,8 @@ output:
     df_print: paged
     theme: flatly
     includes:
-      after_body: ../../../../../html/footer.html
-      in_header: ../../../../../html/favicon.html
+      after_body: ../../../../../../html/footer.html
+      in_header: ../../../../../../html/favicon.html
     
 knit:
   (function(inputFile, encoding) {
@@ -40,47 +40,9 @@ N <- d %>%
 **There were `r N` participants in this study.**
   
 ```{r}
-calc_accuracy_columns <- function(data) {
-  participant <- data$participant[1]
-  trial <- data$trial_count[1]
-  
-  thinnest_lines_set <- thinnest_lines[thinnest_lines$participant == participant & thinnest_lines$trial_count == trial,]$line_id
-  
-  ## determine the final three lines they selected
-  ## some extra logic to assign NA to any lines that were selected and later released
-  selected_lines <- c(NA, NA, NA)
-  indices <- c(NA, NA, NA)
-  for (row in 1:(nrow(data))) {
-    if (data[row,]$selected_or_released == 'selected') {
-      slot <- which(is.na(selected_lines))[1]
-      selected_lines[slot]<- data[row,]$line_id
-      indices[slot] <- row
-    } else if (data[row,]$selected_or_released == 'released'){
-      slot <- which(!(is.na(selected_lines)) & selected_lines == data[row,]$line_id)
-      selected_lines[slot] <- NA
-      indices[slot] <- NA
-    }
-  }
-  
-  selected_lines_accuracy_column <- rep(NA, nrow(data))
-  accuracy_code <- ifelse(selected_lines %in% thinnest_lines_set, 'hit', 'false_alarm')
-  selected_lines_accuracy_column[indices] <- accuracy_code
+source('../compute_accuracy_columns.r')
 
-  return(selected_lines_accuracy_column)
-
-}
-
-out  <- vector()
-
-for (participant in sapply(unique(d$participant), as.integer)) {
-  for (trial in unique(d[d$participant == participant,]$trial_count)) {
-    out <- c(out, calc_accuracy_columns(d[d$participant == participant & d$trial_count == trial,]))
-  }
-}
-
-d$accuracy_type <- out
-
-
+d <- compute_accuracy_columns(d, thinnest_lines)
 ```
   
 
@@ -167,7 +129,7 @@ Seems to be quite a bit different from E1. Stronger positive trend for no indeci
 e2 <- d %>% 
   select(participant, trial_count, indecision_trial, prompt_rt_sec, selection_rt_ms_relative, possible_thinnest_lines) %>% 
   mutate(experiment = 'Experiment 2')
-e1 <- read.csv('../../../../exp1/analysis/data/exp1_long_data.csv')
+e1 <- read.csv('../../../exp1/data/exp1_long_data.csv')
 e1 <- e1 %>% 
   mutate(experiment = 'Experiment 1',
          selection_rt_ms_relative = ifelse(trial_count == lag(trial_count), selection_rt_ms - lag(selection_rt_ms), selection_rt_ms)) %>% 

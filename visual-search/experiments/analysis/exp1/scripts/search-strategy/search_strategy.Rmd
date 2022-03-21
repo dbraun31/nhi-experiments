@@ -8,6 +8,9 @@ output:
     theme: flatly
     df_print: paged
     code_folding: hide
+    includes:
+      after_body: ../../../../../../html/footer.html
+      in_header: ../../../../../../html/favicon.html
 knit:
   (function(inputFile, encoding) {
     rmarkdown::render(inputFile,
