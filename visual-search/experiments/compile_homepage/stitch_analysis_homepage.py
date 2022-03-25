@@ -2,7 +2,7 @@ import sys
 import glob
 
 
-site_root = 'https://davebraun.net/nhi-expeirments/visual-search/experiments/analysis/'
+site_root = 'https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/'
 
 def determine_num_exps(rmd_files_index):
   ## rmd_files is list of rmd_files
@@ -22,6 +22,11 @@ def compute_file_index(rmd_files):
     t.remove('scripts')
     out.append(t)
   return out
+
+def generate_descriptions():
+  out = {
+    'exp1/search-strategy/search_strategy.Rmd': ''
+  }
 
 def main():
   body = '''---
@@ -61,7 +66,7 @@ output:
         secondary_dir = ''
         if len(script) == 4:
           secondary_dir = script[-2] + '/'
-        body += '({}exp{}/scripts/{}{})\n\n'.format(site_root, exp, secondary_header, secondary_dir)
+        body += '({}exp{}/scripts/{}{}){{target=_blank}}\n\n'.format(site_root, exp, secondary_header, secondary_dir)
 
 
 

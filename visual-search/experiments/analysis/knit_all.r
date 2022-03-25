@@ -1,6 +1,3 @@
-## MISSING
-	## need to put something in here that will always run preprocessing first
-
 ## optional param 'only_missing' if true only hit the dirs where index.html is missing
 
 args <- commandArgs(trailingOnly = TRUE)
@@ -12,6 +9,9 @@ if (!(identical(args, character(0)))) {
 knit_all <- function(only_missing = FALSE) {
 
 files <- list.files(pattern = '\\.Rmd$', recursive = TRUE)
+
+## put preprocessing first
+files <- c(files[grepl('preprocessing', files)], files[!grepl('preprocessing', files)])
 
 for (file in files) {
 	stem <- strsplit(file, '/')[[1]]

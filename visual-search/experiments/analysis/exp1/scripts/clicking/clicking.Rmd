@@ -8,6 +8,9 @@ output:
     theme: flatly
     df_print: paged
     code_folding: hide
+    includes:
+      in_header: !expr paste0(here::here(), '/html/favicon.html')
+      after_body: !expr paste0(here::here(), '/html/footer.html')
 knit:
   (function(inputFile, encoding) {
     rmarkdown::render(inputFile,
@@ -30,9 +33,13 @@ library(ez)
 ```{r}
 d <- read.csv('../../data/exp1_long_data.csv')
 thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
-source('../compute_accuracy_columns.r')
-d <- compute_accuracy_columns(d, thinnest_lines)
-N <- length(unique(d$participant))
+if (!'accuracy_type' %in% colnames(d)) {
+  source('../compute_accuracy_columns.r')
+  d <- compute_accuracy_columns(d, thinnest_lines)
+  
+}
+
+N <- length(unique(d$participant))  
 head(d)
 head(thinnest_lines)
 colnames(d)[which(colnames(d) == 'participant')] <- 'subject'
@@ -128,9 +135,73 @@ d %>%
 ```
 
 
+## Clicking and unclicking
 
+Looking only at trials where they clicked and unclicked lines
 
+```{r}
+d <- read.csv('../../data/exp1_long_data.csv')
+print(nrow(d))
+trial_summary <- d %>% 
+  group_by(trial_count, participant) %>% 
+  summarize(count = n()) %>% 
+  mutate(keep = ifelse(count > 4, 1, 0))
 
+p_summary <- d %>% 
+  filter(click_order == 1) %>% 
+  group_by(participant) %>% 
+  summarize(total_trials = n())
+
+d <- trial_summary %>% 
+  inner_join(d) %>% 
+  filter(keep == 1) %>% 
+  select(-keep)
+
+t <- d %>% 
+  filter(click_order == 1) %>% 
+  group_by(participant) %>% 
+  summarize(deselect_trials = n())
+
+p_summary <- cbind(p_summary, t[,'deselect_trials'])
+
+p_summary %>% 
+  mutate(proportion_deselect = deselect_trials / total_trials) %>% 
+  ggplot(aes(x = reorder(participant, proportion_deselect), y = proportion_deselect)) + 
+  geom_bar(stat='identity') + 
+  labs(
+    x = 'Participant',
+    y = 'Proportion of Trials Deselecting Lines'
+  ) + 
+  theme_bw() + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks = element_blank())
+```
+
+Did people who deselected more often have faster click rts on average?
+
+```{r}
+p_summary <- d %>% 
+  ## take out submit button presses
+  filter(is.na(accuracy)) %>% 
+  group_by(participant) %>% 
+  summarize(selection_rt_ms = mean(selection_rt_ms)) %>% 
+  inner_join(p_summary)
+
+head(p_summary)
+```
+
+```{r}
+p_summary %>% 
+  mutate(proportion_deselect = deselect_trials / total_trials) %>% 
+  ggplot(aes(x = proportion_deselect, y = selection_rt_ms)) + 
+  geom_point(aes(group = participant)) + 
+  labs(
+    x = 'Proportion of Trials Deselecting Lines',
+    y = 'Average Line Selection RT (ms)'
+  ) + 
+  theme_bw()
+```
+Oh wow pretty much the opposite. High deselecters look like they're maybe just deliberating more.
 
 
 

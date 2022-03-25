@@ -1,0 +1,6 @@
+2022-03-25
+	../compile_homepage/compile_analysis_homepage.Rmd
+	./knit_all.r
+	../../upload.sh
+
+	all separate
