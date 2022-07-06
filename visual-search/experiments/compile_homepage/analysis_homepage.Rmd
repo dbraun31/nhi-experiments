@@ -14,46 +14,49 @@ output:
 # {.tabset}
   
 ## Experiment 1
-### Search Strategy Analyses
-* [Search Strategy Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/search-strategy){target=_blank}
-
-### Subsequent Search Misses Analyses
-* [Subsequent Search Misses Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/subsequent-search-misses){target=_blank}
-
-### Preprocessing Analyses
-* [Preprocessing Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/preprocessing){target=_blank}
-
-### Clicking Analyses
-* [Clicking Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/clicking){target=_blank}
+### Eda Analyses
+* [Eda Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/eda){target=_blank}
 
 ### Timing Analyses
 * [Timing Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/timing){target=_blank}
 
-### Eda Analyses
-* [Eda Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/eda){target=_blank}
+### Clicking Analyses
+* [Clicking Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/clicking){target=_blank}
+
+### Preprocessing Analyses
+* [Preprocessing Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/preprocessing){target=_blank}
+
+### Clustering Analyses
+* [Clustering Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/clustering){target=_blank}
+
+### Subsequent Search Misses Analyses
+* [Subsequent Search Misses Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/subsequent-search-misses){target=_blank}
+
+### Search Strategy Analyses
+* [Search Strategy Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/search-strategy){target=_blank}
 
 
 ## Experiment 2
-### Preprocessing Analyses
-* [Preprocessing Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp2/scripts/preprocessing){target=_blank}
+### Eda Analyses
+* [Eda Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp2/scripts/eda){target=_blank}
 
 ### Timing Analyses
 * [Timing Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp2/scripts/timing){target=_blank}
 
-### Eda Analyses
-* [Eda Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp2/scripts/eda){target=_blank}
+### Preprocessing Analyses
+* [Preprocessing Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp2/scripts/preprocessing){target=_blank}
 
 
 ## Experiment 3
+### Eda Analyses
+* [Eda Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp3/scripts/eda){target=_blank}
+
+### Timing Analyses
+* [Timing Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp3/scripts/timing){target=_blank}
+
 ### Preprocessing Analyses
 * [Preprocessing Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp3/scripts/preprocessing){target=_blank}
 
 ### Anomaly Clicking Analyses
 * [Anomaly Clicking Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp3/scripts/anomaly-clicking){target=_blank}
-
-### Timing Analyses
-* [Timing Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp3/scripts/timing){target=_blank}
-
-### Eda Analyses
-* [Eda Analysis](https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp3/scripts/eda){target=_blank}
 

@@ -170,8 +170,12 @@ d %>%
     caption = 'Each dot represents a trial mean'
   ) + 
   theme_bw() + 
-  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+  theme(strip.background = element_rect(color = 'black', fill = 'white'),
+        text = element_text(size = 20))
   
+```
+```{r}
+ggsave('timing.pdf', height = 1000/96, width = 1920/2/96)
 ```
 
 

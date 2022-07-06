@@ -86,8 +86,12 @@ subject_summary %>%
     y = 'Click Order'
   ) + 
   theme_bw() + 
-  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+  theme(strip.background = element_rect(color = 'black', fill = 'white'),
+        text = element_text(size = 20))
 
+```
+```{r}
+ggsave('click_order.pdf', height = 1000/96, width = 1920/2/96)
 ```
 
 
@@ -176,6 +180,20 @@ p_summary %>%
   theme(axis.text.x = element_blank(),
         axis.ticks = element_blank())
 ```
+
+Looking at the trial counts across different number of lines selected in a trial:
+
+```{r}
+d <- read.csv('../../data/exp1_long_data.csv')
+d %>% 
+  group_by(participant, trial_count, selected_or_released) %>% 
+  summarize(select_count = n()) %>% 
+  filter(selected_or_released == 'selected') %>% 
+  group_by(select_count) %>% 
+  summarize(count = n()) 
+
+```
+
 
 Did people who deselected more often have faster click rts on average?
 

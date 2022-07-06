@@ -1,3 +1,16 @@
+4-28-2022
+	alright can i organize this mess at all?
+	what would a publishable finding from these data even look like?
+		think: problem -> cause -> solution
+	problems are the biases that have been outlined
+		i could still look at the extent to which these search biases impact performance
+		could correlate IDs in search biases with IDs in accuracy
+	also correlate IDs in response time (& clustering groups) with choice biases
+
+	i think these correlations are worth doing and might be informative.. but we have such weak causal leverage in this paradigm
+		addressing the 'cause' part of my chain above is going to be tentative at best
+
+
 6-30-2021
 
 	trying to get a handle on the thickness of lines and what distribution spread would be appropriate

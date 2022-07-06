@@ -1,0 +1,79 @@
+---
+title: 'Correlation Analysis in Grain Boundary Search Task (E1)'
+author: 'Dave Braun'
+date: April 28, 2022
+output:
+  html_document:
+    toc: true
+    theme: flatly
+    df_print: paged
+    code_folding: hide
+    includes:
+      in_header: !expr paste0(here::here(), '/html/favicon.html')
+      after_body: !expr paste0(here::here(), '/html/footer.html')
+knit:
+  (function(inputFile, encoding) {
+    rmarkdown::render(inputFile,
+                encoding = encoding,
+                output_file = 'index.html')})
+---
+
+This document was last updated on `r Sys.time()`.
+
+Here I'll be taking several different metrics from the GB search task and correlating them to assess the relationship between different behaviors in the task. A few things to look at:  
+  * Are differences in response times (in line clicking) associated with selection biases (eg, over attending to x-axis)?  
+    * I can look at average rt at the subject level and also subjects grouped by their rt cluster groups (which preserves temporal information).  
+  * Are selection biases associated with accuracies?
+  
+```{r include = FALSE}
+library(tidyverse)
+```
+
+
+```{r}
+d <- read.csv('../../data/exp1_long_data.csv')
+line <- read.csv('../../data/exp1_line_data.csv')
+head(d)
+```
+
+
+```{r}
+## calculate quadrants
+source('../compute_quadrants.r')
+d <- compute_quadrants(d, line)
+colnames(d)
+```
+
+
+## Response time and selection bias
+
+```{r}
+## to compute individual selection bias
+  ## calculate variance between observed and expected.. right?
+  ## as var approaches zero choices are unbiased across the grid, as var increases choices are more biased
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,113 @@
+---
+title: "General Anomaly Analysis"
+author: "Dave Braun"
+date: "05/12/2022"
+output: 
+  html_document:
+    code_folding: hide
+    df_print: paged
+    theme: flatly
+    includes:
+      after_body: ../../../../../../html/footer.html
+      in_header: ../../../../../../html/favicon.html
+    
+knit:
+  (function(inputFile, encoding) {
+      rmarkdown::render(inputFile,
+                    encoding = encoding,
+                    output_file = 'index.html')})
+---
+
+This document was last updated at `r Sys.time()`.
+
+
+```{r}
+library(tidyverse)
+
+e1 <- read.csv('../../../exp1/data/exp1_long_data.csv')
+e3 <- read.csv('../../../exp3/data/exp3_long_data.csv')
+line_data <- read.csv('../../../exp1/data/exp1_line_data.csv')
+source('../compute_quadrants.r')
+
+colnames(e1)[colnames(e1) == 'participant'] <- 'subject'
+colnames(e3)[colnames(e3) == 'participant'] <- 'subject'
+e1$exp <- 'Experiment 1'
+e3$exp <- 'Experiment 3'
+e1 <- compute_quadrants(e1, line_data)
+e3 <- compute_quadrants(e3, line_data)
+
+head(e1)
+head(e3)
+```
+
+
+## Compare E1 and E3
+I think for all these basic comparisons I'll look at line selection RT, overall accuracy (trial level), and quadrant bias.
+
+Here looking only for non anomaly trials in E3.
+
+```{r}
+## will look at rt and accuracy separately from quadrant bias
+e3_t <- e3[e3$is_anomaly_trial=='False',]
+keep <- c('subject', 'trial_count', 'exp', 'selection_rt_ms', 'accuracy', 'quadrant', 'is_on_axis')
+d <- rbind(e1[,keep], e3_t[,keep])
+ttest <- d %>% 
+  group_by(subject, trial_count, exp) %>% 
+  summarize(accuracy = mean(accuracy, na.rm = TRUE), rt = mean(selection_rt_ms, na.rm = TRUE)) %>% 
+  group_by(subject, exp) %>%
+  summarize(accuracy = mean(accuracy, na.rm = TRUE), rt = mean(rt, na.rm = TRUE)) 
+ttest %>% 
+  group_by(exp) %>%
+  summarize(accuracy = mean(accuracy, na.rm = TRUE), rt = mean(rt, na.rm = TRUE))
+
+print('Accuracy')
+t.test(ttest[ttest$exp=='Experiment 1',]$accuracy, ttest[ttest$exp=='Experiment 3', ]$accuracy, paired = FALSE)
+print('RT')
+t.test(ttest[ttest$exp=='Experiment 1',]$rt, ttest[ttest$exp=='Experiment 3', ]$rt, paired = FALSE)
+```
+
+Looking at differences across quadrant bias
+
+```{r}
+## need to recover the ground truth from somewhere
+## kinda running outta gas for today 5/12/2022
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
