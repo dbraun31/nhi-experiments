@@ -1,0 +1,56 @@
+2.8882 	WARNING 	We strongly recommend you activate the PTB sound engine in PsychoPy prefs as the preferred audio engine. Its timing is vastly superior. Your prefs are currently set to use ['sounddevice', 'pyo', 'pygame'] (in that order).
+13.9006 	WARNING 	Couldn't measure a consistent frame rate!
+  - Is your graphics card set to sync to vertical blank?
+  - Are you running other processes on your computer?
+
+13.9009 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001EA74C554F0>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000001EA1DB76400>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+13.9010 	EXP 	window1: mouseVisible = True
+13.9011 	EXP 	window1: mouseVisible = False
+13.9011 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+13.9011 	EXP 	window1: recordFrameIntervals = False
+14.1252 	EXP 	window1: recordFrameIntervals = True
+14.1590 	WARNING 	t of last frame was 24.42ms (=1/40)
+14.2092 	WARNING 	t of last frame was 25.43ms (=1/39)
+14.2586 	WARNING 	t of last frame was 24.60ms (=1/40)
+14.3186 	WARNING 	t of last frame was 34.75ms (=1/28)
+14.3679 	WARNING 	Multiple dropped frames have occurred - I'll stop bothering you about them!
+16.0529 	WARNING 	Couldn't measure a consistent frame rate!
+  - Is your graphics card set to sync to vertical blank?
+  - Are you running other processes on your computer?
+
+19.6503 	EXP 	Created text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='text', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='Press space bar to begin.', units='height', win=Window(...), wrapWidth=1)
+19.6523 	EXP 	Created isi_blank0 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='isi_blank0', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.6544 	EXP 	Created isi_blank1 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='isi_blank1', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+21.9665 	WARNING 	Couldn't measure a consistent frame rate!
+  - Is your graphics card set to sync to vertical blank?
+  - Are you running other processes on your computer?
+
+21.9669 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, backendConf=UNKNOWN, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001EA74C554F0>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000001EA1D16DF70>, multiSample=False, name='window1', numSamples=2, pos=(1920, 0), screen=1, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+21.9670 	EXP 	window1: mouseVisible = True
+21.9690 	EXP 	Created stimulus_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([-1., -1., -1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='stimulus_text', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+21.9713 	EXP 	Created blank_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='blank_text', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+21.9728 	EXP 	Created error_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([-1., -1., -1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='error_text', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+21.9919 	EXP 	text: autoDraw = True
+22.3462 	EXP 	Imported stimuli.xlsx as conditions, 16 conditions, 4 params
+22.3471 	EXP 	Created sequence: random, trialTypes=16, nReps=5, seed=None
+22.3474 	EXP 	New trial (rep=0, index=0): {'stimulus': 2, 'display': 1, 'cor_mag_resp': 'j', 'cor_par_resp': 'f'}
+22.3488 	DATA 	Keypress: space
+22.3589 	WARNING 	t of last frame was 392.61ms (=1/2)
+22.3925 	EXP 	text: autoDraw = False
+22.3925 	EXP 	isi_blank0: autoDraw = True
+22.4178 	WARNING 	t of last frame was 58.93ms (=1/16)
+22.4178 	EXP 	isi_blank1: autoDraw = True
+22.4668 	WARNING 	t of last frame was 48.96ms (=1/20)
+22.5004 	WARNING 	t of last frame was 33.58ms (=1/29)
+22.5336 	WARNING 	Multiple dropped frames have occurred - I'll stop bothering you about them!
+22.8930 	EXP 	isi_blank1: autoDraw = False
+22.8930 	EXP 	stimulus_text: height = 0.1
+22.8930 	EXP 	stimulus_text: height = 0.1
+22.8930 	EXP 	stimulus_text: height = 0.1
+22.8930 	EXP 	stimulus_text: text = 2
+22.9338 	EXP 	isi_blank0: autoDraw = False
+22.9338 	EXP 	blank_text: autoDraw = True
+22.9432 	EXP 	stimulus_text: autoDraw = True
+24.3809 	DATA 	Keypress: j
+24.5082 	EXP 	window1: mouseVisible = True
+24.5500 	EXP 	window1: mouseVisible = True

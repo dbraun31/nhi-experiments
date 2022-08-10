@@ -1,0 +1,485 @@
+2.9007 	WARNING 	We strongly recommend you activate the PTB sound engine in PsychoPy prefs as the preferred audio engine. Its timing is vastly superior. Your prefs are currently set to use ['sounddevice', 'pyo', 'pygame'] (in that order).
+13.3894 	WARNING 	Couldn't measure a consistent frame rate!
+  - Is your graphics card set to sync to vertical blank?
+  - Are you running other processes on your computer?
+
+13.3897 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000012829883520>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x0000012850D252E0>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+13.3898 	EXP 	window1: mouseVisible = True
+13.3899 	EXP 	window1: mouseVisible = False
+13.3899 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+13.3899 	EXP 	window1: recordFrameIntervals = False
+13.5729 	EXP 	window1: recordFrameIntervals = True
+13.6301 	WARNING 	t of last frame was 23.85ms (=1/41)
+13.6894 	WARNING 	t of last frame was 33.59ms (=1/29)
+13.7137 	WARNING 	t of last frame was 24.30ms (=1/41)
+13.7471 	WARNING 	t of last frame was 24.01ms (=1/41)
+13.7977 	WARNING 	Multiple dropped frames have occurred - I'll stop bothering you about them!
+15.4917 	WARNING 	Couldn't measure a consistent frame rate!
+  - Is your graphics card set to sync to vertical blank?
+  - Are you running other processes on your computer?
+
+19.0921 	EXP 	Created text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='text', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='Press space bar to begin.', units='height', win=Window(...), wrapWidth=1)
+19.0950 	EXP 	Created isi_blank0 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='isi_blank0', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.0975 	EXP 	Created isi_blank1 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='isi_blank1', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+21.3641 	WARNING 	Couldn't measure a consistent frame rate!
+  - Is your graphics card set to sync to vertical blank?
+  - Are you running other processes on your computer?
+
+21.3645 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, backendConf=UNKNOWN, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000012829883520>, gamma=None, gammaErrorPolicy='raise', lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000001282A73B2E0>, multiSample=False, name='window1', numSamples=2, pos=(1920, 0), screen=1, size=array([1920, 1080]), stencilBits=0, stereo=False, units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+21.3647 	EXP 	window1: mouseVisible = True
+21.3667 	EXP 	Created number_stimulus_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([-1., -1., -1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='number_stimulus_text', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+21.3685 	EXP 	Created letter_stimulus_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='letter_stimulus_text', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+21.3974 	EXP 	text: autoDraw = True
+21.7420 	EXP 	Imported stimuli.xlsx as conditions, 16 conditions, 5 params
+21.7428 	EXP 	Created sequence: random, trialTypes=16, nReps=5, seed=None
+21.7432 	EXP 	New trial (rep=0, index=0): {'number_stimulus': 9, 'letter_stimulus': 'W', 'display': 0, 'cor_mag_resp': 'k', 'cor_par_resp': 'f'}
+21.7442 	DATA 	Keypress: space
+21.7644 	WARNING 	t of last frame was 400.62ms (=1/2)
+21.7889 	EXP 	text: autoDraw = False
+21.7889 	EXP 	isi_blank0: autoDraw = True
+21.7981 	WARNING 	t of last frame was 33.65ms (=1/29)
+21.7981 	EXP 	isi_blank1: autoDraw = True
+21.8477 	WARNING 	t of last frame was 49.67ms (=1/20)
+21.8813 	WARNING 	t of last frame was 33.58ms (=1/29)
+21.9144 	WARNING 	Multiple dropped frames have occurred - I'll stop bothering you about them!
+22.2813 	EXP 	isi_blank1: autoDraw = False
+22.2813 	EXP 	number_stimulus_text: height = 0.1
+22.2813 	EXP 	number_stimulus_text: height = 0.1
+22.2813 	EXP 	number_stimulus_text: height = 0.1
+22.2813 	EXP 	number_stimulus_text: text = 9
+22.3151 	EXP 	isi_blank0: autoDraw = False
+22.3151 	EXP 	letter_stimulus_text: height = 0.1
+22.3151 	EXP 	letter_stimulus_text: height = 0.1
+22.3151 	EXP 	letter_stimulus_text: height = 0.1
+22.3151 	EXP 	letter_stimulus_text: text = 'W'
+22.3151 	EXP 	letter_stimulus_text: autoDraw = True
+22.3314 	EXP 	number_stimulus_text: autoDraw = True
+26.4381 	DATA 	Keypress: k
+26.4728 	EXP 	New trial (rep=0, index=1): {'number_stimulus': 7, 'letter_stimulus': 'L', 'display': 0, 'cor_mag_resp': 'k', 'cor_par_resp': 'f'}
+26.4858 	EXP 	number_stimulus_text: autoDraw = False
+26.5122 	EXP 	letter_stimulus_text: autoDraw = False
+26.5122 	EXP 	isi_blank0: autoDraw = True
+26.5195 	EXP 	isi_blank1: autoDraw = True
+27.0364 	EXP 	isi_blank1: autoDraw = False
+27.0364 	EXP 	number_stimulus_text: height = 0.1
+27.0364 	EXP 	number_stimulus_text: height = 0.1
+27.0364 	EXP 	number_stimulus_text: height = 0.1
+27.0364 	EXP 	number_stimulus_text: text = 7
+27.0703 	EXP 	isi_blank0: autoDraw = False
+27.0703 	EXP 	letter_stimulus_text: height = 0.1
+27.0703 	EXP 	letter_stimulus_text: height = 0.1
+27.0703 	EXP 	letter_stimulus_text: height = 0.1
+27.0703 	EXP 	letter_stimulus_text: text = 'L'
+27.0703 	EXP 	letter_stimulus_text: autoDraw = True
+27.0865 	EXP 	number_stimulus_text: autoDraw = True
+30.2420 	EXP 	New trial (rep=0, index=2): {'number_stimulus': 8, 'letter_stimulus': 'U', 'display': 0, 'cor_mag_resp': 'k', 'cor_par_resp': 'd'}
+30.2427 	DATA 	Keypress: j
+30.2566 	EXP 	number_stimulus_text: autoDraw = False
+30.2902 	EXP 	letter_stimulus_text: autoDraw = False
+30.2902 	EXP 	isi_blank0: autoDraw = True
+30.3066 	EXP 	isi_blank1: autoDraw = True
+30.8073 	EXP 	isi_blank1: autoDraw = False
+30.8073 	EXP 	number_stimulus_text: height = 0.1
+30.8073 	EXP 	number_stimulus_text: height = 0.1
+30.8073 	EXP 	number_stimulus_text: height = 0.1
+30.8073 	EXP 	number_stimulus_text: text = 8
+30.8335 	EXP 	isi_blank0: autoDraw = False
+30.8335 	EXP 	letter_stimulus_text: height = 0.1
+30.8335 	EXP 	letter_stimulus_text: height = 0.1
+30.8335 	EXP 	letter_stimulus_text: height = 0.1
+30.8335 	EXP 	letter_stimulus_text: text = 'U'
+30.8335 	EXP 	letter_stimulus_text: autoDraw = True
+30.8407 	EXP 	number_stimulus_text: autoDraw = True
+31.5593 	EXP 	New trial (rep=0, index=3): {'number_stimulus': 9, 'letter_stimulus': 'W', 'display': 1, 'cor_mag_resp': 'k', 'cor_par_resp': 'f'}
+31.5602 	DATA 	Keypress: k
+31.5841 	EXP 	number_stimulus_text: autoDraw = False
+31.5915 	EXP 	letter_stimulus_text: autoDraw = False
+31.5915 	EXP 	isi_blank0: autoDraw = True
+31.6079 	EXP 	isi_blank1: autoDraw = True
+32.0920 	EXP 	isi_blank1: autoDraw = False
+32.0920 	EXP 	number_stimulus_text: height = 0.1
+32.0920 	EXP 	number_stimulus_text: height = 0.1
+32.0920 	EXP 	number_stimulus_text: height = 0.1
+32.0920 	EXP 	number_stimulus_text: text = 9
+32.1084 	EXP 	isi_blank0: autoDraw = False
+32.1084 	EXP 	letter_stimulus_text: height = 0.1
+32.1084 	EXP 	letter_stimulus_text: height = 0.1
+32.1084 	EXP 	letter_stimulus_text: height = 0.1
+32.1084 	EXP 	letter_stimulus_text: text = 'W'
+32.1084 	EXP 	letter_stimulus_text: autoDraw = True
+32.1348 	EXP 	number_stimulus_text: autoDraw = True
+32.3933 	EXP 	New trial (rep=0, index=4): {'number_stimulus': 4, 'letter_stimulus': 'C', 'display': 1, 'cor_mag_resp': 'j', 'cor_par_resp': 'f'}
+32.3941 	DATA 	Keypress: k
+32.4257 	EXP 	number_stimulus_text: autoDraw = False
+32.4421 	EXP 	letter_stimulus_text: autoDraw = False
+32.4421 	EXP 	isi_blank0: autoDraw = True
+32.4759 	EXP 	isi_blank1: autoDraw = True
+32.9430 	EXP 	isi_blank1: autoDraw = False
+32.9430 	EXP 	number_stimulus_text: height = 0.1
+32.9430 	EXP 	number_stimulus_text: height = 0.1
+32.9430 	EXP 	number_stimulus_text: height = 0.1
+32.9430 	EXP 	number_stimulus_text: text = 4
+32.9595 	EXP 	isi_blank0: autoDraw = False
+32.9595 	EXP 	letter_stimulus_text: height = 0.1
+32.9595 	EXP 	letter_stimulus_text: height = 0.1
+32.9595 	EXP 	letter_stimulus_text: height = 0.1
+32.9595 	EXP 	letter_stimulus_text: text = 'C'
+32.9595 	EXP 	letter_stimulus_text: autoDraw = True
+32.9859 	EXP 	number_stimulus_text: autoDraw = True
+33.1383 	DATA 	Keypress: k
+33.1455 	EXP 	New trial (rep=0, index=5): {'number_stimulus': 3, 'letter_stimulus': 'B', 'display': 1, 'cor_mag_resp': 'j', 'cor_par_resp': 'd'}
+33.1599 	EXP 	number_stimulus_text: autoDraw = False
+33.1859 	EXP 	letter_stimulus_text: autoDraw = False
+33.1859 	EXP 	isi_blank0: autoDraw = True
+33.1936 	EXP 	isi_blank1: autoDraw = True
+33.6938 	EXP 	isi_blank1: autoDraw = False
+33.6938 	EXP 	number_stimulus_text: height = 0.1
+33.6938 	EXP 	number_stimulus_text: height = 0.1
+33.6938 	EXP 	number_stimulus_text: height = 0.1
+33.6938 	EXP 	number_stimulus_text: text = 3
+33.7272 	EXP 	isi_blank0: autoDraw = False
+33.7272 	EXP 	letter_stimulus_text: height = 0.1
+33.7272 	EXP 	letter_stimulus_text: height = 0.1
+33.7272 	EXP 	letter_stimulus_text: height = 0.1
+33.7272 	EXP 	letter_stimulus_text: text = 'B'
+33.7272 	EXP 	letter_stimulus_text: autoDraw = True
+33.7440 	EXP 	number_stimulus_text: autoDraw = True
+33.9140 	DATA 	Keypress: k
+33.9287 	EXP 	New trial (rep=0, index=6): {'number_stimulus': 4, 'letter_stimulus': 'C', 'display': 0, 'cor_mag_resp': 'j', 'cor_par_resp': 'f'}
+33.9606 	EXP 	number_stimulus_text: autoDraw = False
+33.9772 	EXP 	letter_stimulus_text: autoDraw = False
+33.9772 	EXP 	isi_blank0: autoDraw = True
+34.0111 	EXP 	isi_blank1: autoDraw = True
+34.4779 	EXP 	isi_blank1: autoDraw = False
+34.4779 	EXP 	number_stimulus_text: height = 0.1
+34.4779 	EXP 	number_stimulus_text: height = 0.1
+34.4779 	EXP 	number_stimulus_text: height = 0.1
+34.4779 	EXP 	number_stimulus_text: text = 4
+34.5113 	EXP 	isi_blank0: autoDraw = False
+34.5113 	EXP 	letter_stimulus_text: height = 0.1
+34.5113 	EXP 	letter_stimulus_text: height = 0.1
+34.5113 	EXP 	letter_stimulus_text: height = 0.1
+34.5113 	EXP 	letter_stimulus_text: text = 'C'
+34.5113 	EXP 	letter_stimulus_text: autoDraw = True
+34.5278 	EXP 	number_stimulus_text: autoDraw = True
+34.7058 	DATA 	Keypress: k
+34.7134 	EXP 	New trial (rep=0, index=7): {'number_stimulus': 5, 'letter_stimulus': 'E', 'display': 1, 'cor_mag_resp': None, 'cor_par_resp': None}
+34.7280 	EXP 	number_stimulus_text: autoDraw = False
+34.7543 	EXP 	letter_stimulus_text: autoDraw = False
+34.7543 	EXP 	isi_blank0: autoDraw = True
+34.7618 	EXP 	isi_blank1: autoDraw = True
+35.2624 	EXP 	isi_blank1: autoDraw = False
+35.2624 	EXP 	number_stimulus_text: height = 0.1
+35.2624 	EXP 	number_stimulus_text: height = 0.1
+35.2624 	EXP 	number_stimulus_text: height = 0.1
+35.2624 	EXP 	number_stimulus_text: text = 5
+35.2787 	EXP 	isi_blank0: autoDraw = False
+35.2787 	EXP 	letter_stimulus_text: height = 0.1
+35.2787 	EXP 	letter_stimulus_text: height = 0.1
+35.2787 	EXP 	letter_stimulus_text: height = 0.1
+35.2787 	EXP 	letter_stimulus_text: text = 'E'
+35.2787 	EXP 	letter_stimulus_text: autoDraw = True
+35.3052 	EXP 	number_stimulus_text: autoDraw = True
+35.4812 	DATA 	Keypress: k
+35.5068 	EXP 	New trial (rep=0, index=8): {'number_stimulus': 6, 'letter_stimulus': 'I', 'display': 1, 'cor_mag_resp': 'k', 'cor_par_resp': 'd'}
+35.5125 	EXP 	number_stimulus_text: autoDraw = False
+35.5288 	EXP 	letter_stimulus_text: autoDraw = False
+35.5288 	EXP 	isi_blank0: autoDraw = True
+35.5549 	EXP 	isi_blank1: autoDraw = True
+36.0465 	EXP 	isi_blank1: autoDraw = False
+36.0465 	EXP 	number_stimulus_text: height = 0.1
+36.0465 	EXP 	number_stimulus_text: height = 0.1
+36.0465 	EXP 	number_stimulus_text: height = 0.1
+36.0465 	EXP 	number_stimulus_text: text = 6
+36.0628 	EXP 	isi_blank0: autoDraw = False
+36.0628 	EXP 	letter_stimulus_text: height = 0.1
+36.0628 	EXP 	letter_stimulus_text: height = 0.1
+36.0628 	EXP 	letter_stimulus_text: height = 0.1
+36.0628 	EXP 	letter_stimulus_text: text = 'I'
+36.0628 	EXP 	letter_stimulus_text: autoDraw = True
+36.0897 	EXP 	number_stimulus_text: autoDraw = True
+36.2407 	EXP 	New trial (rep=0, index=9): {'number_stimulus': 3, 'letter_stimulus': 'B', 'display': 0, 'cor_mag_resp': 'j', 'cor_par_resp': 'd'}
+36.2416 	DATA 	Keypress: j
+36.2465 	EXP 	number_stimulus_text: autoDraw = False
+36.2888 	EXP 	letter_stimulus_text: autoDraw = False
+36.2888 	EXP 	isi_blank0: autoDraw = True
+36.2966 	EXP 	isi_blank1: autoDraw = True
+36.7634 	EXP 	isi_blank1: autoDraw = False
+36.7634 	EXP 	number_stimulus_text: height = 0.1
+36.7634 	EXP 	number_stimulus_text: height = 0.1
+36.7634 	EXP 	number_stimulus_text: height = 0.1
+36.7634 	EXP 	number_stimulus_text: text = 3
+36.7972 	EXP 	isi_blank0: autoDraw = False
+36.7972 	EXP 	letter_stimulus_text: height = 0.1
+36.7972 	EXP 	letter_stimulus_text: height = 0.1
+36.7972 	EXP 	letter_stimulus_text: height = 0.1
+36.7972 	EXP 	letter_stimulus_text: text = 'B'
+36.7972 	EXP 	letter_stimulus_text: autoDraw = True
+36.8138 	EXP 	number_stimulus_text: autoDraw = True
+37.2329 	EXP 	New trial (rep=0, index=10): {'number_stimulus': 6, 'letter_stimulus': 'I', 'display': 0, 'cor_mag_resp': 'k', 'cor_par_resp': 'd'}
+37.2338 	DATA 	Keypress: k
+37.2473 	EXP 	number_stimulus_text: autoDraw = False
+37.2741 	EXP 	letter_stimulus_text: autoDraw = False
+37.2741 	EXP 	isi_blank0: autoDraw = True
+37.2812 	EXP 	isi_blank1: autoDraw = True
+37.7980 	EXP 	isi_blank1: autoDraw = False
+37.7980 	EXP 	number_stimulus_text: height = 0.1
+37.7980 	EXP 	number_stimulus_text: height = 0.1
+37.7980 	EXP 	number_stimulus_text: height = 0.1
+37.7980 	EXP 	number_stimulus_text: text = 6
+37.8316 	EXP 	isi_blank0: autoDraw = False
+37.8316 	EXP 	letter_stimulus_text: height = 0.1
+37.8316 	EXP 	letter_stimulus_text: height = 0.1
+37.8316 	EXP 	letter_stimulus_text: height = 0.1
+37.8316 	EXP 	letter_stimulus_text: text = 'I'
+37.8316 	EXP 	letter_stimulus_text: autoDraw = True
+37.8480 	EXP 	number_stimulus_text: autoDraw = True
+38.1692 	DATA 	Keypress: j
+38.1834 	EXP 	New trial (rep=0, index=11): {'number_stimulus': 5, 'letter_stimulus': 'E', 'display': 0, 'cor_mag_resp': None, 'cor_par_resp': None}
+38.2079 	EXP 	number_stimulus_text: autoDraw = False
+38.2153 	EXP 	letter_stimulus_text: autoDraw = False
+38.2153 	EXP 	isi_blank0: autoDraw = True
+38.2318 	EXP 	isi_blank1: autoDraw = True
+38.7325 	EXP 	isi_blank1: autoDraw = False
+38.7325 	EXP 	number_stimulus_text: height = 0.1
+38.7325 	EXP 	number_stimulus_text: height = 0.1
+38.7325 	EXP 	number_stimulus_text: height = 0.1
+38.7325 	EXP 	number_stimulus_text: text = 5
+38.7663 	EXP 	isi_blank0: autoDraw = False
+38.7663 	EXP 	letter_stimulus_text: height = 0.1
+38.7663 	EXP 	letter_stimulus_text: height = 0.1
+38.7663 	EXP 	letter_stimulus_text: height = 0.1
+38.7663 	EXP 	letter_stimulus_text: text = 'E'
+38.7663 	EXP 	letter_stimulus_text: autoDraw = True
+38.7824 	EXP 	number_stimulus_text: autoDraw = True
+39.2185 	EXP 	New trial (rep=0, index=12): {'number_stimulus': 2, 'letter_stimulus': 'A', 'display': 1, 'cor_mag_resp': 'j', 'cor_par_resp': 'f'}
+39.2193 	DATA 	Keypress: j
+39.2326 	EXP 	number_stimulus_text: autoDraw = False
+39.2663 	EXP 	letter_stimulus_text: autoDraw = False
+39.2663 	EXP 	isi_blank0: autoDraw = True
+39.2829 	EXP 	isi_blank1: autoDraw = True
+39.7669 	EXP 	isi_blank1: autoDraw = False
+39.7669 	EXP 	number_stimulus_text: height = 0.1
+39.7669 	EXP 	number_stimulus_text: height = 0.1
+39.7669 	EXP 	number_stimulus_text: height = 0.1
+39.7669 	EXP 	number_stimulus_text: text = 2
+39.7834 	EXP 	isi_blank0: autoDraw = False
+39.7834 	EXP 	letter_stimulus_text: height = 0.1
+39.7834 	EXP 	letter_stimulus_text: height = 0.1
+39.7834 	EXP 	letter_stimulus_text: height = 0.1
+39.7834 	EXP 	letter_stimulus_text: text = 'A'
+39.7834 	EXP 	letter_stimulus_text: autoDraw = True
+39.8170 	EXP 	number_stimulus_text: autoDraw = True
+41.1462 	DATA 	Keypress: j
+41.1537 	EXP 	New trial (rep=0, index=13): {'number_stimulus': 2, 'letter_stimulus': 'A', 'display': 0, 'cor_mag_resp': 'j', 'cor_par_resp': 'f'}
+41.1682 	EXP 	number_stimulus_text: autoDraw = False
+41.2020 	EXP 	letter_stimulus_text: autoDraw = False
+41.2020 	EXP 	isi_blank0: autoDraw = True
+41.2181 	EXP 	isi_blank1: autoDraw = True
+41.7190 	EXP 	isi_blank1: autoDraw = False
+41.7190 	EXP 	number_stimulus_text: height = 0.1
+41.7190 	EXP 	number_stimulus_text: height = 0.1
+41.7190 	EXP 	number_stimulus_text: height = 0.1
+41.7190 	EXP 	number_stimulus_text: text = 2
+41.7524 	EXP 	isi_blank0: autoDraw = False
+41.7524 	EXP 	letter_stimulus_text: text = 'A'
+41.7524 	EXP 	letter_stimulus_text: autoDraw = True
+41.7688 	EXP 	number_stimulus_text: autoDraw = True
+42.3556 	DATA 	Keypress: j
+42.3710 	EXP 	New trial (rep=0, index=14): {'number_stimulus': 7, 'letter_stimulus': 'L', 'display': 1, 'cor_mag_resp': 'k', 'cor_par_resp': 'f'}
+42.4034 	EXP 	number_stimulus_text: autoDraw = False
+42.4193 	EXP 	letter_stimulus_text: autoDraw = False
+42.4193 	EXP 	isi_blank0: autoDraw = True
+42.4531 	EXP 	isi_blank1: autoDraw = True
+42.9201 	EXP 	isi_blank1: autoDraw = False
+42.9201 	EXP 	number_stimulus_text: height = 0.1
+42.9201 	EXP 	number_stimulus_text: height = 0.1
+42.9201 	EXP 	number_stimulus_text: height = 0.1
+42.9201 	EXP 	number_stimulus_text: text = 7
+42.9535 	EXP 	isi_blank0: autoDraw = False
+42.9535 	EXP 	letter_stimulus_text: height = 0.1
+42.9535 	EXP 	letter_stimulus_text: height = 0.1
+42.9535 	EXP 	letter_stimulus_text: height = 0.1
+42.9535 	EXP 	letter_stimulus_text: text = 'L'
+42.9535 	EXP 	letter_stimulus_text: autoDraw = True
+42.9701 	EXP 	number_stimulus_text: autoDraw = True
+43.5406 	DATA 	Keypress: j
+43.5555 	EXP 	New trial (rep=0, index=15): {'number_stimulus': 8, 'letter_stimulus': 'U', 'display': 1, 'cor_mag_resp': 'k', 'cor_par_resp': 'd'}
+43.5798 	EXP 	number_stimulus_text: autoDraw = False
+43.5879 	EXP 	letter_stimulus_text: autoDraw = False
+43.5879 	EXP 	isi_blank0: autoDraw = True
+43.6040 	EXP 	isi_blank1: autoDraw = True
+44.1316 	EXP 	isi_blank1: autoDraw = False
+44.1316 	EXP 	number_stimulus_text: height = 0.1
+44.1316 	EXP 	number_stimulus_text: height = 0.1
+44.1316 	EXP 	number_stimulus_text: height = 0.1
+44.1316 	EXP 	number_stimulus_text: text = 8
+44.1385 	EXP 	isi_blank0: autoDraw = False
+44.1385 	EXP 	letter_stimulus_text: height = 0.1
+44.1385 	EXP 	letter_stimulus_text: height = 0.1
+44.1385 	EXP 	letter_stimulus_text: height = 0.1
+44.1385 	EXP 	letter_stimulus_text: text = 'U'
+44.1385 	EXP 	letter_stimulus_text: autoDraw = True
+44.1547 	EXP 	number_stimulus_text: autoDraw = True
+44.7243 	EXP 	New trial (rep=1, index=0): {'number_stimulus': 3, 'letter_stimulus': 'B', 'display': 1, 'cor_mag_resp': 'j', 'cor_par_resp': 'd'}
+44.7251 	DATA 	Keypress: j
+44.7386 	EXP 	number_stimulus_text: autoDraw = False
+44.7721 	EXP 	letter_stimulus_text: autoDraw = False
+44.7721 	EXP 	isi_blank0: autoDraw = True
+44.7888 	EXP 	isi_blank1: autoDraw = True
+45.2727 	EXP 	isi_blank1: autoDraw = False
+45.2727 	EXP 	number_stimulus_text: height = 0.1
+45.2727 	EXP 	number_stimulus_text: height = 0.1
+45.2727 	EXP 	number_stimulus_text: height = 0.1
+45.2727 	EXP 	number_stimulus_text: text = 3
+45.2983 	EXP 	isi_blank0: autoDraw = False
+45.2983 	EXP 	letter_stimulus_text: height = 0.1
+45.2983 	EXP 	letter_stimulus_text: height = 0.1
+45.2983 	EXP 	letter_stimulus_text: height = 0.1
+45.2983 	EXP 	letter_stimulus_text: text = 'B'
+45.2983 	EXP 	letter_stimulus_text: autoDraw = True
+45.3062 	EXP 	number_stimulus_text: autoDraw = True
+45.8079 	EXP 	New trial (rep=1, index=1): {'number_stimulus': 9, 'letter_stimulus': 'W', 'display': 0, 'cor_mag_resp': 'k', 'cor_par_resp': 'f'}
+45.8086 	DATA 	Keypress: k
+45.8400 	EXP 	number_stimulus_text: autoDraw = False
+45.8564 	EXP 	letter_stimulus_text: autoDraw = False
+45.8564 	EXP 	isi_blank0: autoDraw = True
+45.8900 	EXP 	isi_blank1: autoDraw = True
+46.3403 	EXP 	isi_blank1: autoDraw = False
+46.3403 	EXP 	number_stimulus_text: height = 0.1
+46.3403 	EXP 	number_stimulus_text: height = 0.1
+46.3403 	EXP 	number_stimulus_text: height = 0.1
+46.3403 	EXP 	number_stimulus_text: text = 9
+46.3739 	EXP 	isi_blank0: autoDraw = False
+46.3739 	EXP 	letter_stimulus_text: height = 0.1
+46.3739 	EXP 	letter_stimulus_text: height = 0.1
+46.3739 	EXP 	letter_stimulus_text: height = 0.1
+46.3739 	EXP 	letter_stimulus_text: text = 'W'
+46.3739 	EXP 	letter_stimulus_text: autoDraw = True
+46.3906 	EXP 	number_stimulus_text: autoDraw = True
+46.7758 	DATA 	Keypress: k
+46.8094 	EXP 	New trial (rep=1, index=2): {'number_stimulus': 5, 'letter_stimulus': 'E', 'display': 1, 'cor_mag_resp': None, 'cor_par_resp': None}
+46.8485 	EXP 	number_stimulus_text: autoDraw = False
+46.8578 	EXP 	letter_stimulus_text: autoDraw = False
+46.8578 	EXP 	isi_blank0: autoDraw = True
+46.8820 	EXP 	isi_blank1: autoDraw = True
+47.3583 	EXP 	isi_blank1: autoDraw = False
+47.3583 	EXP 	number_stimulus_text: height = 0.1
+47.3583 	EXP 	number_stimulus_text: height = 0.1
+47.3583 	EXP 	number_stimulus_text: height = 0.1
+47.3583 	EXP 	number_stimulus_text: text = 5
+47.3829 	EXP 	isi_blank0: autoDraw = False
+47.3829 	EXP 	letter_stimulus_text: height = 0.1
+47.3829 	EXP 	letter_stimulus_text: height = 0.1
+47.3829 	EXP 	letter_stimulus_text: height = 0.1
+47.3829 	EXP 	letter_stimulus_text: text = 'E'
+47.3829 	EXP 	letter_stimulus_text: autoDraw = True
+47.3914 	EXP 	number_stimulus_text: autoDraw = True
+47.6434 	EXP 	New trial (rep=1, index=3): {'number_stimulus': 3, 'letter_stimulus': 'B', 'display': 0, 'cor_mag_resp': 'j', 'cor_par_resp': 'd'}
+47.6443 	DATA 	Keypress: k
+47.6754 	EXP 	number_stimulus_text: autoDraw = False
+47.6917 	EXP 	letter_stimulus_text: autoDraw = False
+47.6917 	EXP 	isi_blank0: autoDraw = True
+47.7167 	EXP 	isi_blank1: autoDraw = True
+48.1925 	EXP 	isi_blank1: autoDraw = False
+48.1925 	EXP 	number_stimulus_text: height = 0.1
+48.1925 	EXP 	number_stimulus_text: height = 0.1
+48.1925 	EXP 	number_stimulus_text: height = 0.1
+48.1925 	EXP 	number_stimulus_text: text = 3
+48.2179 	EXP 	isi_blank0: autoDraw = False
+48.2179 	EXP 	letter_stimulus_text: height = 0.1
+48.2179 	EXP 	letter_stimulus_text: height = 0.1
+48.2179 	EXP 	letter_stimulus_text: height = 0.1
+48.2179 	EXP 	letter_stimulus_text: text = 'B'
+48.2179 	EXP 	letter_stimulus_text: autoDraw = True
+48.2260 	EXP 	number_stimulus_text: autoDraw = True
+48.5119 	DATA 	Keypress: k
+48.5272 	EXP 	New trial (rep=1, index=4): {'number_stimulus': 6, 'letter_stimulus': 'I', 'display': 1, 'cor_mag_resp': 'k', 'cor_par_resp': 'd'}
+48.5596 	EXP 	number_stimulus_text: autoDraw = False
+48.5840 	EXP 	letter_stimulus_text: autoDraw = False
+48.5840 	EXP 	isi_blank0: autoDraw = True
+48.5930 	EXP 	isi_blank1: autoDraw = True
+49.0602 	EXP 	isi_blank1: autoDraw = False
+49.0602 	EXP 	number_stimulus_text: height = 0.1
+49.0602 	EXP 	number_stimulus_text: height = 0.1
+49.0602 	EXP 	number_stimulus_text: height = 0.1
+49.0602 	EXP 	number_stimulus_text: text = 6
+49.0766 	EXP 	isi_blank0: autoDraw = False
+49.0766 	EXP 	letter_stimulus_text: height = 0.1
+49.0766 	EXP 	letter_stimulus_text: height = 0.1
+49.0766 	EXP 	letter_stimulus_text: height = 0.1
+49.0766 	EXP 	letter_stimulus_text: text = 'I'
+49.0766 	EXP 	letter_stimulus_text: autoDraw = True
+49.1102 	EXP 	number_stimulus_text: autoDraw = True
+49.4866 	EXP 	New trial (rep=1, index=5): {'number_stimulus': 7, 'letter_stimulus': 'L', 'display': 0, 'cor_mag_resp': 'k', 'cor_par_resp': 'f'}
+49.4880 	DATA 	Keypress: k
+49.4939 	EXP 	number_stimulus_text: autoDraw = False
+49.5104 	EXP 	letter_stimulus_text: autoDraw = False
+49.5104 	EXP 	isi_blank0: autoDraw = True
+49.5441 	EXP 	isi_blank1: autoDraw = True
+50.0193 	EXP 	isi_blank1: autoDraw = False
+50.0193 	EXP 	number_stimulus_text: height = 0.1
+50.0193 	EXP 	number_stimulus_text: height = 0.1
+50.0193 	EXP 	number_stimulus_text: height = 0.1
+50.0193 	EXP 	number_stimulus_text: text = 7
+50.0279 	EXP 	isi_blank0: autoDraw = False
+50.0279 	EXP 	letter_stimulus_text: height = 0.1
+50.0279 	EXP 	letter_stimulus_text: height = 0.1
+50.0279 	EXP 	letter_stimulus_text: height = 0.1
+50.0279 	EXP 	letter_stimulus_text: text = 'L'
+50.0279 	EXP 	letter_stimulus_text: autoDraw = True
+50.0442 	EXP 	number_stimulus_text: autoDraw = True
+50.3043 	DATA 	Keypress: k
+50.3131 	EXP 	New trial (rep=1, index=6): {'number_stimulus': 7, 'letter_stimulus': 'L', 'display': 1, 'cor_mag_resp': 'k', 'cor_par_resp': 'f'}
+50.3278 	EXP 	number_stimulus_text: autoDraw = False
+50.3614 	EXP 	letter_stimulus_text: autoDraw = False
+50.3614 	EXP 	isi_blank0: autoDraw = True
+50.3779 	EXP 	isi_blank1: autoDraw = True
+50.8456 	EXP 	isi_blank1: autoDraw = False
+50.8456 	EXP 	number_stimulus_text: height = 0.1
+50.8456 	EXP 	number_stimulus_text: height = 0.1
+50.8456 	EXP 	number_stimulus_text: height = 0.1
+50.8456 	EXP 	number_stimulus_text: text = 7
+50.8791 	EXP 	isi_blank0: autoDraw = False
+50.8791 	EXP 	letter_stimulus_text: text = 'L'
+50.8791 	EXP 	letter_stimulus_text: autoDraw = True
+50.8952 	EXP 	number_stimulus_text: autoDraw = True
+51.1636 	EXP 	New trial (rep=1, index=7): {'number_stimulus': 9, 'letter_stimulus': 'W', 'display': 1, 'cor_mag_resp': 'k', 'cor_par_resp': 'f'}
+51.1645 	DATA 	Keypress: k
+51.1864 	EXP 	number_stimulus_text: autoDraw = False
+51.1957 	EXP 	letter_stimulus_text: autoDraw = False
+51.1957 	EXP 	isi_blank0: autoDraw = True
+51.2123 	EXP 	isi_blank1: autoDraw = True
+51.7128 	EXP 	isi_blank1: autoDraw = False
+51.7128 	EXP 	number_stimulus_text: height = 0.1
+51.7128 	EXP 	number_stimulus_text: height = 0.1
+51.7128 	EXP 	number_stimulus_text: height = 0.1
+51.7128 	EXP 	number_stimulus_text: text = 9
+51.7384 	EXP 	isi_blank0: autoDraw = False
+51.7384 	EXP 	letter_stimulus_text: height = 0.1
+51.7384 	EXP 	letter_stimulus_text: height = 0.1
+51.7384 	EXP 	letter_stimulus_text: height = 0.1
+51.7384 	EXP 	letter_stimulus_text: text = 'W'
+51.7384 	EXP 	letter_stimulus_text: autoDraw = True
+51.7463 	EXP 	number_stimulus_text: autoDraw = True
+51.8813 	EXP 	New trial (rep=1, index=8): {'number_stimulus': 8, 'letter_stimulus': 'U', 'display': 0, 'cor_mag_resp': 'k', 'cor_par_resp': 'd'}
+51.8821 	DATA 	Keypress: k
+51.8963 	EXP 	number_stimulus_text: autoDraw = False
+51.9301 	EXP 	letter_stimulus_text: autoDraw = False
+51.9301 	EXP 	isi_blank0: autoDraw = True
+51.9723 	EXP 	isi_blank1: autoDraw = True
+52.3971 	EXP 	isi_blank1: autoDraw = False
+52.3971 	EXP 	number_stimulus_text: height = 0.1
+52.3971 	EXP 	number_stimulus_text: height = 0.1
+52.3971 	EXP 	number_stimulus_text: height = 0.1
+52.3971 	EXP 	number_stimulus_text: text = 8
+52.4138 	EXP 	isi_blank0: autoDraw = False
+52.4138 	EXP 	letter_stimulus_text: height = 0.1
+52.4138 	EXP 	letter_stimulus_text: height = 0.1
+52.4138 	EXP 	letter_stimulus_text: height = 0.1
+52.4138 	EXP 	letter_stimulus_text: text = 'U'
+52.4138 	EXP 	letter_stimulus_text: autoDraw = True
+52.4390 	EXP 	number_stimulus_text: autoDraw = True
+53.0106 	DATA 	Keypress: escape
+53.5392 	EXP 	window1: mouseVisible = True
+53.5642 	EXP 	window1: mouseVisible = True

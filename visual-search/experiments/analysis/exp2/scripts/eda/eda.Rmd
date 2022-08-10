@@ -80,6 +80,7 @@ d <- compute_accuracy_columns(d, thinnest_lines)
   
 
 ```{r}
+
 ## summarize hits and false alarms
 summary_data <- d %>% 
   filter(!(is.na(accuracy_type))) %>% 

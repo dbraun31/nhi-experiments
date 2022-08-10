@@ -1,0 +1,5 @@
+﻿stimulus,display,cor_mag_resp,cor_par_resp,trials.thisRepN,trials.thisTrialN,trials.thisN,trials.thisIndex,key_resp.started,text.started,key_resp.keys,key_resp.rt,isi_blank0.started,isi_blank1.started,stimulus_text.started,stimulus_resp.started,blank_text.started,stimulus_resp.keys,stimulus_resp.rt,error_text.started,participant,session,date,expName,psychopyVersion,frameRate,
+,,,,,,,,36.02137589999984,36.02137589999984,space,27.114372500000172,,,,,,,,,0,001,2022-07-19_15h46.45.743,device-switching_baseline,2022.2.1,59.92484226259209,
+6,1,k,d,0,0,0,4,,,,,63.200433999998495,63.200433999998495,63.75092869999935,63.75092869999935,63.75092869999935,k,1.966153100000156,,0,001,2022-07-19_15h46.45.743,device-switching_baseline,2022.2.1,59.92484226259209,
+2,0,j,f,0,1,1,9,,,,,66.25341549999939,66.25341549999939,66.78025049999997,66.78025049999997,66.78025049999997,k,16.658953899999688,83.48886519999905,0,001,2022-07-19_15h46.45.743,device-switching_baseline,2022.2.1,59.92484226259209,
+,,,,,,,,,,,,84.03947389999848,84.03947389999848,84.53214709999884,84.53214709999884,84.53214709999884,,,,,,,,,,

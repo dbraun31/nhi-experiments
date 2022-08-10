@@ -1,0 +1,20 @@
+new experiment
+
+	make it like arrington, 2008
+		get stimuli from here
+	two stimuli
+	dedicate task to display (counterbalanced)
+	include forced choice trials (only one stimulus appears)
+		10% each task
+		not constrained to only switch
+	even / odd, consonant / vowel
+	start with no soa
+		but program in an soa so we can change it
+		500 rsi
+	no accuracy feedback
+
+	equally often instructions, not random
+		both tasks are important, try to balance
+		it's like microscopy
+
+	calculate transition in exp
