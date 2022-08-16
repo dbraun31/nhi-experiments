@@ -1,0 +1,292 @@
+---
+title: "GB Search Task (E1) OPAM Analyses"
+author: "Dave Braun"
+date: "08/10/2022"
+output: 
+  html_document:
+    code_folding: hide
+    df_print: paged
+    theme: flatly
+    includes:
+      after_body: ../../../../../../html/footer.html
+      in_header: ../../../../../../html/favicon.html
+    
+knit:
+  (function(inputFile, encoding) {
+      rmarkdown::render(inputFile,
+                    encoding = encoding,
+                    output_file = 'index.html')})
+---
+
+This document was last updated at `r Sys.time()`.
+
+The big effects of interest:  
+
+  * Quadrant bias  
+  * Line orientation bias
+  
+```{r include = FALSE}
+library(tidyverse)
+library(testit)
+library(psycho)
+```
+
+  
+  
+```{r}
+d <- read.csv('../../data/exp1_long_data.csv')
+thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
+line_data <- read.csv('../../data/exp1_line_data.csv')
+head(d)
+N <- length(unique(d$participant))
+```
+
+**There were `r N` participants in this study.**
+  
+```{r}
+source('../compute_accuracy_columns.r')
+
+result <- compute_accuracy_columns(d, thinnest_lines)
+d <- result[[1]]
+thinnest_lines <- result[[2]]
+
+```
+  
+```{r}
+## a function for spot checking accuracy coding throughout the data
+spot_check <- function() {
+  participant <- sample(d$participant, size = 1)
+  trial <- sample(d[d$participant==participant,]$trial_count, size = 1)
+  d_sub <- d[d$participant == participant & d$trial_count == trial,]
+  t_sub <- thinnest_lines[thinnest_lines$participant == participant & thinnest_lines$trial_count == trial,]
+  print('Subset of long data:')
+  print(d_sub[,c('line_id', 'selected_or_released', 'accuracy_type')])
+  print(' ')
+  print(' ')
+  print('Subset of thinnest lines data:')
+  print(t_sub[,c('line_width', 'line_id', 'accuracy_type')])
+}
+## Anything coded as a "hit" in the long data should be represented in the thinnest lines data
+## Anything coded as a "false alarm" shouldn't be represented in the thinnest lines data
+spot_check()
+```
+
+
+```{r}
+## summarize hits and false alarms
+summary_data <- d %>% 
+  filter(!(is.na(accuracy_type))) %>% 
+  mutate(hit = ifelse(accuracy_type == 'hit', 1, 0), false_alarm = ifelse(accuracy_type == 'false_alarm', 1, 0)) %>% 
+  group_by(participant, line_orientation) %>% 
+  summarize(hits = sum(hit), false_alarms = sum(false_alarm)) 
+
+```
+
+Base rate of line orientation types on each trial:
+
+```{r}
+line_data %>% 
+  filter(participant == 10, trial_count == 2) %>% 
+  group_by(line_orientation) %>% 
+  summarize(count = n()) 
+```
+
+
+  
+```{r}
+## summarize misses
+summary_data_p <- thinnest_lines %>% 
+  filter(accuracy_type == 'miss') %>% 
+  group_by(participant, line_orientation) %>% 
+  summarize(miss_count = n()) %>% 
+  inner_join(summary_data) %>% 
+  gather(accuracy_type, count, miss_count:false_alarms) 
+summary_data <- summary_data_p %>% 
+  group_by(line_orientation, accuracy_type) %>% 
+  summarize(m = mean(count), se = sd(count) / sqrt(N))
+
+## export in long format so they can work with it for the poster
+write.csv(summary_data_p, 'line_orientation.csv', row.names = FALSE)
+
+## broken down by accuracy type
+summary_data %>% 
+  ggplot(aes(x = line_orientation, y = m)) +
+  geom_bar(stat = 'identity', aes(fill = accuracy_type), position = position_dodge(width = .9)) +
+  geom_errorbar(aes(ymin = m - se, ymax = m + se, group = accuracy_type), position = position_dodge(width = .9), width = .5) + 
+  labs(
+    y = 'Mean Frequency',
+    x = 'Line Orientation',
+    fill = 'Accuracy Type'
+  ) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom')
+
+d %>% 
+  filter(!is.na(accuracy_type)) %>% 
+  group_by(participant, line_orientation, accuracy_type) %>% 
+  summarize(count = n()) %>% 
+  spread(accuracy_type, count) %>% 
+  mutate(hit = ifelse(is.na(hit), 0, hit), false_alarm = ifelse(is.na(false_alarm), 0, false_alarm)) %>% 
+  mutate(hit_rate = hit / (hit + false_alarm)) %>% 
+  mutate(hit_rate = min(.999, hit_rate)) %>% 
+  mutate(fa_rate = 1 - hit_rate) %>% 
+  mutate(d_prime = qnorm(hit_rate) - qnorm(fa_rate)) %>% 
+  group_by(line_orientation) %>% 
+  summarize(dp_mean = mean(d_prime), se = sd(d_prime) / sqrt(N)) %>% 
+  ggplot(aes(x = line_orientation, y = dp_mean)) + 
+  geom_bar(stat = 'identity') + 
+  geom_errorbar(aes(ymin = dp_mean - se, ymax = dp_mean + se), width = .5) + 
+  labs(
+    x = 'Line Orientation',
+    y = "Mean d'"
+  ) + 
+  theme_bw()
+```
+  
+```{r}
+ggsave('line_orientation.png', height = 1080 / 300, width = 1920 / 300, units = 'in', dpi = 300)
+```
+  
+~ *left off here* ~
+  
+  
+## Quadrant Analysis
+
+  
+We'll calculate the center of the grid by looking at the most extreme X's and Y's and taking the center, then compare the center of the lines against that center point.
+  
+  
+```{r}
+line_data <- read.csv('../../data/exp1_line_data.csv')
+head(line_data)
+```
+
+  
+```{r}
+top_left <- c(min(line_data$top_x), max(line_data$top_y))
+top_right <- c(max(line_data$top_x), max(line_data$top_y))
+bottom_left <- c(min(line_data$bottom_x), min(line_data$bottom_y))
+bottom_right <- c(max(line_data$bottom_x), min(line_data$bottom_y))
+print(top_left)
+print(top_right)
+print(bottom_left)
+print(bottom_right)
+```
+
+```{r}
+center <- c(mean(c(top_left[1], top_right[1])), mean(c(top_left[2], bottom_left[2])))
+center
+```
+
+
+```{r}
+source('../compute_quadrants.r')
+## calculate line centers
+
+d <- d %>% 
+  mutate(line_center_x = (top_x + bottom_x) / 2, line_center_y = (top_y + bottom_y) / 2) %>% 
+  mutate(quadrant = ifelse(line_center_x > center[1] & line_center_y > center[2], 'I', ifelse(line_center_x < center[1] & line_center_y > center[2], 'II',
+                    ifelse(line_center_x < center[1] & line_center_y < center[2], 'III', ifelse(line_center_x > center[1] & line_center_y < center[2], 'IV', '')))))
+line_data <- line_data %>% 
+  mutate(line_center_x = (top_x + bottom_x) / 2, line_center_y = (top_y + bottom_y) / 2) %>% 
+  mutate(quadrant = ifelse(line_center_x > center[1] & line_center_y > center[2], 'I', ifelse(line_center_x < center[1] & line_center_y > center[2], 'II',
+                    ifelse(line_center_x < center[1] & line_center_y < center[2], 'III', ifelse(line_center_x > center[1] & line_center_y < center[2], 'IV', '')))))
+
+## append line coordinates to thinnest lines data (for including misses in summarization)
+
+line_data %>% 
+  filter(participant == 1, trial_count == 0, is_exterior == 'False', line_orientation != 'vertical') %>% 
+  mutate(x_dist = abs(line_center_x - center[1]), y_dist = abs(line_center_y - center[2])) %>% 
+  mutate(is_on_axis = ifelse(x_dist < 0.1, 'y_axis', ifelse(y_dist < 0.1, 'x_axis', ''))) %>% 
+  mutate(quadrant = ifelse(is_on_axis == '', quadrant, is_on_axis)) %>% 
+  group_by(quadrant) %>% 
+  summarize(count = n()) %>% 
+  ggplot(aes(x = quadrant, y = count)) + 
+  geom_bar(stat = 'identity') + 
+  labs(
+    x = 'Quadrant',
+    y = 'Number of Lines per Trial'
+  ) + 
+  theme_bw()
+
+ggsave('lines_per_quadrant.png', height = 1080 / 300, width = 1920 / 300, units = 'in', dpi = 300)
+
+d <- d %>% 
+  mutate(x_dist = abs(line_center_x - center[1]), y_dist = abs(line_center_y - center[2])) %>% 
+  mutate(is_on_axis = ifelse(x_dist < 0.1, 'y_axis', ifelse(y_dist < 0.1, 'x_axis', ''))) %>% 
+  mutate(quadrant = ifelse(is_on_axis == '', quadrant, is_on_axis)) 
+  
+d %>%   
+  filter(!(is.na(quadrant)), !(is.na(accuracy_type))) %>% 
+  group_by(participant, quadrant) %>% 
+  summarize(count = n()) %>% 
+  ## im not sure whether this makes sense
+  mutate(proportion = ifelse(quadrant == 'x_axis', count / (6*300), count / (3*300))) %>% 
+  group_by(quadrant) %>% 
+  ## add in SEs
+  summarize(mean_proportion = mean(proportion), se = sd(proportion) / sqrt(N)) %>% 
+  ggplot(aes(x = quadrant, y = mean_proportion)) +
+  geom_bar(stat = 'identity') +
+  geom_errorbar(aes(ymin = mean_proportion - se, ymax = mean_proportion + se), width = .5) + 
+  labs(
+    x = 'Quadrant',
+    y = 'Mean Proportion Selection'
+  ) + 
+  theme_bw()
+
+ggsave('selection_by_quadrant.png', height = 1080 / 300, width = 1920 / 300, units = 'in', dpi = 300)
+
+
+
+```
+  The proportion selection across quadrants would suggest that Ps *under* sampled from the x_axis, but I just have trouble trusting this metric because the max proportion for x_axis is 0.5 and the max for everything else is 1.
+  
+  The way proportion selection is being calculated is as `number of selected lines in quadrant / total number of lines in the quadrant * total number of line selections (300)`.
+  
+  
+```{r}
+d %>% 
+  filter(!(is.na(quadrant)), !(is.na(top_x)), !(is.na(accuracy_type))) %>% 
+  group_by(participant, quadrant, accuracy_type) %>% 
+  summarize(count = n()) %>% 
+  spread(accuracy_type, count) %>% 
+  mutate(hit_rate = hit / (hit + false_alarm)) %>% 
+  mutate(d_prime = qnorm(hit_rate) - qnorm(1 - hit_rate)) %>%  
+  group_by(quadrant) %>% 
+  summarize(mean_dprime = mean(d_prime), se = sd(d_prime) / sqrt(N)) %>% 
+  ggplot(aes(x = quadrant, y = mean_dprime)) +
+  geom_bar(stat = 'identity', position = position_dodge(width = .9)) + 
+  geom_errorbar(aes(ymin = mean_dprime - se, ymax = mean_dprime + se), width = .5, position = position_dodge(.9)) + 
+  labs(
+    x = 'Quadrant',
+    y = 'd prime'
+  ) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom')
+
+ggsave('accuracy_by_quadrant.png', height = 1080 / 300, width = 1920 / 300, units = 'in', dpi = 300)
+```
+  
+
+ d prime was calculated at the subject level for each quadrant by first calculating hit rate per quadrant as `hit_rate = hits / (hits + false_alarms)`, `falsealarm_rate = 1 - hit_rate`, and d prime as `d_prime = qnorm(hit_rate) - qnorm(falsealarm_rate)`, and then averaging d prime across subjects.
+ 
+ I'm not sure that my way of calculating hit rate was the best. It's pretty difficult to think about what the denominator for any proportion should be in this paradigm because, for example, accuracy is defined at the level of each line and not at the overall trial level.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

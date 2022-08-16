@@ -3,6 +3,9 @@
     focus on getting a real rigorous characterization of those biases that we know are there
         think back through why i did counts and not proportions
 
+    how to handle statistics with hits / misses / false alarms
+        misses are over inflated bc there's many correct lines they could have not chosen on any trial
+
 4-28-2022
 	alright can i organize this mess at all?
 	what would a publishable finding from these data even look like?

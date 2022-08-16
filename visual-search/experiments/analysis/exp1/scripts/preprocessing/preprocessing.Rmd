@@ -139,7 +139,9 @@ print(paste0('Percent of trials dropped: ', round((1 - (final_trials / original_
 
 ```{r}
 source('../compute_accuracy_columns.r')
-d <- compute_accuracy_columns(d, thinnest_lines)
+result <- compute_accuracy_columns(d, thinnest_lines)
+d <- result[[1]]
+thinnest_lines <- result[[2]]
 ```
 
 

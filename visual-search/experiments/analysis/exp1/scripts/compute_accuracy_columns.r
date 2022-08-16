@@ -28,25 +28,31 @@ compute_trial <- function(data, thinnest_lines) {
   
   selected_lines_accuracy_column <- rep(NA, nrow(data))
   accuracy_code <- ifelse(selected_lines %in% thinnest_lines_set, 'hit', 'false_alarm')
+  ## extra code to record misses in the thinnest lines data
+  misses_code <- ifelse(thinnest_lines_set %in% selected_lines, 'hit', 'miss')
   selected_lines_accuracy_column[indices] <- accuracy_code
 
-  return(selected_lines_accuracy_column)
+  return(list(selected_lines_accuracy_column, misses_code))
 
 }
 
 
 compute_accuracy_columns <- function(d, thinnest_lines) {
   out  <- vector()
+  misses_out <- c()
   
   for (participant in sapply(unique(d$participant), as.integer)) {
     ## during preprocessing i eliminated trials based on certain criteria
     for (trial in sapply(unique(d[d$participant == participant,]$trial_count), as.integer)) {
-      out <- c(out, compute_trial(d[d$participant == participant & d$trial_count == trial,], thinnest_lines))
+      result <- compute_trial(d[d$participant == participant & d$trial_count == trial,], thinnest_lines)
+      out <- c(out, result[[1]])
+      misses_out <- c(misses_out, result[[2]])
     }
   }
   
+  thinnest_lines$accuracy_type <- misses_out
   d$accuracy_type <- out
   
-  return(d)
+  return(list(d, thinnest_lines))
 
 }
