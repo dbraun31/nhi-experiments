@@ -1,3 +1,23 @@
+2022-08-18
+    getting back into the anomaly stuff
+    need to omit all vertical lines (and exterior lines)
+    then account for unbalanced lines by anomaly line
+
+    okay think it's all done correctly now... wasn't too too bad
+    next steps are organizing all the mess and uploading the data somewhere
+
+2022-08-16
+    trying to implement kate's proportion thing for the quadrant analysis
+    it's just such a weird way of thinking about it
+    think about a single trial
+        there are six lines on the x axis, three in every other quadrant
+        so if i select all three on x axis, that's a proportion of 0.5 max
+        whereas max proportion for all other quadrants is 1
+        that asymmetry feels important...
+        i get that adjusting for number of lines in the quadrant is important.. but i just dont know
+
+    all analyses done thus far are summarized at https://davebraun.net/opam
+
 2022-08-10
     need to get things together for the poster
     focus on getting a real rigorous characterization of those biases that we know are there

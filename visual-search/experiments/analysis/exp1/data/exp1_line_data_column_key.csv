@@ -1,0 +1,16 @@
+columns
+participant
+date
+trial_count
+line_id
+line_width
+is_exterior
+top_x
+top_y
+bottom_x
+bottom_y
+line_orientation
+drop_marker
+
+
+This dataset contains information on all the lines present on each trial (most critically the line widths)

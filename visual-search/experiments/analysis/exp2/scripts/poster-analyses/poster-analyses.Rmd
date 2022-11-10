@@ -1,5 +1,5 @@
 ---
-title: "GB Search Task (E1) OPAM Analyses"
+title: "GB Search Task (E2) OPAM Analyses"
 author: "Dave Braun"
 date: "08/10/2022"
 output: 
@@ -22,7 +22,6 @@ This document was last updated at `r Sys.time()`.
 The big effects of interest:  
 
   * Quadrant bias  
-  * Line clicking effects
   
 ```{r include = FALSE}
 library(tidyverse)
@@ -33,9 +32,9 @@ library(psycho)
   
   
 ```{r}
-d <- read.csv('../../data/exp1_long_data.csv')
-thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
-line_data <- read.csv('../../data/exp1_line_data.csv')
+d <- read.csv('../../data/exp2_long_data.csv')
+thinnest_lines <- read.csv('../../data/exp2_thinnest_lines.csv')
+line_data <- read.csv('../../data/exp2_line_data.csv')
 head(d)
 N <- length(unique(d$participant))
 ```
@@ -77,7 +76,7 @@ We'll calculate the center of the grid by looking at the most extreme X's and Y'
   
   
 ```{r}
-line_data <- read.csv('../../data/exp1_line_data.csv')
+line_data <- read.csv('../../data/exp2_line_data.csv')
 head(line_data)
 ```
 
@@ -115,7 +114,7 @@ line_data <- line_data %>%
 ## append line coordinates to thinnest lines data (for including misses in summarization)
 
 line_data %>% 
-  filter(participant == 1, trial_count == 0, is_exterior == 'False', line_orientation != 'vertical') %>% 
+  filter(participant == 27, trial_count == 1, is_exterior == 'False', line_orientation != 'vertical') %>% 
   mutate(x_dist = abs(line_center_x - center[1]), y_dist = abs(line_center_y - center[2])) %>% 
   mutate(is_on_axis = ifelse(x_dist < 0.1, 'y_axis', ifelse(y_dist < 0.1, 'x_axis', ''))) %>% 
   mutate(quadrant = ifelse(is_on_axis == '', quadrant, is_on_axis)) %>% 
@@ -143,7 +142,7 @@ clean_data <- d %>%
   ## im not sure whether this makes sense
   mutate(proportion = ifelse(quadrant == 'x_axis', count / (6*300), count / (3*300))) 
 
-write.csv(clean_data, 'exp1_quadrant_by_subject.csv', row.names = FALSE)
+write.csv(clean_data, 'exp2_quadrant_by_subject.csv', row.names = FALSE)
 
 clean_data %>% 
   group_by(quadrant) %>% 
@@ -177,7 +176,7 @@ d %>%
   mutate(hit_rate = hit / (hit + false_alarm)) %>% 
   mutate(d_prime = qnorm(hit_rate) - qnorm(1 - hit_rate)) %>%  
   group_by(quadrant) %>% 
-  summarize(mean_dprime = mean(d_prime), se = sd(d_prime) / sqrt(N)) %>% 
+  summarize(mean_dprime = mean(d_prime, na.rm = TRUE), se = sd(d_prime, na.rm = TRUE) / sqrt(N)) %>% 
   print() %>% 
   ggplot(aes(x = quadrant, y = mean_dprime)) +
   geom_bar(stat = 'identity', position = position_dodge(width = .9)) + 
@@ -198,15 +197,15 @@ ggsave('accuracy_by_quadrant.png', height = 1080 / 300, width = 1920 / 300, unit
  I'm not sure that my way of calculating hit rate was the best. It's pretty difficult to think about what the denominator for any proportion should be in this paradigm because, for example, accuracy is defined at the level of each line and not at the overall trial level.
   
   
-  
+    
 ## Line Clicking
 
 ```{r}
 library(tidyverse)
 library(data.table)
 library(ggridges)
-d <- read.csv('../../data/exp1_long_data.csv')
-thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
+d <- read.csv('../../data/exp2_long_data.csv')
+thinnest_lines <- read.csv('../../data/exp2_thinnest_lines.csv')
 if (!'accuracy_type' %in% colnames(d)) {
   source('../compute_accuracy_columns.r')
   d <- compute_accuracy_columns(d, thinnest_lines)
@@ -234,13 +233,13 @@ d$selection_rt_ms_relative <- ifelse(shift(d$click_order) < d$click_order, d$sel
 d$selection_rt_ms_relative[1] <- d$selection_rt_ms[1]
 d$accuracy_numeric <- ifelse(d$accuracy_type == 'hit', 1, 0)
 
-write.csv(d, 'exp1_trial_clicking.csv', row.names = FALSE)
+write.csv(d, 'exp2_trial_clicking.csv', row.names = FALSE)
 
 subject_summary <- d %>% 
   group_by(subject, click_order) %>% 
   summarize(RT = mean(selection_rt_ms_relative), Accuracy = mean(accuracy_numeric)) 
 
-write.csv(subject_summary, 'exp1_group_clicking.csv', row.names = FALSE)
+write.csv(subject_summary, 'exp2_group_clicking.csv', row.names = FALSE)
 
 subject_summary %>% 
   gather(outcome, value, RT:Accuracy) %>% 
@@ -259,13 +258,13 @@ subject_summary %>%
 ```{r}
 ## this computation includes in selection time the time it took them to press the submit button
 ## also im including line releases
-d <- read.csv('../../data/exp1_long_data.csv')
+d <- read.csv('../../data/exp2_long_data.csv')
 colnames(d)[colnames(d) == 'participant'] <- 'subject'
 out <- d %>% 
   group_by(subject) %>% 
   summarize(prompt_rt_sec = mean(prompt_rt_sec), selection_rt_ms = mean(selection_rt_ms), accuracy = mean(accuracy, na.rm = TRUE)) 
 
-write.csv(out, 'exp1_individual_clicking.csv', row.names = FALSE)
+write.csv(out, 'exp2_individual_clicking.csv', row.names = FALSE)
 
 out %>% 
   ggplot(aes(x = selection_rt_ms/1000, y = prompt_rt_sec)) + 
@@ -278,6 +277,22 @@ out %>%
   ) +
   theme_bw()
 ```
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   

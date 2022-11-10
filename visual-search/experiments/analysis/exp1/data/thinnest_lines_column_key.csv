@@ -1,0 +1,10 @@
+column
+participant
+trial_count
+line_width
+line_id
+line_orientation
+drop_marker
+
+
+This dataset shows the possible lines that qualified among the three thinnest line widths for each trial.

@@ -42,10 +42,11 @@ d <- read.csv('../../data/exp1_long_data_raw.csv')
 thinnest_lines <- read.csv('../../data/thinnest_lines.csv')
 if (!'accuracy_type' %in% colnames(d)) {
   source('../compute_accuracy_columns.r')
-  d <- compute_accuracy_columns(d, thinnest_lines)
+  out <- compute_accuracy_columns(d, thinnest_lines)
   
 }
-
+d <- out[[1]]
+thinnest_lines <- out[[2]]
 N <- length(unique(d$participant))  
 head(d)
 head(thinnest_lines)

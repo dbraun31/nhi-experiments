@@ -1,0 +1,26 @@
+columns,detail
+participant,unique subject id
+date,
+overall_time,time in experiment
+trial_count,unique trial id
+click_order,a counter for clicks in the trial
+prompt_rt_sec,how long before they pushed the button indicating they were ready to select lines
+selection_rt_ms,rt of line selection since selection of last line (or prompt if first line)
+pressed_object,did they select a line or the submit button?
+line_width,line width in pix
+top_x,top coordinate on x axis for line
+top_y,top coordinate on y axis for line
+bottom_x,bottom coordinate on x axis for line
+bottom_y,bottom coordinate on y axis for line
+line_id,"which row, which column, which line in hexagon. Numbering starts at 0"
+line_orientation,"forward_slash, back_slash, vertical"
+selected_or_released,selected or released the line
+accuracy,"overall accuracy on the trial, only gives a value on the ‘submit’ rows"
+possible_thinnest_lines,how large was the set of possible thinnest lines to choose from
+is_practice,the first trial for each participant was technically practice
+drop_marker,not sure about this one…….
+indecision_trial,"did they select more than three lines (and de-select), 1 if so"
+accuracy_type,"hit if line is in possible thinnest lines set, miss otherwise"
+,
+,
+This dataset had trials trimmed that were more extreme than +/- 2 SDs on participant wise means for both the prompt and line selection Rts. See here for more detail: https://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/preprocessing/index.html,

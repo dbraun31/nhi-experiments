@@ -39,6 +39,16 @@ N <- d %>%
 
 **There were `r N` participants in this study.**
 
+```{r}
+## fix incorrect anomaly group labels
+mistakes <- data.frame(anomaly_line_id = c('r2c1_right', 'r2c1_bottom_right', 'r2c2_right', 'r1c0_right', 'r1c1_bottom_left'), anomaly_group_new = c(0, 2, 1, 1, 0))
+d <- d %>% 
+  left_join(mistakes) %>% 
+  mutate(anomaly_group = ifelse(!is.na(anomaly_group_new), anomaly_group_new, anomaly_group)) %>% 
+  select(-anomaly_group_new)
+  
+  
+```
 
 ### Compute orientation
 

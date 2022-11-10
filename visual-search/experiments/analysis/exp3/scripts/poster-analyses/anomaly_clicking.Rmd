@@ -1,0 +1,320 @@
+---
+title: Anomaly Analysis for Grain Boundary Visual Search (E3) for OPAM Poster
+author: Dave Braun
+date: August 16, 2022
+output:
+  html_document:
+    theme: flatly
+    code_folding: hide
+    df_print: paged
+    includes:
+      after_body: ../../../../../../html/footer.html
+knit:
+  (function(inputFile, encoding) {
+    rmarkdown::render(inputFile,
+              encoding = encoding,
+              output_file = 'index.html')})
+---
+
+```{r include = FALSE}
+library(tidyverse)
+library(reticulate)
+d <- read.csv('../../data/exp3_long_data.csv')
+thinnest_lines <- read.csv('../../data/exp3_thinnest_lines.csv')
+line_data <- read.csv('../../data/exp3_line_data.csv')
+N <- length(unique(d$participant))
+```
+
+
+*This document was last updated at `r Sys.time()`.*
+
+This is a space where we'll explore some of the effects related to the presence absence of the anomaly, which is simply just one inner hexagon boundary that's randomly chosen to be missing on 30% of trials. The lines that were selected to be among the anomalies were a subset of the total lines, mostly clustered in the middle of the array to minimize the number of lines that border the "larger grain" that also fell on the exterior of the whole array.  
+
+**Sample size = `r N`.**
+
+**Things to look at:**  
+
+We want to analyze selecting lines on / off the anomaly by considering the relative proportions of available lines to select.
+
+
+# 1. Simple anomaly analysis
+
+Need to start with some of the basic preprocessing that's been done in the usual eda analyses, which involves summarizing which lines were selected on each trial.
+
+```{r}
+source('../compute_accuracy_columns.r')
+
+d <- compute_accuracy_columns(d, thinnest_lines)
+
+```
+
+
+```{r}
+compute_selected_lines <- function(data){
+  participant <- data$participant[1]
+  trial <- data$trial_count[1]
+
+  selected_lines <- c(NA, NA, NA)
+  indices <- c(NA, NA, NA)
+  for (row in 1:(nrow(data))) {
+    if (data[row,]$selected_or_released == 'selected') {
+      slot <- which(is.na(selected_lines))[1]
+      selected_lines[slot]<- data[row,]$line_id
+      indices[slot] <- row
+    } else if (data[row,]$selected_or_released == 'released'){
+      slot <- which(!(is.na(selected_lines)) & selected_lines == data[row,]$line_id)
+      selected_lines[slot] <- NA
+      indices[slot] <- NA
+    }
+  }
+  
+  return(selected_lines)
+  
+}
+
+
+
+
+trial_summary <- data.frame(participant = vector(), trial = vector(), is_anomaly_trial = vector(), anomaly_line_id = vector(), anomaly_group = vector(), selected_line_1 = vector(), selected_line_2 = vector(), selected_line_3 = vector())
+
+for (participant in sapply(unique(d$participant), as.integer)) {
+  for (trial in sapply(unique(d[d$participant == participant,]$trial_count), as.integer)) {
+    selected_lines <- compute_selected_lines(d[d$participant == participant & d$trial_count == trial,])
+    is_anomaly_trial <- d[d$participant == participant & d$trial_count == trial,]$is_anomaly_trial[1]
+    anomaly_line_id <- d[d$participant == participant & d$trial_count == trial,]$anomaly_line_id[1]
+    anomaly_group <- d[d$participant == participant & d$trial_count == trial,]$anomaly_group[1]
+    trial_summary <- rbind(trial_summary, data.frame(participant = participant, trial = trial, is_anomaly_trial = is_anomaly_trial, anomaly_line_id = anomaly_line_id, anomaly_group = anomaly_group,
+                                                     selected_line_1 = selected_lines[1], selected_line_2 = selected_lines[2], selected_line_3 = selected_lines[3]))
+  }
+}
+
+head(trial_summary)
+```
+
+
+```{python}
+## reconstructing the logic here
+## i think this is where im defining the lines that constitute the anomalous grain
+  ## that actually comes in already in contiguous_dict
+## num_contiguous in the final data structure tells how many of the line selections were on the anomalous grain
+import pandas as pd
+import pickle
+import sys
+
+trial_summary = pd.DataFrame(r.trial_summary)
+trial_summary_dict = trial_summary.to_dict('records')
+t = r.line_data
+
+with open('contiguous_dict.pickle', 'rb') as file:
+  contiguous_dict = pickle.load(file)
+
+## list of all interior vertical lines in the array
+vertical_lines = list(t.loc[(t['participant'] == 59) & (t['trial_count'] == 0) & (t['line_orientation'] == 'vertical') & (t['is_exterior'] == 'False')]['line_id'])
+
+# update contiguous dict to drop all vertical lines
+contiguous_dict_full = contiguous_dict
+contiguous_dict = {}
+
+## go through and remove vertical lines from contiguous (anomalous grain) groups
+for anomaly in contiguous_dict_full:
+  contiguous_dict[anomaly] = [x for x in contiguous_dict_full[anomaly] if x not in vertical_lines]
+
+trial_summary_start = [x for x in trial_summary_dict if x['is_anomaly_trial'] == 'True']
+trial_summary_end = []
+
+
+for trial in trial_summary_start:
+  num_contiguous = 0
+  for i in range(1,4):
+    ## only add to the counts non vertical lines
+    ## exterior lines controlled for bc this comes right from selection data (impossible to select exterior line)
+    if trial['selected_line_{}'.format(i)] in contiguous_dict[trial['anomaly_line_id']]:
+      num_contiguous += 1
+  trial['num_contiguous'] = num_contiguous
+  trial_summary_end.append(trial)
+
+trial_summary = pd.DataFrame(trial_summary_end)
+
+## so now num_contiguous only represents non vertical lines
+## and the list values in contiguous dict are also only non vertical lines
+```
+
+```{r}
+trial_summary_all <- trial_summary
+trial_summary = py$trial_summary
+trial_summary$num_non_contiguous <- 3 - trial_summary$num_contiguous
+head(trial_summary)
+ts <- trial_summary
+```
+
+**Proportion analysis**
+
+
+```{r}
+## iterate through trial summary, compute on each trial how many possible non vertical anomaly lines can be selected
+## total_contiguous updated to exclude exterior lines
+total_contiguous <- c()
+for (row in 1:(nrow(ts))) {
+ total_contiguous <- c(total_contiguous, length(py$contiguous_dict[[ts[row,]$anomaly_line_id]]) - ts[row,]$anomaly_group) 
+}
+ts$total_contiguous <- total_contiguous
+
+ts$anomaly_proportion <- ts$num_contiguous / ts$total_contiguous
+total_nonvertical_lines <- nrow(line_data[line_data$participant==59 & line_data$trial_count==0 & line_data$is_exterior == 'False' & line_data$line_orientation != 'vertical',])
+## denominator is total non vertical lines minus all non vertical lines belonging to the anomaly
+ts$non_anomaly_proportion <- ts$num_non_contiguous / (total_nonvertical_lines - ts$total_contiguous)
+
+
+p_data <- ts %>% 
+  gather(trial_type, proportion, anomaly_proportion, non_anomaly_proportion) %>% 
+  group_by(participant, trial_type) %>% 
+  summarize(mp = mean(proportion)) 
+
+out <- p_data
+colnames(out)[3] <- 'proportion'
+write.csv(ts, 'exp3_anomaly_participant_trial.csv', row.names = FALSE)
+write.csv(out, 'exp3_anomaly_participant.csv', row.names = FALSE)
+
+p_data %>% 
+  group_by(trial_type) %>% 
+  summarize(mean_proportion = mean(mp), se = sd(mp) / sqrt(N)) %>% 
+  print() %>% 
+  ggplot(aes(x = trial_type, y = mean_proportion)) + 
+  geom_bar(stat = 'identity') + 
+  geom_errorbar(aes(ymin = mean_proportion - se, ymax = mean_proportion + se), width = .5) + 
+  labs(
+    x = 'Line Type',
+    y = 'Mean Proportion Selection'
+  ) + 
+  theme_bw()
+
+t.test(p_data[p_data$trial_type == 'anomaly_proportion',]$mp, p_data[p_data$trial_type == 'non_anomaly_proportion',]$mp, paired = TRUE)
+```
+*Denominator for anomaly proportion.* Total non vertical, non exterior lines that are contiguous with anomaly grain
+*Denominator for non anomaly proportion.* Total selectable, non vertical lines in the array is 21, minus denominator for anomaly proportion
+
+```{r}
+write.csv(ts, 'trial_summary_anomaly.csv', row.names = FALSE)
+write.csv(data.frame(column = colnames(ts)), 'trial_summary_column_key.csv', row.names = FALSE)
+```
+
+  
+  
+## Line Clicking
+
+```{r}
+library(tidyverse)
+library(data.table)
+library(ggridges)
+d <- read.csv('../../data/exp3_long_data.csv')
+thinnest_lines <- read.csv('../../data/exp3_thinnest_lines.csv')
+if (!'accuracy_type' %in% colnames(d)) {
+  source('../compute_accuracy_columns.r')
+  d <- compute_accuracy_columns(d, thinnest_lines)
+  
+}
+
+N <- length(unique(d$participant))  
+head(d)
+
+colnames(d)[which(colnames(d) == 'participant')] <- 'subject'
+
+click_summary <- d %>% 
+  group_by(subject, trial_count) %>% 
+  summarize(count = n()) %>% 
+  filter(count == 4) %>% 
+  select(-count) %>% 
+  mutate(key = 'keep')
+
+d <- d %>% 
+  inner_join(click_summary) %>% 
+  filter(key == 'keep', is.na(accuracy)) %>% 
+  select(-key)
+
+d$selection_rt_ms_relative <- ifelse(shift(d$click_order) < d$click_order, d$selection_rt_ms - shift(d$selection_rt_ms), d$selection_rt_ms)
+d$selection_rt_ms_relative[1] <- d$selection_rt_ms[1]
+d$accuracy_numeric <- ifelse(d$accuracy_type == 'hit', 1, 0)
+
+write.csv(d, 'exp3_trial_clicking.csv', row.names = FALSE)
+
+subject_summary <- d %>% 
+  group_by(subject, click_order) %>% 
+  summarize(RT = mean(selection_rt_ms_relative), Accuracy = mean(accuracy_numeric)) 
+
+write.csv(subject_summary, 'exp3_group_clicking.csv', row.names = FALSE)
+
+subject_summary %>% 
+  gather(outcome, value, RT:Accuracy) %>% 
+  ggplot(aes(x = value, y = click_order, group = click_order)) + 
+  geom_density_ridges(fill = 'steel blue', alpha = .8) + 
+  facet_wrap(~outcome, scales = 'free') + 
+  labs(
+    x = '',
+    y = 'Click Order'
+  ) + 
+  scale_y_continuous(breaks = 1:3) + 
+  theme_bw() + 
+  theme(strip.background = element_rect(color = 'black', fill = 'white'))
+```
+  
+  
+```{r}
+## this computation includes in selection time the time it took them to press the submit button
+## also im including line releases
+d <- read.csv('../../data/exp3_long_data.csv')
+colnames(d)[colnames(d) == 'participant'] <- 'subject'
+out <- d %>% 
+  group_by(subject) %>% 
+  summarize(prompt_rt_sec = mean(prompt_rt_sec), selection_rt_ms = mean(selection_rt_ms), accuracy = mean(accuracy, na.rm = TRUE)) 
+
+write.csv(out, 'exp3_individual_clicking.csv', row.names = FALSE)
+
+out %>% 
+  ggplot(aes(x = selection_rt_ms/1000, y = prompt_rt_sec)) + 
+  geom_point(aes(color = accuracy)) + 
+  labs(
+    x = 'Line Selection RT (s)',
+    y = 'View Period RT (s)',
+    color = 'Accuracy',
+    caption = 'Each point represents one participant'
+  ) +
+  theme_bw()
+```
+  
+  
+```{r}
+source('../compute_quadrants.r')
+
+d <- compute_quadrants(d, line_data)
+
+colnames(d)[colnames(d) == 'subject'] <- 'participant'
+
+d %>% 
+  filter(!(is.na(quadrant)), !(is.na(top_x)), !(is.na(accuracy_type)), line_orientation != 'vertical') %>% 
+  group_by(participant, quadrant, accuracy_type) %>% 
+  summarize(count = n()) %>% 
+  spread(accuracy_type, count) %>% 
+  mutate(hit_rate = hit / (hit + false_alarm)) %>% 
+  mutate(d_prime = qnorm(hit_rate) - qnorm(1 - hit_rate)) %>%  
+  group_by(quadrant) %>% 
+  summarize(mean_dprime = mean(d_prime, na.rm = TRUE), se = sd(d_prime, na.rm = TRUE) / sqrt(N)) %>% 
+  print() %>% 
+  ggplot(aes(x = quadrant, y = mean_dprime)) +
+  geom_bar(stat = 'identity', position = position_dodge(width = .9)) + 
+  geom_errorbar(aes(ymin = mean_dprime - se, ymax = mean_dprime + se), width = .5, position = position_dodge(.9)) + 
+  labs(
+    x = 'Quadrant',
+    y = 'd prime'
+  ) + 
+  theme_bw() + 
+  theme(legend.position = 'bottom')
+```
+  
+  
+  
+  
+  
+  
+  
+  
+  

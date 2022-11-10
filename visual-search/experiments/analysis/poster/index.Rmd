@@ -1,0 +1,22 @@
+---
+title: Analyses for OPAM
+author: Dave Braun
+date: August 16, 2022
+output: 
+  html_document:
+    theme: flatly
+---
+
+## Experiment 1
+
+[Line orientation and quadrant analyses](http://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp1/scripts/poster-analyses/)
+
+
+## Experiment 2
+
+[Line orientation and quadrant analyses](http://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp2/scripts/poster-analyses/)
+
+
+## Experiment 3
+
+[Anomaly analyses](http://davebraun.net/nhi-experiments/visual-search/experiments/analysis/exp3/scripts/poster-analyses/)
